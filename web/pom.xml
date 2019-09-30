@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <groupId>formu</groupId>
+        <groupId>com.formu</groupId>
         <artifactId>com.formu</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
@@ -13,11 +13,12 @@
 
     <dependencies>
         <dependency>
-        <groupId>biz</groupId>
-        <artifactId>com.formu</artifactId>
-    </dependency>
-    </dependencies>
+            <artifactId>biz</artifactId>
+            <groupId>com.formu</groupId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 
+    </dependencies>
 
 
 </project>
