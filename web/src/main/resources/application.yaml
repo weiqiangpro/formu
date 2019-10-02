@@ -2,7 +2,7 @@ spring:
   datasource:
     username: root
     password: 123
-    url: jdbc:mysql://120.79.87.220:3306/mmall
+    url: jdbc:mysql://127.0.0.1:3306/formu
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
   thymeleaf:
