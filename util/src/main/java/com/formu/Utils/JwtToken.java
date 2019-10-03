@@ -2,6 +2,8 @@ package com.formu.Utils;
 
 
 import io.jsonwebtoken.*;
+import org.springframework.beans.factory.annotation.Value;
+
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 import java.security.Key;
@@ -17,7 +19,8 @@ public class JwtToken {
     /**
      * 私钥密码，保存在服务器，客户端是不会知道密码的，以防止被攻击
      */
-    private static final String SECRET = "token";
+    @Value("${com.wq.token}")
+    private static String SECRET;
     /**
      * 加密方式
      */
@@ -25,7 +28,7 @@ public class JwtToken {
     /**
      *  设置过期时间
      */
-    private static final int TIME = 2;
+    private static final int TIME = 60*60*24*365;
 
     /**
      * 对密钥进行加密
