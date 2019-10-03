@@ -18,34 +18,34 @@ public class ArticleControl {
     @Autowired
     private IArticleService articleService;
 
-    @RequestMapping(value = "get/{page}",method = RequestMethod.GET)
-    public Msg getall(@PathVariable("page")int page){
-        return articleService.getArticleByPage(page,10);
+    @RequestMapping(value = "get/{page}", method = RequestMethod.GET)
+    public Msg getall(@PathVariable("page") int page) {
+        return articleService.getArticleByPage(page, 10);
     }
 
-    @RequestMapping(value = "getbyid/{id}",method = RequestMethod.GET)
-    public Msg getById(@PathVariable("id")int id){
+    @RequestMapping(value = "getbyid/{id}", method = RequestMethod.GET)
+    public Msg getById(@PathVariable("id") int id) {
         return articleService.getArticleById(id);
     }
 
-    @RequestMapping(value = "getbycategory/{categoryid}/{page}",method = RequestMethod.GET)
-    public Msg getByCategory(@PathVariable("categoryid")int categoryid,@PathVariable("page")int page) {
-        System.out.println(categoryid+"    "+page);
+    @RequestMapping(value = "getbycategory/{categoryid}/{page}", method = RequestMethod.GET)
+    public Msg getByCategory(@PathVariable("categoryid") int categoryid, @PathVariable("page") int page) {
+        System.out.println(categoryid + "    " + page);
         return articleService.getArticleByCategory(page, 10, categoryid);
     }
 
-    @RequestMapping(value = "insert.do",method = RequestMethod.POST)
-    public Msg insert(Article article){
+    @RequestMapping(value = "insert.do", method = RequestMethod.POST)
+    public Msg insert(Article article) {
         return articleService.insertSelective(article);
     }
 
-    @RequestMapping(value = "update.do",method = RequestMethod.PUT)
-    public Msg update(Article article){
+    @RequestMapping(value = "update.do", method = RequestMethod.PUT)
+    public Msg update(Article article) {
         return articleService.updateSelective(article);
     }
 
-    @RequestMapping(value = "delete.do/{id}",method = RequestMethod.DELETE)
-    public Msg delete(@PathVariable("id")int id){
+    @RequestMapping(value = "delete.do/{id}", method = RequestMethod.DELETE)
+    public Msg delete(@PathVariable("id") int id) {
         return articleService.deleteById(id);
     }
 

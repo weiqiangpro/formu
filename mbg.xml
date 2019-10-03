@@ -38,18 +38,21 @@
         </javaClientGenerator>
         <!--   制定每个表的生成策略 -->
 
-        <table tableName="formu_category" domainObjectName="Category"
-               enableCountByExample="false"
-               enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
+<!--        <table tableName="formu_category" domainObjectName="Category"-->
+<!--               enableCountByExample="false"-->
+<!--               enableUpdateByExample="false"-->
+<!--               enableDeleteByExample="false"-->
+<!--               enableSelectByExample="false"-->
+<!--               selectByExampleQueryId="false"/>-->
         <table tableName="formu_user" domainObjectName="User"
                enableCountByExample="false"
                enableUpdateByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
+               selectByExampleQueryId="false">
+            <columnOverride column="article_good" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <columnOverride column="pho" javaType="java.lang.String" jdbcType="VARCHAR" />
+        </table>
 <!--        <table tableName="formu_article" domainObjectName="Article"-->
 <!--               enableCountByExample="false"-->
 <!--               enableUpdateByExample="false"-->
