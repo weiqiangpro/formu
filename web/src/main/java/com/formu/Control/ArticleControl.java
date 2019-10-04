@@ -4,9 +4,11 @@ import com.formu.Service.IArticleService;
 import com.formu.Service.imp.ArticleService;
 import com.formu.Utils.Msg;
 import com.formu.bean.Article;
-import com.formu.mapper.ArticleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by weiqiang
@@ -18,8 +20,12 @@ public class ArticleControl {
     @Autowired
     private IArticleService articleService;
 
+    @Autowired
+    StringRedisTemplate redis;
+
     @RequestMapping(value = "get/{page}", method = RequestMethod.GET)
     public Msg getall(@PathVariable("page") int page) {
+        redis.opsForValue().set("bb","bb",50, TimeUnit.SECONDS);
         return articleService.getArticleByPage(page, 10);
     }
 

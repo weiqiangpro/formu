@@ -11,6 +11,16 @@ spring:
     view:
       prefix: /
       suffix: .html
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    timeout: 100
+    jedis:
+      pool:
+        max-active: 10
+        max-idle: 10
+        max-wait: 3
+    password: 123
 mybatis:
   config-location: classpath:mybatis/mybatis-config.xml
   mapper-locations: classpath:mybatis/mapper/*.xml
@@ -27,3 +37,18 @@ com:
 
 server:
   port: 8080
+##Redis
+##spring.redis.host=127.0.0.1
+#  redis.host=127.0.0.1
+#  ## Redis服务器连接端口
+#  redis.port=6379
+#  ## 连接超时时间（毫秒）
+#  redis.timeout=3
+#  ## Redis服务器连接密码（默认为空）
+#  redis.password=135246
+#  ## 连接池中的最大连接数
+#  redis.poolMaxTotal=10
+#  ## 连接池中的最大空闲连接
+#  redis.poolMaxIdle=10
+#  ## 连接池最大阻塞等待时间（使用负值表示没有限制）
+#  redis.poolMaxWait=3
