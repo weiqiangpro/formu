@@ -39,6 +39,7 @@ public class LoginControl {
                 User user =  new User();
                 user.setUserId(1);
                 user.setAccount(username);
+                user.setFriends("");
 
                 String json = JsonUtil.obj2String(user);
 

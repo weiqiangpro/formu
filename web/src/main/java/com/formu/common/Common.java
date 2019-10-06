@@ -106,6 +106,14 @@ public class Common {
         }
         return user.getUserId();
     }
+    public  User getUser(HttpServletRequest request) {
+        String header = request.getHeader("Token");
+        if (StringUtils.isBlank(header)) {
+            return null;
+        }
+        String token = redis.opsForValue().get(header);
+        return JsonUtil.string2Obj(token, User.class);
+    }
 
     public   String getIpAddress(HttpServletRequest request) {
         String Xip = request.getHeader("X-Real-IP");

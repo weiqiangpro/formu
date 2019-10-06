@@ -5,6 +5,7 @@ import com.formu.Utils.Md5Utils;
 import com.formu.Utils.Msg;
 import com.formu.bean.User;
 import com.formu.common.Common;
+import javafx.geometry.Pos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -108,6 +109,11 @@ public class UserControl {
     @RequestMapping(value = "getemail", method = RequestMethod.POST)
     public Msg getbyaccout(@RequestParam("accout") String accout) {
         return userService.getbyaccout(accout);
+    }
+
+    @RequestMapping(value = "follow/{userid}",method = RequestMethod.POST)
+    public Msg follow(@PathVariable("userid")int userid,HttpServletRequest request){
+        return userService.addFollow(userid,common.getid(request));
     }
 
 }

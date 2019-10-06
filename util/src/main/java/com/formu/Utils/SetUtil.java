@@ -1,6 +1,8 @@
 package com.formu.Utils;
 
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,12 +13,16 @@ import java.util.Set;
 public class SetUtil {
 
     public static String upGood(String str, int id) {
+        if (str == null){
+            str = "";
+        }
         Set<String> set = new HashSet<String>(Arrays.asList(str.split("-")));
         int n1 = set.size();
 
         set.add(String.valueOf(id));
         StringBuilder good = new StringBuilder("");
         for (String s : set) {
+            if (StringUtils.isNotBlank(s))
             good.append(s).append("-");
         }
         good.deleteCharAt(good.length() - 1);
