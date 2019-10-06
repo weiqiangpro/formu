@@ -18,9 +18,9 @@ public interface IArticleService {
 
     public Msg insertSelective(Article article);
 
-    public Msg updateSelective(Article article);
+    public Msg updateSelective(Article article,int userid);
 
-    public Msg deleteById(int id);
+    public Msg deleteById(int id,int userid);
 
     public Msg goodbyid(int id,int userid);
 }

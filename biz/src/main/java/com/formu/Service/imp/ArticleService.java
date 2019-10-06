@@ -38,16 +38,16 @@ public class ArticleService implements IArticleService {
     }
 
     @Override
-    public Msg getArticleById(int id,int userid) {
+    public Msg getArticleById(int id, int userid) {
         Article article = articleMapper.selectByPrimaryKey(id);
 
-        if (article == null){
+        if (article == null) {
             return Msg.createByErrorMessage("没有该文章");
         }
-        if (userid != 0){
+        if (userid != 0) {
             User user = userMapper.selectByPrimaryKey(userid);
             List<String> list = Arrays.asList(user.getArticleGood().split("-"));
-            if (list.contains(String.valueOf(id))){
+            if (list.contains(String.valueOf(id))) {
                 article.setIsgood(true);
             }
         }
@@ -75,19 +75,36 @@ public class ArticleService implements IArticleService {
     }
 
     @Override
-    public Msg updateSelective(Article article) {
-        if (article != null) {
-            int ok = articleMapper.updateByPrimaryKeySelective(article);
-            if (ok > 0) {
-                return Msg.createBySuccessMessage("修改文章成功!");
-            }
+    public Msg updateSelective(Article article, int userid) {
+        if (article == null)
             return Msg.createByErrorMessage("修改文章失败!");
-        }
+
+        Article article1 = articleMapper.selectByPrimaryKey(article.getArticleId());
+        if (article1 == null)
+            return Msg.createByErrorMessage("修改文章失败!不存在该文章");
+
+
+        if (userid != article1.getUserId())
+            return Msg.createByErrorMessage("修改文章失败!您不是本文章的作者,无权修改！");
+
+        int ok = articleMapper.updateByPrimaryKeySelective(article);
+
+        if (ok > 0)
+            return Msg.createBySuccessMessage("修改文章成功!");
+
         return Msg.createByErrorMessage("修改文章失败!");
     }
 
     @Override
-    public Msg deleteById(int id) {
+    public Msg deleteById(int id,int userid) {
+
+        Article article = articleMapper.selectByPrimaryKey(id);
+        if (article == null)
+            return Msg.createByErrorMessage("不存在该文章");
+
+        if (userid != article.getUserId())
+            return Msg.createByErrorMessage("删除文章失败!您不是本文章的作者，无权删除该文章!");
+
         int ok = articleMapper.deleteByPrimaryKey(id);
         if (ok > 0) {
             return Msg.createBySuccessMessage("删除文章成功!");
@@ -99,15 +116,15 @@ public class ArticleService implements IArticleService {
     public Msg goodbyid(int id, int userid) {
 
         User user = userMapper.selectByPrimaryKey(userid);
-String good1 = userMapper.selectByPrimaryKey(userid).getArticleGood();
-       String good2 = SetUtil.upGood(good1,id);
-       if (good1.length() == good2.length())
-           return Msg.createByErrorMessage("已经点赞过了！");
+        String good1 = userMapper.selectByPrimaryKey(userid).getArticleGood();
+        String good2 = SetUtil.upGood(good1, id);
+        if (good1.length() == good2.length())
+            return Msg.createByErrorMessage("已经点赞过了！");
 
         user.setArticleGood(good2);
 
         int ok2 = userMapper.updateByPrimaryKeySelective(user);
-        if (ok2 <= 0 ){
+        if (ok2 <= 0) {
             return Msg.createByErrorMessage("点赞失败！");
         }
         int ok1 = articleMapper.updateGoodNumById(id);

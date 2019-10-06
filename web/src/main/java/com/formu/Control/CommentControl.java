@@ -1,18 +1,11 @@
 package com.formu.Control;
 
-import com.formu.Service.ICategoryService;
 import com.formu.Service.ICommentService;
-import com.formu.Utils.JsonUtil;
 import com.formu.Utils.Msg;
-import com.formu.bean.Category;
 import com.formu.bean.Comment;
-import com.formu.bean.User;
-import org.springframework.beans.factory.NoUniqueBeanDefinitionException;
+import com.formu.common.Common;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,6 +19,9 @@ public class CommentControl {
     @Autowired
     private ICommentService commentService;
 
+    @Autowired
+    private Common common;
+
     @RequestMapping(value = "get/{id}/{pagenum}", method = RequestMethod.GET)
     public Msg getall(@PathVariable("id") int id, @PathVariable("pagenum") int pagenum) {
         return commentService.getCommentyArticleAndisParent(pagenum, 10, id);
@@ -33,22 +29,27 @@ public class CommentControl {
 
 
     @RequestMapping(value = "insert.do", method = RequestMethod.POST)
-    public Msg insert(Comment comment, HttpServletRequest request) {
-        String token = request.getHeader("Token");
-        User user = JsonUtil.string2Obj(token, User.class);
-        if (user != null) {
-            comment.setFormUser(user.getUserId());
-            if (comment.getParentId() == null || comment.getToUser() == null) {
-                return commentService.insertIsParent(comment);
-            }
-            return commentService.insertNotParent(comment);
+    public Msg insert(@RequestParam("articleId") int articleid,
+                      @RequestParam("message") String message,
+                      @RequestParam(value = "parentId", defaultValue = "0") int parentid,
+                      @RequestParam(value = "touser", defaultValue = "0") int toid,
+                      HttpServletRequest request) {
+
+        Comment comment = new Comment();
+        comment.setArticleId(articleid);
+        comment.setMessage(message);
+        comment.setParentId(parentid);
+        comment.setFromUSer(common.getid(request));
+        comment.setToUser(toid);
+        if (parentid == 0 || toid == 0) {
+            return commentService.insertIsParent(comment);
         }
-        return Msg.createByError();
+        return commentService.insertNotParent(comment);
     }
 
-    @RequestMapping(value = "delete.do/{id}",method = RequestMethod.DELETE)
-    public Msg delete(@PathVariable("id")int id){
-        return commentService.deleteById(id);
+    @RequestMapping(value = "delete.do/{id}", method = RequestMethod.DELETE)
+    public Msg delete(@PathVariable("id") int id,HttpServletRequest request) {
+        return commentService.deleteById(id,common.getid(request));
     }
 
 }

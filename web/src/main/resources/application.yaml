@@ -21,6 +21,16 @@ spring:
         max-idle: 10
         max-wait: 3
     password: 123
+  mail:
+    host: smtp.qq.com
+    username: 280803590@qq.com
+    password: xxkjnzuhaxvubheb
+    port: 587
+    default-encoding: utf-8
+  servlet:
+    multipart:
+      max-file-size: 10MB
+
 mybatis:
   config-location: classpath:mybatis/mybatis-config.xml
   mapper-locations: classpath:mybatis/mapper/*.xml
@@ -31,8 +41,6 @@ pagehelper:
   support-methods-arguments: true
   params: count=countSql
 
-wq:
-  token: weiqiang
 
 server:
   port: 8080

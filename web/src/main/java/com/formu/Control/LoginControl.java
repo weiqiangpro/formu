@@ -24,6 +24,7 @@ public class LoginControl {
     @Autowired
     StringRedisTemplate redis;
 
+
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Msg login(@RequestParam("user") String username) {
         if (username != null) {

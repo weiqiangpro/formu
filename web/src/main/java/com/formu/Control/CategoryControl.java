@@ -25,21 +25,4 @@ public class CategoryControl {
     public Msg getall(){
         return categoryService.getall();
     }
-
-
-    @RequestMapping(value = "insert.do",method = RequestMethod.POST)
-    public Msg insert(Category category){
-        return categoryService.insert(category);
-    }
-
-    @RequestMapping(value = "update.do",method = RequestMethod.PUT)
-    public Msg update(Category category){
-        return categoryService.update(category);
-    }
-
-    @RequestMapping(value = "delete.do/{id}",method = RequestMethod.DELETE)
-    public Msg delete(@PathVariable("id")int id){
-        return categoryService.delete(id);
-    }
-
 }
