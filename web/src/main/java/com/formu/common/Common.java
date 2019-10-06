@@ -1,6 +1,7 @@
 package com.formu.common;
 
 import com.formu.Utils.JsonUtil;
+import com.formu.Utils.Msg;
 import com.formu.bean.User;
 import com.formu.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -25,12 +26,17 @@ public class Common {
     private JavaMailSender mailSender;
 
     @Autowired
+    private UserMapper userMapper;
+    @Autowired
     private StringRedisTemplate redis;
 
 
 
-    public boolean sendEmail(String email,String account) {
+    public boolean registerEmail(String email,String account) {
         try {
+            User user = userMapper.selectByAccount(account);
+            if (user != null)
+                return false;
 //            MimeMessage mimeMessage = mailSender.createMimeMessage();
 //            MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
 //            message.setFrom("weinichix@qq.com");
@@ -42,7 +48,32 @@ public class Common {
             String code = getCode();
             redis.opsForValue().set(account,code,3, TimeUnit.MINUTES);
             log.info(account);
-            log.info("验证码为______ {} _______",code);
+            log.info("注册，验证码为______ {} _______",code);
+            log.info( redis.opsForValue().get(account));
+            return true;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean findEmail(String account) {
+        try {
+            User user = userMapper.selectByAccount(account);
+            if (user == null)
+                return false;
+//            MimeMessage mimeMessage = mailSender.createMimeMessage();
+//            MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+//            message.setFrom("weinichix@qq.com");
+//            message.setTo(user.getEmail());
+//            String str = "您的验证码为"+getCode(4);
+//            message.setSubject("图片论坛验证码!");
+//            message.setText(str);
+//            mailSender.send(mimeMessage);
+            String code = getCode();
+            redis.opsForValue().set(account,code,3, TimeUnit.MINUTES);
+            log.info(account);
+            log.info("找回密码，验证码为______ {} _______",code);
             log.info( redis.opsForValue().get(account));
             return true;
         } catch (Exception ex) {

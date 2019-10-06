@@ -15,8 +15,8 @@ import java.util.Random;
 @RestController
 public class FileControl {
 
-    @RequestMapping(value = "/upfile/{id}", method = RequestMethod.POST)
-    public Msg file(@RequestParam(value = "file",required = true) MultipartFile file, @PathVariable("id") int id) {
+    @RequestMapping(value = "/upfile", method = RequestMethod.POST)
+    public Msg file(@RequestParam(value = "file",required = true) MultipartFile file) {
         if (file.isEmpty()) {
             return Msg.createByError();
         }

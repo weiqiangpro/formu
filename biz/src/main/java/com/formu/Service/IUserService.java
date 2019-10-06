@@ -12,10 +12,13 @@ public interface IUserService {
     public Msg getOtherById(int id);
 
     public Msg getMyByid(int id);
-    public Msg register(User user,String code);
-//    public int insert(User user);
-//
-//    public int updateArticleNum(int id);
-//
-//    public int  updateGoodNum(int articleId,int user_id);
+
+    public Msg register(User user, String code);
+
+    public Msg updatepasswd(String oldpasswd, String newpasswd1, String newpasswd2, int userid);
+
+    public Msg findpasswd(String account, String passwd1, String passwd2, String code);
+
+    public Msg getbyaccout(String accout);
+
 }

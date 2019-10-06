@@ -5,11 +5,9 @@ import com.formu.Utils.Md5Utils;
 import com.formu.Utils.Msg;
 import com.formu.bean.User;
 import com.formu.common.Common;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.concurrent.TimeUnit;
 
@@ -25,6 +23,7 @@ public class UserControl {
 
     @Autowired
     private StringRedisTemplate redis;
+
     @Autowired
     private Common common;
 
@@ -59,17 +58,56 @@ public class UserControl {
         return Msg.createByErrorMessage("两次密码不一致");
     }
 
-    @RequestMapping(value = "email", method = RequestMethod.POST)
-    public Msg send(@RequestParam("email") String email,
-                    @RequestParam("account") String account) {
+    @RequestMapping(value = "registeremail", method = RequestMethod.POST)
+    public Msg sendRegister(@RequestParam("email") String email,
+                            @RequestParam("account") String account) {
+
         Long expire = redis.getExpire(account, TimeUnit.SECONDS);
         if (expire > 120) {
             return Msg.createByErrorMessage("请60s后再发送邮件");
         }
-        if (common.sendEmail(email, account)) {
+        if (common.registerEmail(email, account)) {
             return Msg.createBySuccessMessage("邮件发送成功");
         }
         return Msg.createByErrorMessage("邮件发送失败");
+    }
+
+    @RequestMapping(value = "findemail", method = RequestMethod.POST)
+    public Msg sendFind(@RequestParam("account") String account) {
+
+        Long expire = redis.getExpire(account, TimeUnit.SECONDS);
+        if (expire > 120) {
+            return Msg.createByErrorMessage("请60s后再发送邮件");
+        }
+        if (common.findEmail(account)) {
+            return Msg.createBySuccessMessage("邮件发送成功");
+        }
+        return Msg.createByErrorMessage("邮件发送失败");
+    }
+
+
+    @RequestMapping(value = "modifypd.do", method = RequestMethod.PUT)
+    public Msg updatepasswd(@RequestParam("oldPasswd") String oldpasswd,
+                            @RequestParam("newPasswd1") String newpasswd1,
+                            @RequestParam("newPasswd2") String newpasswd2,
+                            HttpServletRequest request) {
+
+        return userService.updatepasswd(oldpasswd, newpasswd1, newpasswd2, common.getid(request));
+    }
+
+    @RequestMapping(value = "findpd", method = RequestMethod.PUT)
+    public Msg findpasswd(@RequestParam("account") String account,
+                          @RequestParam("passwd1") String passwd1,
+                          @RequestParam("passwd2") String passwd2,
+                          @RequestParam("code") String code,
+                          HttpServletRequest request) {
+
+        return userService.findpasswd(account, passwd1, passwd2, code);
+    }
+
+    @RequestMapping(value = "getemail", method = RequestMethod.POST)
+    public Msg getbyaccout(@RequestParam("accout") String accout) {
+        return userService.getbyaccout(accout);
     }
 
 }
