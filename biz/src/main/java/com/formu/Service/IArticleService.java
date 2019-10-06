@@ -12,7 +12,7 @@ public interface IArticleService {
 
     public Msg getArticleByPage(int pageNum,int pageSize);
 
-    public Msg getArticleById(int id);
+    public Msg getArticleById(int id,int userid);
 
     public Msg getArticleByCategory(int pageNum,int pageSize,int id);
 
@@ -22,5 +22,5 @@ public interface IArticleService {
 
     public Msg deleteById(int id);
 
-
+    public Msg goodbyid(int id,int userid);
 }

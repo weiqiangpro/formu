@@ -10,7 +10,7 @@
         <commentGenerator>
             <property name="suppressAllComments" value="true"/>
         </commentGenerator>
-        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
                         connectionURL="jdbc:mysql://127.0.0.1:3306/formu"
                         userId="root"
                         password="123">
@@ -52,6 +52,7 @@
                selectByExampleQueryId="false">
             <columnOverride column="article_good" javaType="java.lang.String" jdbcType="VARCHAR" />
             <columnOverride column="pho" javaType="java.lang.String" jdbcType="VARCHAR" />
+            <columnOverride column="friends" javaType="java.lang.String" jdbcType="VARCHAR" />
         </table>
 <!--        <table tableName="formu_article" domainObjectName="Article"-->
 <!--               enableCountByExample="false"-->

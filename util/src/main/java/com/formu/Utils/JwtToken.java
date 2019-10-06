@@ -2,7 +2,9 @@ package com.formu.Utils;
 
 
 import io.jsonwebtoken.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
@@ -19,8 +21,10 @@ public class JwtToken {
     /**
      * 私钥密码，保存在服务器，客户端是不会知道密码的，以防止被攻击
      */
-    @Value("${com.wq.token}")
-    private static String SECRET;
+
+    private static String SECRET = "wqlz";
+
+
     /**
      * 加密方式
      */
@@ -64,11 +68,9 @@ public class JwtToken {
         Date expirensDate = nowTime.getTime();
         // 组合header
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("alg", "HS256");
-        map.put("typ", "JWT");
+        map.put("type", "JWT");
         String token = Jwts.builder()
                 .setHeaderParams(map)
-                .claim("name","admin")
                 .setExpiration(expirensDate)
                 .setIssuedAt(iatDate)
                 .signWith(SignatureAlgorithm.HS256,getkey()).compact();

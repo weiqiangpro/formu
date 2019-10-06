@@ -9,11 +9,13 @@ import com.formu.bean.User;
  */
 public interface IUserService {
 
-    public User getById(int id);
+    public Msg getOtherById(int id);
 
-    public int insert(User user);
+    public Msg getMyByid(int id);
 
-    public int updateArticleNum(int id);
-
-    public int  updateGoodNum(int articleId,int user_id);
+//    public int insert(User user);
+//
+//    public int updateArticleNum(int id);
+//
+//    public int  updateGoodNum(int articleId,int user_id);
 }
