@@ -22,4 +22,6 @@ public interface IUserService {
     public Msg getbyaccout(String accout);
 
      public  Msg addFollow(int otherid,int  userid);
+
+    public Msg getFriends(int userid);
 }

@@ -4,14 +4,15 @@ import com.formu.Service.IUserService;
 import com.formu.Utils.Msg;
 import com.formu.Utils.SetUtil;
 import com.formu.bean.User;
+import com.formu.bean.po.UserPo;
 import com.formu.mapper.UserMapper;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
-import sun.nio.cs.US_ASCII;
 
-import java.util.concurrent.TimeUnit;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by weiqiang
@@ -29,7 +30,7 @@ public class UserService implements IUserService {
     public Msg getOtherById(int id) {
         User user = userMapper.selectOtherByPrimaryKey(id);
         if (user != null) {
-            return Msg.createBySuccess(user);
+            return Msg.createBySuccess(new UserPo(user,false));
         }
         return Msg.createByErrorMessage("没有此用户");
     }
@@ -38,7 +39,7 @@ public class UserService implements IUserService {
     public Msg getMyByid(int id) {
         User user = userMapper.selectByPrimaryKey(id);
         if (user != null) {
-            return Msg.createBySuccess(user);
+            return Msg.createBySuccess(new UserPo(user,true));
         }
         return Msg.createByErrorMessage("没有此用户");
     }
@@ -118,15 +119,34 @@ public class UserService implements IUserService {
         if (userMapper.selectByPrimaryKey(otherid) == null)
             return Msg.createByErrorMessage("关注失败,没有该用户");
         User user = userMapper.selectByPrimaryKey(userid);
+        String friend1 = user.getFriends();
+        String friend2 = SetUtil.upGood(user.getFriends(), otherid);
         User newUser = new User();
         newUser.setUserId(userid);
-        newUser.setFriends(SetUtil.upGood(user.getFriends(), otherid));
-        if (user.getFriends().equals(newUser.getFriends()))
-            return Msg.createBySuccessMessage("您已关注过该用户");
+        newUser.setFriends(friend2);
+        int n1 = friend1.length();
+        int n2 = friend2.length();
+
         int ok = userMapper.updateByPrimaryKeySelective(newUser);
-        if (ok > 0)
+        if (ok > 0 && n2 > n1)
             return Msg.createBySuccessMessage("关注成功");
+        if (ok > 0 && n2 < n1)
+            return Msg.createBySuccessMessage("取消关注成功");
         return Msg.createByErrorMessage("关注失败");
+    }
+
+    @Override
+    public Msg getFriends(int userid) {
+        User user = userMapper.selectByPrimaryKey(userid);
+        String[] friends = user.getFriends().split("-");
+        Set<UserPo> set = new HashSet<>();
+        User user1;
+        for (String friend : friends) {
+            user1 = userMapper.selectOtherByPrimaryKey(Integer.valueOf(friend));
+            if (user1 != null)
+                set.add(new UserPo(user1,false));
+        }
+        return Msg.createBySuccess(set);
     }
 
 }

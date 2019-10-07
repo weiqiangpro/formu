@@ -12,6 +12,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -19,6 +20,7 @@ import java.util.*;
  * Created by weiqiang
  */
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class ArticleService implements IArticleService {
 
     @Autowired
@@ -96,7 +98,7 @@ public class ArticleService implements IArticleService {
     }
 
     @Override
-    public Msg deleteById(int id,int userid) {
+    public Msg deleteById(int id, int userid) {
 
         Article article = articleMapper.selectByPrimaryKey(id);
         if (article == null)
@@ -118,20 +120,24 @@ public class ArticleService implements IArticleService {
         User user = userMapper.selectByPrimaryKey(userid);
         String good1 = userMapper.selectByPrimaryKey(userid).getArticleGood();
         String good2 = SetUtil.upGood(good1, id);
-        if (good1.length() == good2.length())
-            return Msg.createByErrorMessage("已经点赞过了！");
 
+        int n1 = good1.length();
+        int n2 = good2.length();
+        if (n1 == n2)
+            return Msg.createByErrorMessage("点赞失败");
         user.setArticleGood(good2);
 
+
         int ok2 = userMapper.updateByPrimaryKeySelective(user);
-        if (ok2 <= 0) {
-            return Msg.createByErrorMessage("点赞失败！");
+        int ok1 = articleMapper.updateGoodNumById(id, n2 > n1 ? 1 : -1);
+        if (ok1 > 0 && ok2 > 0) {
+            if (n2 > n1)
+                return Msg.createByErrorMessage("点赞成功！");
+            else
+                return Msg.createBySuccessMessage("取消点赞成功！");
         }
-        int ok1 = articleMapper.updateGoodNumById(id);
-        if (ok1 <= 0) {
-            return Msg.createByErrorMessage("点赞失败！");
-        }
-        return Msg.createBySuccessMessage("点赞成功！");
+
+        return Msg.createBySuccessMessage("点赞失败！");
 
     }
 }
