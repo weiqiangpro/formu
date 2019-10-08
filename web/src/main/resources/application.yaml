@@ -3,6 +3,7 @@ spring:
     username: root
     password: 123
     url: jdbc:mysql://140.143.73.74:3306/formu
+#    url: jdbc:mysql://localhost:3306/formu
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
   thymeleaf:
@@ -13,6 +14,7 @@ spring:
       suffix: .html
   redis:
     host: 140.143.73.74
+#    host: localhost
     port: 6379
     timeout: 1000
     jedis:
@@ -43,4 +45,4 @@ pagehelper:
 
 
 server:
-  port: 8080
+  port: 8088

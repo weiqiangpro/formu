@@ -6,10 +6,7 @@ import com.formu.Utils.Msg;
 import com.formu.bean.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +16,7 @@ import java.util.concurrent.TimeUnit;
  * Created by weiqiang
  */
 @RestController
+@CrossOrigin
 public class LoginControl {
 
     @Autowired

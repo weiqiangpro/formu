@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
  * Created by weiqiang
  */
 @RestController
+@CrossOrigin
 @RequestMapping("/user/")
 public class UserControl {
 
