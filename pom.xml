@@ -5,9 +5,9 @@
     <packaging>pom</packaging>
     <modules>
         <module>web</module>
+        <module>biz</module>
         <module>dao</module>
         <module>util</module>
-        <module>biz</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
