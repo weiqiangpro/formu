@@ -27,6 +27,7 @@ public class CommentControl {
 
 
     private Common common;
+
     @ApiOperation(value = "根据文章的id获取评论内容", notes = "")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "文章id", required = true, paramType = "path", dataType = "Integer"),
@@ -41,8 +42,8 @@ public class CommentControl {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "articleId", value = "文章id", required = true, dataType = "String"),
             @ApiImplicitParam(name = "message", value = "内容", required = true, dataType = "Integer"),
-            @ApiImplicitParam(name = "parentId", value = "如果是回复就返回父评论的id，默认为0",  dataType = "String"),
-            @ApiImplicitParam(name = "touser", value = "如果是回复就是回复那个人的用户id，默认为0",  dataType = "Integer")
+            @ApiImplicitParam(name = "parentId", value = "如果是回复就返回父评论的id，默认为0", dataType = "String"),
+            @ApiImplicitParam(name = "touser", value = "如果是回复就是回复那个人的用户id，默认为0", dataType = "Integer")
     })
     @RequestMapping(value = "insert.do", method = RequestMethod.POST)
     public Msg insert(@RequestParam("articleId") int articleid,
@@ -62,11 +63,12 @@ public class CommentControl {
         }
         return commentService.insertNotParent(comment);
     }
+
     @ApiOperation(value = "根据评论的id删除,需要登录", notes = "")
-            @ApiImplicitParam(name = "id", value = "评论id", required = true, paramType = "path", dataType = "Integer")
+    @ApiImplicitParam(name = "id", value = "评论id", required = true, paramType = "path", dataType = "Integer")
     @RequestMapping(value = "delete.do/{id}", method = RequestMethod.DELETE)
-    public Msg delete(@PathVariable("id") int id,HttpServletRequest request) {
-        return commentService.deleteById(id,common.getid(request));
+    public Msg delete(@PathVariable("id") int id, HttpServletRequest request) {
+        return commentService.deleteById(id, common.getid(request));
     }
 
 }

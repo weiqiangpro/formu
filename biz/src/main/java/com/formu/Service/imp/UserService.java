@@ -92,7 +92,7 @@ public class UserService implements IUserService {
             return Msg.createByErrorMessage("输入密码不能为空");
         if (!passwd1.equals(passwd2))
             return Msg.createByErrorMessage("两次密码输入不一致");
-        if (StringUtils.isNotBlank(code) && code.equals(redis.opsForValue().get(account))) {
+    if (StringUtils.isNotBlank(code) && code.equals(redis.opsForValue().get(account))) {
             User user = new User();
             user.setAccount(account);
             user.setPasswd(passwd1);
