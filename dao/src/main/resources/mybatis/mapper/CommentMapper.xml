@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.formu.mapper.CommentMapper">
+    <resultMap id="BaseResultMap" type="com.formu.bean.Comment">
+        <id column="comment_id" jdbcType="INTEGER" property="commentId"/>
+        <result column="article_id" jdbcType="INTEGER" property="articleId"/>
+        <result column="message" jdbcType="VARCHAR" property="message"/>
+        <result column="parent_id" jdbcType="INTEGER" property="parentId"/>
+        <result column="from_user" jdbcType="INTEGER" property="fromUSer"/>
+        <result column="to_user" jdbcType="INTEGER" property="toUser"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+    <resultMap id="BaseResultMap2" type="com.formu.bean.Comment">
+        <id column="comment_id" jdbcType="INTEGER" property="commentId"/>
+        <result column="article_id" jdbcType="INTEGER" property="articleId"/>
+        <result column="message" jdbcType="VARCHAR" property="message"/>
+        <result column="parent_id" jdbcType="INTEGER" property="parentId"/>
+        <result column="from_user" jdbcType="INTEGER" property="fromUSer"/>
+        <result column="to_user" jdbcType="INTEGER" property="toUser"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="form_name" jdbcType="VARCHAR" property="fromName"/>
+        <result column="to_name" jdbcType="VARCHAR" property="toName"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    comment_id, article_id, message, parent_id, from_user, to_user, create_time
+  </sql>
+    <sql id="Base_Column_List2">
+    a.comment_id, a.article_id, a.message, a.parent_id, a.create_time,
+    a.from_user,b.user_name form_name,a.to_user,c.user_name to_name
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap2">
+        select
+        <include refid="Base_Column_List2"/>
+        from formu_comment a
+        left join formu_user b on a.`from_user`=b.`user_id`
+        left join formu_user c on a.`to_user`=c.`user_id`
+        where comment_id = #{commentId,jdbcType=INTEGER}
+    </select>
+    <select id="selectByArticleAndisParent" parameterType="java.lang.Integer" resultMap="BaseResultMap2">
+        select
+        <include refid="Base_Column_List2"/>
+        from formu_comment a
+        left join formu_user b on a.`from_user`=b.`user_id`
+        left join formu_user c on a.`to_user`=c.`user_id`
+        where article_id = #{articleId,jdbcType=INTEGER} and parent_id=0
+        order by create_time
+    </select>
+    <select id="selectByParentId" parameterType="java.lang.Integer" resultMap="BaseResultMap2">
+        select
+        <include refid="Base_Column_List2"/>
+        from formu_comment a
+        left join formu_user b on a.`from_user`=b.`user_id`
+        left join formu_user c on a.`to_user`=c.`user_id`
+        where parent_id = #{parentId,jdbcType=INTEGER}
+        order by create_time
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from formu_comment
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.formu.bean.Comment">
+    insert into formu_comment (comment_id, article_id, message, 
+      parent_id, from_user, to_user,
+      sort, create_time)
+    values (#{commentId,jdbcType=INTEGER}, #{articleId,jdbcType=INTEGER}, #{message,jdbcType=VARCHAR}, 
+      #{parentId,jdbcType=INTEGER}, #{fromUSer,jdbcType=INTEGER}, #{toUser,jdbcType=INTEGER},
+  now())
+  </insert>
+    <insert id="insertSelective" parameterType="com.formu.bean.Comment">
+        insert into formu_comment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="commentId != null">
+                comment_id,
+            </if>
+            <if test="articleId != null">
+                article_id,
+            </if>
+            <if test="message != null">
+                message,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="fromUSer != null">
+                from_user,
+            </if>
+            <if test="toUser != null">
+                to_user,
+            </if>
+                create_time,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="commentId != null">
+                #{commentId,jdbcType=INTEGER},
+            </if>
+            <if test="articleId != null">
+                #{articleId,jdbcType=INTEGER},
+            </if>
+            <if test="message != null">
+                #{message,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=INTEGER},
+            </if>
+            <if test="fromUSer != null">
+                #{fromUSer,jdbcType=INTEGER},
+            </if>
+            <if test="toUser != null">
+                #{toUser,jdbcType=INTEGER},
+            </if>
+               now(),
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.formu.bean.Comment">
+        update formu_comment
+        <set>
+            <if test="articleId != null">
+                article_id = #{articleId,jdbcType=INTEGER},
+            </if>
+            <if test="message != null">
+                message = #{message,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                parent_id = #{parentId,jdbcType=INTEGER},
+            </if>
+            <if test="fromUSer != null">
+                from_user = #{fromUSer,jdbcType=INTEGER},
+            </if>
+            <if test="toUser != null">
+                to_user = #{toUser,jdbcType=INTEGER},
+            </if>
+
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where comment_id = #{commentId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.formu.bean.Comment">
+    update formu_comment
+    set article_id = #{articleId,jdbcType=INTEGER},
+      message = #{message,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=INTEGER},
+      from_user = #{fromUSer,jdbcType=INTEGER},
+      to_user = #{toUser,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where comment_id = #{commentId,jdbcType=INTEGER}
+  </update>
+</mapper>

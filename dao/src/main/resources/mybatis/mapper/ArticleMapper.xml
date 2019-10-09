@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.formu.mapper.ArticleMapper">
+    <resultMap id="BaseResultMap" type="com.formu.bean.Article">
+        <id column="article_id" jdbcType="INTEGER" property="articleId"/>
+        <result column="category_id" jdbcType="INTEGER" property="categoryId"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="message" jdbcType="VARCHAR" property="message"/>
+        <result column="images" jdbcType="VARCHAR" property="images"/>
+        <result column="good_num" jdbcType="INTEGER" property="goodNum"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+    <resultMap id="BaseResultMap2" type="com.formu.bean.Article">
+        <id column="article_id" jdbcType="INTEGER" property="articleId"/>
+        <result column="category_id" jdbcType="INTEGER" property="categoryId"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="message" jdbcType="VARCHAR" property="message"/>
+        <result column="images" jdbcType="VARCHAR" property="images"/>
+        <result column="good_num" jdbcType="INTEGER" property="goodNum"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="user_name" property="userName"/>
+        <result column="pho" property="pho"/>
+        <result column="category_name" property="categoryName"/>
+    </resultMap>
+    <resultMap id="BaseResultMap3" type="com.formu.bean.po.ArticlePo">
+        <id column="article_id" jdbcType="INTEGER" property="articleId"/>
+        <result column="images" jdbcType="VARCHAR" property="articleImages"/>
+        <result column="good_num" jdbcType="INTEGER" property="goodNum"/>
+        <result column="hour" jdbcType="INTEGER" property="hour"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    article_id, category_id, user_id, title, message, images, good_num, create_time
+  </sql>
+    <sql id="Base_Column_List2">
+    a.article_id, a.category_id,c.category_name,a.user_id,b.user_name,b.pho , a.title, a.message,a.images ,a.good_num, a.create_time
+  </sql>
+    <sql id="Base_Column_List3">
+    article_id,(UNIX_TIMESTAMP(now()) - UNIX_TIMESTAMP(create_time))/3600 hour,images,good_num
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap2">
+        select
+        <include refid="Base_Column_List2"/>
+
+        from formu_article a left join formu_user b on a.`user_id`=b.`user_id` left join formu_category c on
+        a.`category_id`=c.`category_id`
+        where article_id = #{articleId,jdbcType=INTEGER}
+    </select>
+    <select id="selectall" resultMap="BaseResultMap3">
+        select
+        <include refid="Base_Column_List3"/>
+        from formu_article
+        order by create_time desc
+    </select>
+    <select id="selectByCategory" resultMap="BaseResultMap2">
+        select
+        <include refid="Base_Column_List2"/>
+        from formu_article a left join formu_user b on a.`user_id`=b.`user_id` left join formu_category c on
+        a.`category_id`=c.`category_id`
+        where a.category_id = #{articleId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from formu_article
+    where article_id = #{articleId,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.formu.bean.Article">
+    insert into formu_article (article_id, category_id, user_id, 
+      title, message, good_num, 
+      create_time)
+    values (#{articleId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{title,jdbcType=VARCHAR}, #{message,jdbcType=VARCHAR}, #{goodNum,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" parameterType="com.formu.bean.Article">
+        insert into formu_article
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="articleId != null">
+                article_id,
+            </if>
+            <if test="categoryId != null">
+                category_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="message != null">
+                message,
+            </if>
+            <if test="images != null">
+                images,
+            </if>
+            <if test="goodNum != null">
+                good_num,
+            </if>
+            create_time,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="articleId != null">
+                #{articleId,jdbcType=INTEGER},
+            </if>
+            <if test="categoryId != null">
+                #{categoryId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="message != null">
+                #{message,jdbcType=VARCHAR},
+            </if>
+            <if test="images != null">
+                #{images,jdbcType=VARCHAR},
+            </if>
+            <if test="goodNum != null">
+                #{goodNum,jdbcType=INTEGER},
+            </if>
+            now(),
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.formu.bean.Article">
+        update formu_article
+        <set>
+            <if test="categoryId != null">
+                category_id = #{categoryId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="message != null">
+                message = #{message,jdbcType=VARCHAR},
+            </if>
+            <if test="images != null">
+                images = #{images,jdbcType=VARCHAR},
+            </if>
+            <if test="goodNum != null">
+                good_num = #{goodNum,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where article_id = #{articleId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.formu.bean.Article">
+    update formu_article
+    set category_id = #{categoryId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      message = #{message,jdbcType=VARCHAR},
+      good_num = #{goodNum,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where article_id = #{articleId,jdbcType=INTEGER}
+  </update>
+    <update id="updateGoodNumById" parameterType="java.lang.Integer">
+       update formu_article set  good_num = good_num+#{num,jdbcType=INTEGER}
+        where article_id = #{articleId,jdbcType=INTEGER}
+    </update>
+</mapper>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.formu.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.formu.bean.User">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="passwd" jdbcType="VARCHAR" property="passwd" />
+    <result column="friends" jdbcType="VARCHAR" property="friends" />
+    <result column="pho" jdbcType="VARCHAR" property="pho" />
+    <result column="article_good" jdbcType="VARCHAR" property="articleGood" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="yiban" jdbcType="VARCHAR" property="yiban" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_id, user_name, passwd, friends, pho, article_good, email, yiban, account
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    user_id, user_name, passwd, friends, pho, article_good, email, yiban, account
+    from formu_user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <select id="selectOtherByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+   user_id,user_name, pho,email
+    from formu_user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
+     select
+   user_name, pho
+    from formu_user
+    where account = #{account,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from formu_user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.formu.bean.User">
+    insert into formu_user (user_id, user_name, passwd, 
+      friends, pho, article_good, 
+      email, yiban, account
+      )
+    values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{passwd,jdbcType=VARCHAR}, 
+      #{friends,jdbcType=VARCHAR}, #{pho,jdbcType=VARCHAR}, #{articleGood,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{yiban,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.formu.bean.User">
+    insert into formu_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="passwd != null">
+        passwd,
+      </if>
+      <if test="friends != null">
+        friends,
+      </if>
+      <if test="pho != null">
+        pho,
+      </if>
+      <if test="articleGood != null">
+        article_good,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="yiban != null">
+        yiban,
+      </if>
+      <if test="account != null">
+        account,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="passwd != null">
+        #{passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="friends != null">
+        #{friends,jdbcType=VARCHAR},
+      </if>
+      <if test="pho != null">
+        #{pho,jdbcType=VARCHAR},
+      </if>
+      <if test="articleGood != null">
+        #{articleGood,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="yiban != null">
+        #{yiban,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null">
+        #{account,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.formu.bean.User">
+    update formu_user
+    <set>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="passwd != null">
+        passwd = #{passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="friends != null">
+        friends = #{friends,jdbcType=VARCHAR},
+      </if>
+      <if test="pho != null">
+        pho = #{pho,jdbcType=VARCHAR},
+      </if>
+      <if test="articleGood != null">
+        article_good = #{articleGood,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="yiban != null">
+        yiban = #{yiban,jdbcType=VARCHAR},
+      </if>
+      <if test="account != null">
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.formu.bean.User">
+    update formu_user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      passwd = #{passwd,jdbcType=VARCHAR},
+      friends = #{friends,jdbcType=VARCHAR},
+      pho = #{pho,jdbcType=VARCHAR},
+      article_good = #{articleGood,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      yiban = #{yiban,jdbcType=VARCHAR},
+      account = #{account,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+    <update id="updateByAccount"  parameterType="com.formu.bean.User">
+        update formu_user
+    set
+      passwd = #{passwd,jdbcType=VARCHAR}
+    where account = #{account,jdbcType=VARCHAR}
+    </update>
+</mapper>
