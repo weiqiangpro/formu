@@ -35,7 +35,7 @@ public class UserControl {
 
     @ApiOperation(value = "获取别人的信息", notes = "")
     @ApiImplicitParam(name = "id", value = "用户的id", required = true, paramType = "path", dataType = "Integer")
-    @RequestMapping("other/{id}")
+    @RequestMapping(value = "other/{id}",method = RequestMethod.GET)
     public Msg getother(@PathVariable("id") int userid) {
         return userService.getOtherById(userid);
     }
@@ -144,7 +144,7 @@ public class UserControl {
     @ApiOperation(value = "获取邮箱,带*******的邮箱,再找回密码的时候使用", notes = "")
     @ApiImplicitParam(name = "account", value = "账号", required = true, dataType = "String")
     @RequestMapping(value = "getemail", method = RequestMethod.GET)
-    public Msg getbyaccout(@RequestParam("accout") String accout) {
+    public Msg getbyaccout(@RequestParam("account") String accout) {
         return userService.getbyaccout(accout);
     }
 
