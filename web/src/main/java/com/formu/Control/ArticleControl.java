@@ -41,7 +41,7 @@ public class ArticleControl {
     }
 
     @ApiOperation(value = "通过article的id来获取数据", notes = "获取一条数据")
-    @ApiImplicitParam(name = "page", value = "page页", required = true, paramType = "path", dataType = "Integer")
+    @ApiImplicitParam(name = "id", value = "page页", required = true, paramType = "path", dataType = "Integer")
     @RequestMapping(value = "getbyid/{id}", method = RequestMethod.GET)
     public Msg getById(@PathVariable("id") int id, HttpServletRequest request) {
         int userid = common.getid(request);
