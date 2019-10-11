@@ -18,10 +18,13 @@ public class UserPo {
 
     private String email;
 
+    private String person;
+
     public UserPo(User user, boolean isme) {
         this.userId = user.getUserId();
         this.userName = user.getUserName();
         this.pho = user.getPho();
+        this.person = user.getPerson();
         if (isme)
             this.email = user.getEmail();
         else

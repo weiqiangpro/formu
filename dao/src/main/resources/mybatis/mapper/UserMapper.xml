@@ -11,13 +11,14 @@
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="yiban" jdbcType="VARCHAR" property="yiban" />
     <result column="account" jdbcType="VARCHAR" property="account" />
+    <result column="person" jdbcType="VARCHAR" property="person" />
   </resultMap>
   <sql id="Base_Column_List">
-    user_id, user_name, passwd, friends, pho, article_good, email, yiban, account
+    user_id, user_name, passwd, friends, pho, article_good, email, yiban, account,person
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
-    user_id, user_name, passwd, friends, pho, article_good, email, yiban, account
+    user_id, user_name, passwd, friends, pho, article_good, email, yiban, account,person
     from formu_user
     where user_id = #{userId,jdbcType=INTEGER}
   </select>
@@ -83,6 +84,9 @@
       <if test="account != null">
         account,
       </if>
+      <if test="person != null">
+        person,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -112,6 +116,9 @@
       <if test="account != null">
         #{account,jdbcType=VARCHAR},
       </if>
+      <if test="person != null">
+        #{person,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.formu.bean.User">
@@ -140,6 +147,9 @@
       </if>
       <if test="account != null">
         account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="person != null">
+        person = #{person,jdbcType=VARCHAR},
       </if>
     </set>
     where user_id = #{userId,jdbcType=INTEGER}

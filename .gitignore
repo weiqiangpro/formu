@@ -32,3 +32,5 @@ build/
 
 ###  targrt ###
 */target/
+pom.xml
+*.yaml

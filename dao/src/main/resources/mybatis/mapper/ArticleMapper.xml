@@ -20,9 +20,10 @@
         <result column="images" jdbcType="VARCHAR" property="images"/>
         <result column="good_num" jdbcType="INTEGER" property="goodNum"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-        <result column="user_name" property="userName"/>
-        <result column="pho" property="pho"/>
-        <result column="category_name" property="categoryName"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="person" jdbcType="VARCHAR" property="person"/>
+        <result column="pho"  jdbcType="VARCHAR" property="pho"/>
+        <result column="category_name" jdbcType="VARCHAR" property="categoryName"/>
     </resultMap>
     <resultMap id="BaseResultMap3" type="com.formu.bean.po.ArticlePo">
         <id column="article_id" jdbcType="INTEGER" property="articleId"/>
@@ -34,7 +35,7 @@
     article_id, category_id, user_id, title, message, images, good_num, create_time
   </sql>
     <sql id="Base_Column_List2">
-    a.article_id, a.category_id,c.category_name,a.user_id,b.user_name,b.pho , a.title, a.message,a.images ,a.good_num, a.create_time
+    a.article_id, a.category_id,c.category_name,a.user_id,b.user_name,b.person,b.pho , a.title, a.message,a.images ,a.good_num, a.create_time
   </sql>
     <sql id="Base_Column_List3">
     article_id,(UNIX_TIMESTAMP(now()) - UNIX_TIMESTAMP(create_time))/3600 hour,images,good_num
@@ -96,6 +97,7 @@
             <if test="goodNum != null">
                 good_num,
             </if>
+
             create_time,
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -144,6 +146,7 @@
             <if test="goodNum != null">
                 good_num = #{goodNum,jdbcType=INTEGER},
             </if>
+
             <if test="createTime != null">
                 create_time = #{createTime,jdbcType=TIMESTAMP},
             </if>

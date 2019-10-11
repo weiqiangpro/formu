@@ -29,6 +29,8 @@ public class Article {
 
     private String userName;
 
+    private String person;
+
     private String pho;
 
     private String categoryName;
