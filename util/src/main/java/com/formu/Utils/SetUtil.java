@@ -29,6 +29,7 @@ public class SetUtil {
             if (StringUtils.isNotBlank(s))
                 good.append(s).append("-");
         }
+        if (good.length()>1)
         good.deleteCharAt(good.length() - 1);
         return String.valueOf(good);
     }

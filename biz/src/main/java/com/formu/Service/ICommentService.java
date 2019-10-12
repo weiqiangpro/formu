@@ -16,4 +16,6 @@ public interface ICommentService {
     public Msg insertIsParent(Comment comment);
 
     public Msg deleteById(int id,int userid);
+
+    public Msg goodbyid(int id, int userid);
 }

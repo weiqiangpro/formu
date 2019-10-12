@@ -1,4 +1,4 @@
-package com.formu.bean;
+package com.formu.bean.po;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Comment {
+public class CommentPo {
     private Integer commentId;
 
     private Integer articleId;
@@ -20,11 +20,15 @@ public class Comment {
 
     private Integer fromUSer;
 
+    private String fromName;
+
+    private String fromUSerPho;
+
     private Integer commentGoodnum;
 
     private Integer toUser;
 
-    private Date createTime;
+    private Integer hour;
 
-
+    private String toName;
 }

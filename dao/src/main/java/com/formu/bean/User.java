@@ -20,6 +20,8 @@ public class User {
 
     private String articleGood;
 
+    private String commentGood;
+
     private String email;
 
     private String yiban;

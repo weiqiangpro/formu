@@ -58,6 +58,7 @@ public class CommentControl {
         comment.setParentId(parentid);
         comment.setFromUSer(common.getid(request));
         comment.setToUser(toid);
+        comment.setCommentGoodnum(0);
         if (parentid == 0 || toid == 0) {
             return commentService.insertIsParent(comment);
         }
@@ -69,6 +70,13 @@ public class CommentControl {
     @RequestMapping(value = "delete.do/{id}", method = RequestMethod.DELETE)
     public Msg delete(@PathVariable("id") int id, HttpServletRequest request) {
         return commentService.deleteById(id, common.getid(request));
+    }
+
+    @ApiOperation(value = "点赞评论,需要登录", notes = "第一次点赞,第二次取消点赞")
+    @ApiImplicitParam(name = "id", value = "评论的id", paramType = "path", dataType = "Integer")
+    @RequestMapping(value = "good.do/{id}", method = RequestMethod.PUT)
+    public Msg update(@PathVariable("id") int id, HttpServletRequest request) {
+        return commentService.goodbyid(id, common.getid(request));
     }
 
 }

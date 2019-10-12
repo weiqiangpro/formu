@@ -8,17 +8,18 @@
     <result column="friends" jdbcType="VARCHAR" property="friends" />
     <result column="pho" jdbcType="VARCHAR" property="pho" />
     <result column="article_good" jdbcType="VARCHAR" property="articleGood" />
+    <result column="comment_good" jdbcType="VARCHAR" property="commentGood" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="yiban" jdbcType="VARCHAR" property="yiban" />
     <result column="account" jdbcType="VARCHAR" property="account" />
     <result column="person" jdbcType="VARCHAR" property="person" />
   </resultMap>
   <sql id="Base_Column_List">
-    user_id, user_name, passwd, friends, pho, article_good, email, yiban, account,person
+    user_id, user_name, passwd, friends, pho, article_good, email, yiban, account,person,comment_good
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
-    user_id, user_name, passwd, friends, pho, article_good, email, yiban, account,person
+    user_id, user_name, passwd, friends, pho, article_good, email, yiban, account,person,comment_good
     from formu_user
     where user_id = #{userId,jdbcType=INTEGER}
   </select>
@@ -87,6 +88,9 @@
       <if test="person != null">
         person,
       </if>
+      <if test="commentGood != null">
+        comment_good,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -119,6 +123,9 @@
       <if test="person != null">
         #{person,jdbcType=VARCHAR},
       </if>
+      <if test="commentGood != null">
+        #{commentGood,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.formu.bean.User">
@@ -138,6 +145,9 @@
       </if>
       <if test="articleGood != null">
         article_good = #{articleGood,jdbcType=VARCHAR},
+      </if>
+      <if test="commentGood != null">
+        comment_good = #{commentGood,jdbcType=VARCHAR},
       </if>
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},

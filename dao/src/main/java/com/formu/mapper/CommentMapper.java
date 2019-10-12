@@ -1,6 +1,9 @@
 package com.formu.mapper;
 
 import com.formu.bean.Comment;
+import com.formu.bean.po.CommentPo;
+import io.swagger.models.auth.In;
+
 import java.util.List;
 
 public interface CommentMapper {
@@ -11,13 +14,15 @@ public interface CommentMapper {
 
     int insertSelective(Comment record);
 
-    Comment selectByPrimaryKey(Integer commentId);
+    CommentPo selectByPrimaryKey(Integer commentId);
 
     int updateByPrimaryKeySelective(Comment record);
 
     int updateByPrimaryKey(Comment record);
 
-    List<Comment> selectByArticleAndisParent(Integer articleId);
+    int updateGoodNumById(Integer commentId, Integer num);
 
-    List<Comment> selectByParentId(Integer parentId);
+    List<CommentPo> selectByArticleAndisParent(Integer articleId);
+
+    List<CommentPo> selectByParentId(Integer parentId);
 }

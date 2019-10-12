@@ -120,9 +120,8 @@ public class ArticleService implements IArticleService {
         User user = userMapper.selectByPrimaryKey(userid);
         String good1 = userMapper.selectByPrimaryKey(userid).getArticleGood();
         String good2 = SetUtil.upGood(good1, id);
-
-        int n1 = good1.length();
-        int n2 = good2.length();
+        int n1 = good1 == null ? 0:good1.length();
+        int n2 = good2 == null ? 0:good2.length();
         if (n1 == n2)
             return Msg.createByErrorMessage("点赞失败");
         user.setArticleGood(good2);

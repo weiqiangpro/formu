@@ -8,25 +8,28 @@
         <result column="parent_id" jdbcType="INTEGER" property="parentId"/>
         <result column="from_user" jdbcType="INTEGER" property="fromUSer"/>
         <result column="to_user" jdbcType="INTEGER" property="toUser"/>
+        <result column="comment_goodnum" jdbcType="INTEGER" property="commentGoodnum"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
     </resultMap>
-    <resultMap id="BaseResultMap2" type="com.formu.bean.Comment">
+    <resultMap id="BaseResultMap2" type="com.formu.bean.po.CommentPo">
         <id column="comment_id" jdbcType="INTEGER" property="commentId"/>
         <result column="article_id" jdbcType="INTEGER" property="articleId"/>
         <result column="message" jdbcType="VARCHAR" property="message"/>
         <result column="parent_id" jdbcType="INTEGER" property="parentId"/>
         <result column="from_user" jdbcType="INTEGER" property="fromUSer"/>
         <result column="to_user" jdbcType="INTEGER" property="toUser"/>
-        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-        <result column="form_name" jdbcType="VARCHAR" property="fromName"/>
+        <result column="from_name" jdbcType="VARCHAR" property="fromName"/>
+        <result column="comment_goodnum" jdbcType="INTEGER" property="commentGoodnum"/>
+        <result column="from_pho" jdbcType="VARCHAR" property="fromUSerPho"/>
         <result column="to_name" jdbcType="VARCHAR" property="toName"/>
+        <result column="hour" jdbcType="INTEGER" property="hour"/>
     </resultMap>
     <sql id="Base_Column_List">
-    comment_id, article_id, message, parent_id, from_user, to_user, create_time
+    comment_id, article_id, message, parent_id, from_user, to_user, create_time,comment_goodnum
   </sql>
     <sql id="Base_Column_List2">
-    a.comment_id, a.article_id, a.message, a.parent_id, a.create_time,
-    a.from_user,b.user_name form_name,a.to_user,c.user_name to_name
+    a.comment_id, a.article_id, a.message, a.parent_id,a.comment_goodnum,
+    a.from_user,b.user_name from_name,b.pho from_pho,a.to_user,c.user_name to_name,(UNIX_TIMESTAMP(now()) - UNIX_TIMESTAMP(a.create_time))/3600 hour
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap2">
         select
@@ -87,6 +90,9 @@
             <if test="toUser != null">
                 to_user,
             </if>
+            <if test="commentGoodnum != null">
+                comment_goodnum,
+            </if>
                 create_time,
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -107,6 +113,9 @@
             </if>
             <if test="toUser != null">
                 #{toUser,jdbcType=INTEGER},
+            </if>
+            <if test="commentGoodnum != null">
+                #{comment_goodnum,jdbcType=INTEGER},
             </if>
                now(),
         </trim>
@@ -129,9 +138,8 @@
             <if test="toUser != null">
                 to_user = #{toUser,jdbcType=INTEGER},
             </if>
-
-            <if test="createTime != null">
-                create_time = #{createTime,jdbcType=TIMESTAMP},
+            <if test="commentGoodnum != null">
+                to_user = #{comment_goodnum,jdbcType=INTEGER},
             </if>
         </set>
         where comment_id = #{commentId,jdbcType=INTEGER}
@@ -146,4 +154,8 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where comment_id = #{commentId,jdbcType=INTEGER}
   </update>
+    <update id="updateGoodNumById" parameterType="java.lang.Integer">
+       update formu_comment set  comment_goodnum = comment_goodnum+#{num,jdbcType=INTEGER}
+        where comment_id = #{commentId,jdbcType=INTEGER}
+    </update>
 </mapper>
