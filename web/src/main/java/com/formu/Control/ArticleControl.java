@@ -29,7 +29,6 @@ public class ArticleControl {
 
     @Autowired
     private IArticleService articleService;
-
     @Autowired
     private Common common;
 
