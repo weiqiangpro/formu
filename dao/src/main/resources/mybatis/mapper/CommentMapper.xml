@@ -115,7 +115,7 @@
                 #{toUser,jdbcType=INTEGER},
             </if>
             <if test="commentGoodnum != null">
-                #{comment_goodnum,jdbcType=INTEGER},
+                #{commentGoodnum,jdbcType=INTEGER},
             </if>
                now(),
         </trim>

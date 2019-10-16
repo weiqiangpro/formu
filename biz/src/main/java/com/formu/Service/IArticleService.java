@@ -23,4 +23,5 @@ public interface IArticleService {
     public Msg deleteById(int id,int userid);
 
     public Msg goodbyid(int id,int userid);
+
 }

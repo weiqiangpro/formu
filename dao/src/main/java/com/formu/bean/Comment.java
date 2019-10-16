@@ -26,5 +26,4 @@ public class Comment {
 
     private Date createTime;
 
-
 }

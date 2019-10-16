@@ -19,4 +19,6 @@ public class ArticlePo {
     private Integer goodNum;
 
     private Integer hour;
+
+    private Integer commentNum;
 }

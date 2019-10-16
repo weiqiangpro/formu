@@ -20,6 +20,8 @@ public interface ArticleMapper {
 
     int updateGoodNumById(Integer articleId,Integer num);
 
+    int updateCommnetNumById(Integer articleId,Integer num);
+
     List<Article> selectall();
 
     List<Article> selectByCategory(Integer id);

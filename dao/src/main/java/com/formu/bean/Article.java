@@ -24,6 +24,7 @@ public class Article {
     private String images;
 
     private Integer goodNum;
+    private Integer commentNum;
 
     private Date createTime;
 

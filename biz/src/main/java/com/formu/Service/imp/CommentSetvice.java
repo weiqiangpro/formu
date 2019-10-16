@@ -6,15 +6,17 @@ import com.formu.Utils.SetUtil;
 import com.formu.bean.Comment;
 import com.formu.bean.User;
 import com.formu.bean.po.CommentPo;
+import com.formu.mapper.ArticleMapper;
 import com.formu.mapper.CommentMapper;
 import com.formu.mapper.UserMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 /**
  * Created by weiqiang
@@ -24,6 +26,9 @@ public class CommentSetvice implements ICommentService {
 
     @Autowired
     private CommentMapper commentMapper;
+
+    @Autowired
+    private ArticleMapper  articleMapper;
 
     @Autowired
     private UserMapper userMapper;
@@ -58,8 +63,9 @@ public class CommentSetvice implements ICommentService {
         if (comment1==null || comment1.getParentId()!=0)
         return Msg.createByErrorMessage("添加评论失败!");
 
-            int ok = commentMapper.insertSelective(comment);
-            if (ok > 0) {
+            int ok1 = commentMapper.insertSelective(comment);
+            int ok2 = articleMapper.updateCommnetNumById(comment.getArticleId(),1);
+            if (ok1 > 0 && ok2 > 0) {
                 return Msg.createBySuccessMessage("添加评论成功!");
             }
             return Msg.createByErrorMessage("添加评论失败!");
@@ -69,8 +75,9 @@ public class CommentSetvice implements ICommentService {
     @Override
     public Msg insertIsParent(Comment comment) {
         if (comment!=null) {
-            int ok = commentMapper.insertSelective(comment);
-            if (ok > 0) {
+            int ok1 = commentMapper.insertSelective(comment);
+            int ok2 = articleMapper.updateCommnetNumById(comment.getArticleId(),1);
+            if (ok1 > 0 && ok2 > 0) {
                 return Msg.createBySuccessMessage("添加评论成功!");
             }
             return Msg.createByErrorMessage("添加评论失败!");
@@ -88,8 +95,9 @@ public class CommentSetvice implements ICommentService {
         if (userid != comment.getFromUSer())
             return Msg.createByErrorMessage("删除评论失败!您不是本评论的作者，无权删除该评论!");
 
-        int ok = commentMapper.deleteByPrimaryKey(id);
-        if (ok > 0) {
+        int ok1 = commentMapper.deleteByPrimaryKey(id);
+        int ok2 = articleMapper.updateCommnetNumById(comment.getArticleId(),-1);
+        if (ok1 > 0 && ok2 > 0) {
             return Msg.createBySuccessMessage("删除评论成功!");
         }
         return Msg.createByErrorMessage("删除评论失败!");
