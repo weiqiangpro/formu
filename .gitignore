@@ -31,6 +31,5 @@ build/
 .vscode/
 
 ###  targrt ###
-*/target/
-/formu/pom.xml
-*.yaml
+*/target/;
+**.yaml;
