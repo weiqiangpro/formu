@@ -75,7 +75,7 @@ public class LoginControl {
     }
 
 
-    @RequestMapping("auth")
+    @RequestMapping(value = "auth",method = RequestMethod.GET)
     @ResponseBody
     public Msg a(HttpServletRequest request) {
 
@@ -145,7 +145,7 @@ public class LoginControl {
         return Msg.createBySuccess(map);
     }
 
-    @RequestMapping("/YB/login")
+    @RequestMapping(value = "/YB/login",method = RequestMethod.GET)
     public String YBlogin() {
         String client_id = "9d8b2a825cf5677a";
         String redirect_url = "http://weiqiang:8080/auth";
