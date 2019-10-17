@@ -56,8 +56,6 @@ public class LoginControl {
 
                         User user = new User();
                         user.setUserId(1);
-                        user.setAccount(username);
-
                         String json = JsonUtil.obj2String(user);
 
                         redis.opsForValue().set(token, json, 30, TimeUnit.MINUTES);
@@ -126,7 +124,7 @@ public class LoginControl {
                 return Msg.createByErrorMessage("易班登录失败");
             User newYB = new User();
             newYB.setUserId(YBUser.getUserId());
-            newYB.setAccount(null);
+            newYB.setYiban(YBUser.getYiban());
             String json = JsonUtil.obj2String(newYB);
             redis.opsForValue().set(token, json, 30, TimeUnit.MINUTES);
             return Msg.createBySuccess(map);
@@ -139,7 +137,6 @@ public class LoginControl {
         newYbuser.setYiban(info.getYb_userid());
         userMapper.insertSelective(newYbuser);
         User user = userMapper.selectByYB(info.getYb_userid());
-        user.setAccount(null);
         String json = JsonUtil.obj2String(user);
         redis.opsForValue().set(token, json, 30, TimeUnit.MINUTES);
         return Msg.createBySuccess(map);
