@@ -41,6 +41,12 @@
     from formu_user
     where account = #{account,jdbcType=VARCHAR}
     </select>
+    <select id="selectByYB" resultType="com.formu.bean.User">
+       select
+   user_id,yiban
+    from formu_user
+    where yiban = #{yb,jdbcType=VARCHAR}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from formu_user
     where user_id = #{userId,jdbcType=INTEGER}

@@ -106,6 +106,8 @@ public class UserControl {
                             @RequestParam("newPasswd1") String newpasswd1,
                             @RequestParam("newPasswd2") String newpasswd2,
                             HttpServletRequest request) {
+        if (common.isYB(request))
+            return Msg.createByErrorMessage("易班用户不能修改密码");
         return userService.updatepasswd(oldpasswd, newpasswd1, newpasswd2, common.getid(request));
     }
 

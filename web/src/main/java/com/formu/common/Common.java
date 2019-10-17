@@ -106,6 +106,18 @@ public class Common {
         }
         return user.getUserId();
     }
+    public boolean isYB(HttpServletRequest request){
+        String header = request.getHeader("Token");
+        if (StringUtils.isBlank(header)) {
+            return false;
+        }
+        String token = redis.opsForValue().get(header);
+        User user = JsonUtil.string2Obj(token, User.class);
+        if (user == null) {
+            return false;
+        }
+        return user.getYiban() != null;
+    }
     public  User getUser(HttpServletRequest request) {
         String header = request.getHeader("Token");
         if (StringUtils.isBlank(header)) {

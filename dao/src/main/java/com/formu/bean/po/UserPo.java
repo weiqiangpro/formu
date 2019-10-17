@@ -20,11 +20,14 @@ public class UserPo {
 
     private String person;
 
+    private boolean isYB;
+
     public UserPo(User user, boolean isme) {
         this.userId = user.getUserId();
         this.userName = user.getUserName();
         this.pho = user.getPho();
         this.person = user.getPerson();
+        this.isYB = user.getYiban() != null;
         if (isme)
             this.email = user.getEmail();
         else
