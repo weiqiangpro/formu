@@ -37,7 +37,7 @@
   </select>
     <select id="selectLoginByAccount" resultType="com.formu.bean.User">
       select
-   user_name, passwd
+  user_id ,user_name, passwd,pho
     from formu_user
     where account = #{account,jdbcType=VARCHAR}
     </select>

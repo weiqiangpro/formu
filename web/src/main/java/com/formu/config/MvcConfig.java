@@ -30,7 +30,7 @@ public class MvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor).addPathPatterns("/**")
-                .excludePathPatterns("/login", "/article/get/*", "/article/getbyid/*","/auth","/YB/login",
+                .excludePathPatterns("/login", "/article/get/*", "/article/getbyid/*","/auth","/YB/login","/ybsuccess.html","/yb","/text.html",
                                      "/getbycategory/*/*","/category/get",
                                      "/user/other/*","/user/send","/upfile","/comment/get/*/*",
                                      "/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");

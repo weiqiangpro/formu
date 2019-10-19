@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+fuqin
+<div id="div"></div>
+<button id="button">按钮</button>
+<script>
+    document.getElementById("button").onclick = function (ev) {
+
+
+
+        window.open('http://localhost:8080/YB/login', '_blank', 'width=500,height=500,top=100,left=200');
+
+
+
+    };
+    var a = document.cookie;
+    document.getElementById("div").innerText = a;
+</script>
+</body>
+</html>

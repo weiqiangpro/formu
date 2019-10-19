@@ -1,6 +1,5 @@
 package com.formu.Control;
 
-import com.formu.Service.imp.UserService;
 import com.formu.Utils.*;
 import com.formu.bean.Info;
 import com.formu.bean.Token;
@@ -14,6 +13,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,7 +55,8 @@ public class LoginControl {
                         map.put("Token", token);
 
                         User user = new User();
-                        user.setUserId(1);
+                        user.setUserId(user1.getUserId());
+                        user.setUserName(user1.getUserName());
                         String json = JsonUtil.obj2String(user);
 
                         redis.opsForValue().set(token, json, 30, TimeUnit.MINUTES);
@@ -73,26 +74,26 @@ public class LoginControl {
     }
 
 
-    @RequestMapping(value = "auth",method = RequestMethod.GET)
-    @ResponseBody
-    public Msg a(HttpServletRequest request) {
+    @RequestMapping("auth")
+//    @ResponseBody
+    public String a(HttpServletRequest request, Model model) {
 
         Map<String, String[]> params = request.getParameterMap();
         String code = params.get("code")[0];
 
         if (StringUtils.isBlank(code))
-            return Msg.createByErrorMessage("易班登录失败");
+            return "yberror";
 
         Map<String, String> access_tokenMap = new HashMap<>();
         access_tokenMap.put("client_id", "9d8b2a825cf5677a");
         access_tokenMap.put("client_secret", "68668685130aa1a94d0b3a3de3f1b1f8");
         access_tokenMap.put("code", code);
-        access_tokenMap.put("redirect_uri", "http://weiqiang:8080/auth");
+        access_tokenMap.put("redirect_uri", "http://localhost/api/auth");
         String access_tokenJson = HttpClientUtil.doPost("https://openapi.yiban.cn/oauth/access_token", access_tokenMap);
         Token access_token = JsonUtil.string2Obj(access_tokenJson, Token.class);
 
         if (access_token == null || StringUtils.isBlank(access_token.getAccess_token()))
-            return Msg.createByErrorMessage("易班登录失败");
+            return "yberror";
 
 
         Map<String, String> meMap = new HashMap<>();
@@ -102,7 +103,7 @@ public class LoginControl {
 
 
         if (me == null || !"success".equals(me.getStatus()))
-            return Msg.createByErrorMessage("易班登录失败");
+            return "yberror";
 
         String token = null;
         try {
@@ -111,9 +112,7 @@ public class LoginControl {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Map<String, String> map = new HashMap<>();
-        map.put("mes", "登陆成功");
-        map.put("Token", token);
+        model.addAttribute("Token",token);
 
         Info info = me.getInfo();
         String yiban = info.getYb_userid();
@@ -121,34 +120,47 @@ public class LoginControl {
 
         if (YBUser != null) {
             if (StringUtils.isBlank(YBUser.getYiban()))
-                return Msg.createByErrorMessage("易班登录失败");
+                return "YBerror";
             User newYB = new User();
             newYB.setUserId(YBUser.getUserId());
             newYB.setYiban(YBUser.getYiban());
+            newYB.setUserName(YBUser.getUserName());
             String json = JsonUtil.obj2String(newYB);
             redis.opsForValue().set(token, json, 30, TimeUnit.MINUTES);
-            return Msg.createBySuccess(map);
+            return "ybsuccess";
         }
 
 
         User newYbuser = new User();
         newYbuser.setUserName(info.getYb_username());
-        newYbuser.setPho(info.getYb_userhead());
         newYbuser.setYiban(info.getYb_userid());
         userMapper.insertSelective(newYbuser);
         User user = userMapper.selectByYB(info.getYb_userid());
         String json = JsonUtil.obj2String(user);
         redis.opsForValue().set(token, json, 30, TimeUnit.MINUTES);
-        return Msg.createBySuccess(map);
+        return "ybsuccess";
     }
 
     @RequestMapping(value = "/YB/login",method = RequestMethod.GET)
     public String YBlogin() {
         String client_id = "9d8b2a825cf5677a";
-        String redirect_url = "http://weiqiang:8080/auth";
+        String redirect_url = "http://localhost/api/auth";
         String url = "https://openapi.yiban.cn/oauth/authorize?client_id=" + client_id + "&redirect_uri=" + redirect_url + "&state=STATE";
         return "redirect:" + url;
     }
 
+
+
+    @RequestMapping("/islogin")
+    @ResponseBody
+    public Msg islogin(){
+        return Msg.createBySuccess();
+    }
+
+
+    @RequestMapping("yb")
+    public String a(){
+        return "text";
+    }
 
 }
