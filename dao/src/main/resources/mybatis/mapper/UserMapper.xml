@@ -5,60 +5,34 @@
     <id column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="passwd" jdbcType="VARCHAR" property="passwd" />
-    <result column="friends" jdbcType="VARCHAR" property="friends" />
     <result column="pho" jdbcType="VARCHAR" property="pho" />
-    <result column="article_good" jdbcType="VARCHAR" property="articleGood" />
-    <result column="comment_good" jdbcType="VARCHAR" property="commentGood" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="yiban" jdbcType="VARCHAR" property="yiban" />
     <result column="account" jdbcType="VARCHAR" property="account" />
     <result column="person" jdbcType="VARCHAR" property="person" />
+    <result column="follow_num" jdbcType="INTEGER" property="followNum" />
   </resultMap>
   <sql id="Base_Column_List">
-    user_id, user_name, passwd, friends, pho, article_good, email, yiban, account,person,comment_good
+    user_id, user_name, passwd, pho, email, yiban, account, person, follow_num
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
-    user_id, user_name, passwd, friends, pho, article_good, email, yiban, account,person,comment_good
+    <include refid="Base_Column_List" />
     from formu_user
     where user_id = #{userId,jdbcType=INTEGER}
   </select>
-  <select id="selectOtherByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select
-   user_id,user_name, pho,email
-    from formu_user
-    where user_id = #{userId,jdbcType=INTEGER}
-  </select>
-  <select id="selectByAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
-     select
-   user_name, pho
-    from formu_user
-    where account = #{account,jdbcType=VARCHAR}
-  </select>
-    <select id="selectLoginByAccount" resultType="com.formu.bean.User">
-      select
-  user_id ,user_name, passwd,pho
-    from formu_user
-    where account = #{account,jdbcType=VARCHAR}
-    </select>
-    <select id="selectByYB" resultType="com.formu.bean.User">
-       select
-   user_id,yiban
-    from formu_user
-    where yiban = #{yb,jdbcType=VARCHAR}
-    </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from formu_user
     where user_id = #{userId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.formu.bean.User">
     insert into formu_user (user_id, user_name, passwd, 
-      friends, pho, article_good, 
-      email, yiban, account
+      pho, email, yiban, 
+      account, person, follow_num
       )
     values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{passwd,jdbcType=VARCHAR}, 
-      #{friends,jdbcType=VARCHAR}, #{pho,jdbcType=VARCHAR}, #{articleGood,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{yiban,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}
+      #{pho,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{yiban,jdbcType=VARCHAR}, 
+      #{account,jdbcType=VARCHAR}, #{person,jdbcType=VARCHAR}, #{followNum,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.formu.bean.User">
@@ -73,14 +47,8 @@
       <if test="passwd != null">
         passwd,
       </if>
-      <if test="friends != null">
-        friends,
-      </if>
       <if test="pho != null">
         pho,
-      </if>
-      <if test="articleGood != null">
-        article_good,
       </if>
       <if test="email != null">
         email,
@@ -94,8 +62,8 @@
       <if test="person != null">
         person,
       </if>
-      <if test="commentGood != null">
-        comment_good,
+      <if test="followNum != null">
+        follow_num,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -108,14 +76,8 @@
       <if test="passwd != null">
         #{passwd,jdbcType=VARCHAR},
       </if>
-      <if test="friends != null">
-        #{friends,jdbcType=VARCHAR},
-      </if>
       <if test="pho != null">
         #{pho,jdbcType=VARCHAR},
-      </if>
-      <if test="articleGood != null">
-        #{articleGood,jdbcType=VARCHAR},
       </if>
       <if test="email != null">
         #{email,jdbcType=VARCHAR},
@@ -129,8 +91,8 @@
       <if test="person != null">
         #{person,jdbcType=VARCHAR},
       </if>
-      <if test="commentGood != null">
-        #{commentGood,jdbcType=VARCHAR},
+      <if test="followNum != null">
+        #{followNum,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -143,17 +105,8 @@
       <if test="passwd != null">
         passwd = #{passwd,jdbcType=VARCHAR},
       </if>
-      <if test="friends != null">
-        friends = #{friends,jdbcType=VARCHAR},
-      </if>
       <if test="pho != null">
         pho = #{pho,jdbcType=VARCHAR},
-      </if>
-      <if test="articleGood != null">
-        article_good = #{articleGood,jdbcType=VARCHAR},
-      </if>
-      <if test="commentGood != null">
-        comment_good = #{commentGood,jdbcType=VARCHAR},
       </if>
       <if test="email != null">
         email = #{email,jdbcType=VARCHAR},
@@ -167,6 +120,9 @@
       <if test="person != null">
         person = #{person,jdbcType=VARCHAR},
       </if>
+      <if test="followNum != null">
+        follow_num = #{followNum,jdbcType=INTEGER},
+      </if>
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
@@ -174,18 +130,38 @@
     update formu_user
     set user_name = #{userName,jdbcType=VARCHAR},
       passwd = #{passwd,jdbcType=VARCHAR},
-      friends = #{friends,jdbcType=VARCHAR},
       pho = #{pho,jdbcType=VARCHAR},
-      article_good = #{articleGood,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       yiban = #{yiban,jdbcType=VARCHAR},
-      account = #{account,jdbcType=VARCHAR}
+      account = #{account,jdbcType=VARCHAR},
+      person = #{person,jdbcType=VARCHAR},
+      follow_num = #{followNum,jdbcType=INTEGER}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
-    <update id="updateByAccount"  parameterType="com.formu.bean.User">
+
+  <select id="selectByYB" resultType="com.formu.bean.User">
+     select
+      user_id, user_name, yiban
+      from formu_user
+      where yiban = #{yiban,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByAccount" resultType="com.formu.bean.User">
+    select
+    <include refid="Base_Column_List" />
+    from formu_user
+    where account = #{account,jdbcType=INTEGER}
+  </select>
+
+
+
+  <update id="updateByAccount" parameterType="com.formu.bean.User">
         update formu_user
     set
       passwd = #{passwd,jdbcType=VARCHAR}
     where account = #{account,jdbcType=VARCHAR}
     </update>
+  <update id="updateFollowNumById">
+        update formu_user set  follow_num = follow_num+#{num,jdbcType=INTEGER}
+        where user_id = #{user_id,jdbcType=INTEGER}
+  </update>
 </mapper>

@@ -9,8 +9,10 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -62,14 +64,14 @@ public class Common {
             User user = userMapper.selectByAccount(account);
             if (user == null)
                 return false;
-//            MimeMessage mimeMessage = mailSender.createMimeMessage();
-//            MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
-//            message.setFrom("weinichix@qq.com");
-//            message.setTo(user.getEmail());
-//            String str = "您的验证码为"+getCode(4);
-//            message.setSubject("图片论坛验证码!");
-//            message.setText(str);
-//            mailSender.send(mimeMessage);
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+            message.setFrom("weinichix@qq.com");
+            message.setTo(user.getEmail());
+            String str = "您的验证码为"+getCode();
+            message.setSubject("图片论坛验证码!");
+            message.setText(str);
+            mailSender.send(mimeMessage);
             String code = getCode();
             redis.opsForValue().set(account,code,3, TimeUnit.MINUTES);
             log.info(account);

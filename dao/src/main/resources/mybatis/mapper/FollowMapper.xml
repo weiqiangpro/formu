@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.formu.mapper.FollowMapper">
+    <resultMap id="BaseResultMap" type="com.formu.bean.Follow">
+        <id column="follow_id" jdbcType="INTEGER" property="followId"/>
+        <result column="follow_toid" jdbcType="INTEGER" property="followToid"/>
+        <result column="follow_fromid" jdbcType="INTEGER" property="followFromid"/>
+    </resultMap>
+    <resultMap id="BaseResultMap2" type="com.formu.bean.po.FollowInfo">
+        <id column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="user_name" jdbcType="INTEGER" property="name"/>
+        <result column="pho" jdbcType="INTEGER" property="pho"/>
+        <result column="person" jdbcType="INTEGER" property="person"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        follow_id, follow_toid, follow_fromid
+    </sql>
+    <sql id="Base_Column_List2">
+        follow_id user_id, b.user_name  user_name , b.pho pho,b.person person
+    </sql>
+    <select id="getFrendsByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap2">
+        select
+        <include refid="Base_Column_List"/>
+        from formu_follow
+        where follow_fromid = #{userid,jdbcType=INTEGER}
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from formu_follow
+        where follow_id = #{followId,jdbcType=INTEGER}
+    </select>
+    <select id="selectByMeAndOther" resultType="com.formu.bean.Follow">
+        select
+        <include refid="Base_Column_List"/>
+        from formu_follow
+        where follow_toid = #{otherId,jdbcType=INTEGER} and follow_fromid = #{userId,jdbcType=INTEGER}
+    </select>
+
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+      delete from formu_follow
+        where follow_id = #{followId,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.formu.bean.Follow">
+    insert into formu_follow (follow_id, follow_toid, follow_fromid  )
+    values (#{followId,jdbcType=INTEGER}, #{followToid,jdbcType=INTEGER}, #{followFromid,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertSelective" parameterType="com.formu.bean.Follow">
+        insert into formu_follow
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="followId != null">
+                follow_id,
+            </if>
+            <if test="followToid != null">
+                follow_toid,
+            </if>
+            <if test="followFromid != null">
+                follow_fromid,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="followId != null">
+                #{followId,jdbcType=INTEGER},
+            </if>
+            <if test="followToid != null">
+                #{followToid,jdbcType=INTEGER},
+            </if>
+            <if test="followFromid != null">
+                #{followFromid,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.formu.bean.Follow">
+        update formu_follow
+        <set>
+            <if test="followToid != null">
+                follow_toid = #{followToid,jdbcType=INTEGER},
+            </if>
+            <if test="followFromid != null">
+                follow_fromid = #{followFromid,jdbcType=INTEGER},
+            </if>
+        </set>
+        where follow_id = #{followId,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.formu.bean.Follow">
+    update formu_follow
+    set follow_toid = #{followToid,jdbcType=INTEGER},
+      follow_fromid = #{followFromid,jdbcType=INTEGER}
+    where follow_id = #{followId,jdbcType=INTEGER}
+  </update>
+</mapper>

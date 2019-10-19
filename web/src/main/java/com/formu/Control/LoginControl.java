@@ -43,7 +43,7 @@ public class LoginControl {
     @ResponseBody
     public Msg login(@RequestParam("user") String username, @RequestParam("passwd") String passwd) {
         if (StringUtils.isNotBlank(username) && StringUtils.isNotBlank(passwd)) {
-            User user1 = userMapper.selectLoginByAccount(username);
+            User user1 = userMapper.selectByAccount(username);
             if (user1 != null && StringUtils.isBlank(user1.getYiban()) && StringUtils.isNotBlank(user1.getPasswd())) {
                 if (user1.getPasswd().equals(Md5Utils.md5(passwd))) {
                     try {

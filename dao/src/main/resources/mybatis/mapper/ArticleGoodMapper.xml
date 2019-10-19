@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.formu.mapper.ArticleGoodMapper">
+  <resultMap id="BaseResultMap" type="com.formu.bean.ArticleGood">
+    <id column="ag_id" jdbcType="INTEGER" property="agId" />
+    <result column="ag_articleid" jdbcType="INTEGER" property="agArticleid" />
+    <result column="ag_userid" jdbcType="INTEGER" property="agUserid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ag_id, ag_articleid, ag_userid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from formu_articlegood
+    where ag_id = #{agId,jdbcType=INTEGER}
+  </select>
+    <select id="selectByUserAndArticle" resultType="com.formu.bean.ArticleGood">
+      select
+      <include refid="Base_Column_List" />
+      from formu_articlegood
+      where ag_articleid = #{articleId,jdbcType=INTEGER} and ag_userid = #{userId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from formu_articlegood
+    where ag_id = #{agId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.formu.bean.ArticleGood">
+    insert into formu_articlegood (ag_id, ag_articleid, ag_userid
+      )
+    values (#{agId,jdbcType=INTEGER}, #{agArticleid,jdbcType=INTEGER}, #{agUserid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.formu.bean.ArticleGood">
+    insert into formu_articlegood
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="agId != null">
+        ag_id,
+      </if>
+      <if test="agArticleid != null">
+        ag_articleid,
+      </if>
+      <if test="agUserid != null">
+        ag_userid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="agId != null">
+        #{agId,jdbcType=INTEGER},
+      </if>
+      <if test="agArticleid != null">
+        #{agArticleid,jdbcType=INTEGER},
+      </if>
+      <if test="agUserid != null">
+        #{agUserid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.formu.bean.ArticleGood">
+    update formu_articlegood
+    <set>
+      <if test="agArticleid != null">
+        ag_articleid = #{agArticleid,jdbcType=INTEGER},
+      </if>
+      <if test="agUserid != null">
+        ag_userid = #{agUserid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ag_id = #{agId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.formu.bean.ArticleGood">
+    update formu_articlegood
+    set ag_articleid = #{agArticleid,jdbcType=INTEGER},
+      ag_userid = #{agUserid,jdbcType=INTEGER}
+    where ag_id = #{agId,jdbcType=INTEGER}
+  </update>
+</mapper>

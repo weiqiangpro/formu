@@ -2,11 +2,11 @@ package com.formu.Service.imp;
 
 import com.formu.Service.ICommentService;
 import com.formu.Utils.Msg;
-import com.formu.Utils.SetUtil;
 import com.formu.bean.Comment;
-import com.formu.bean.User;
+import com.formu.bean.CommentGood;
 import com.formu.bean.po.CommentPo;
 import com.formu.mapper.ArticleMapper;
+import com.formu.mapper.CommentGoodMapper;
 import com.formu.mapper.CommentMapper;
 import com.formu.mapper.UserMapper;
 import com.github.pagehelper.PageHelper;
@@ -15,8 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
-
-
 
 /**
  * Created by weiqiang
@@ -32,6 +30,9 @@ public class CommentSetvice implements ICommentService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private CommentGoodMapper commentGoodMapper;
 
     @Override
     public Msg getCommentyArticleAndisParent(int pageNum, int pageSize, int id) {
@@ -104,32 +105,25 @@ public class CommentSetvice implements ICommentService {
     }
 
     @Override
-    public Msg goodbyid(int id, int userid) {
-        if (commentMapper.selectByPrimaryKey(id)==null)
+    public Msg goodbyid(int commentId, int userId) {
+        if (commentMapper.selectByPrimaryKey(commentId)==null)
             return Msg.createBySuccessMessage("该评论不存在！");
 
-        User user = userMapper.selectByPrimaryKey(userid);
-        String good1 = userMapper.selectByPrimaryKey(userid).getCommentGood();
-        String good2 = SetUtil.upGood(good1, id);
-
-        int n1 = good1 == null ? 0:good1.length();
-        int n2 = good2 == null ? 0:good2.length();
-        if (n1 == n2)
-            return Msg.createByErrorMessage("点赞失败");
-        user.setCommentGood(good2);
-
-
-        int ok2 = userMapper.updateByPrimaryKeySelective(user);
-
-        int ok1 = commentMapper.updateGoodNumById(id, n2 > n1 ? 1 : -1);
-        if (ok1 > 0 && ok2 > 0) {
-            if (n2 > n1)
-                return Msg.createByErrorMessage("点赞成功！");
+        CommentGood commentGood = commentGoodMapper.selectByUserAndComment(userId, commentId);
+        if (commentGood == null) {
+            int ok1 = commentGoodMapper.insertSelective(new CommentGood(null, commentId, userId));
+            int ok2 = commentMapper.updateGoodNumById(commentId, 1);
+            if (ok1 > 0 && ok2 > 0)
+                return Msg.createBySuccessMessage("点赞成功！");
             else
+                return Msg.createBySuccessMessage("点赞失败！");
+        } else {
+            int ok3 = commentGoodMapper.deleteByPrimaryKey(commentGood.getCgId());
+            int ok4 = articleMapper.updateGoodNumById(commentId, -1);
+            if (ok3 > 0 && ok4 > 0)
                 return Msg.createBySuccessMessage("取消点赞成功！");
+            else
+                return Msg.createBySuccessMessage("点赞失败！");
         }
-
-        return Msg.createBySuccessMessage("点赞失败！");
-
     }
 }

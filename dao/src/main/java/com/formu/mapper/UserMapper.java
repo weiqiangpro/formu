@@ -1,7 +1,10 @@
 package com.formu.mapper;
 
 import com.formu.bean.User;
+import com.formu.bean.po.FollowInfo;
+import io.swagger.models.auth.In;
 
+import java.util.List;
 public interface UserMapper {
     int deleteByPrimaryKey(Integer userId);
 
@@ -11,17 +14,17 @@ public interface UserMapper {
 
     User selectByPrimaryKey(Integer userId);
 
-    User selectOtherByPrimaryKey(Integer userId);
-
-    User selectByAccount(String account);
-
-    User selectByYB(String yb);
-
-    User selectLoginByAccount(String account);
-
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
 
+    int updateFollowNumById(Integer articleId,Integer num);
+
+    User selectByAccount(String account);
+
     int updateByAccount(User record);
+
+    User selectByYB(String yb);
+
+
 }

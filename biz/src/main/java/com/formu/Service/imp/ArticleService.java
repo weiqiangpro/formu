@@ -2,15 +2,15 @@ package com.formu.Service.imp;
 
 import com.formu.Service.IArticleService;
 import com.formu.Utils.Msg;
-import com.formu.Utils.SetUtil;
 import com.formu.bean.Article;
+import com.formu.bean.ArticleGood;
 import com.formu.bean.User;
+import com.formu.mapper.ArticleGoodMapper;
 import com.formu.mapper.ArticleMapper;
 import com.formu.mapper.UserMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +29,9 @@ public class ArticleService implements IArticleService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private ArticleGoodMapper articleGoodMapper;
+
     @Override
     public Msg getArticleByPage(int pageNum, int pageSize) {
 
@@ -40,16 +43,15 @@ public class ArticleService implements IArticleService {
     }
 
     @Override
-    public Msg getArticleById(int id, int userid) {
-        Article article = articleMapper.selectByPrimaryKey(id);
+    public Msg getArticleById(int articleid, int userid) {
+        Article article = articleMapper.selectByPrimaryKey(articleid);
 
         if (article == null) {
             return Msg.createByErrorMessage("没有该文章");
         }
         if (userid != 0) {
-            User user = userMapper.selectByPrimaryKey(userid);
-            List<String> list = Arrays.asList(user.getArticleGood().split("-"));
-            if (list.contains(String.valueOf(id))) {
+            ArticleGood articleGood = articleGoodMapper.selectByUserAndArticle(userid, articleid);
+            if (articleGood != null) {
                 article.setIsgood(true);
             }
         }
@@ -115,28 +117,22 @@ public class ArticleService implements IArticleService {
     }
 
     @Override
-    public Msg goodbyid(int id, int userid) {
-
-        User user = userMapper.selectByPrimaryKey(userid);
-        String good1 = userMapper.selectByPrimaryKey(userid).getArticleGood();
-        String good2 = SetUtil.upGood(good1, id);
-        int n1 = good1 == null ? 0:good1.length();
-        int n2 = good2 == null ? 0:good2.length();
-        if (n1 == n2)
-            return Msg.createByErrorMessage("点赞失败");
-        user.setArticleGood(good2);
-
-
-        int ok2 = userMapper.updateByPrimaryKeySelective(user);
-        int ok1 = articleMapper.updateGoodNumById(id, n2 > n1 ? 1 : -1);
-        if (ok1 > 0 && ok2 > 0) {
-            if (n2 > n1)
-                return Msg.createByErrorMessage("点赞成功！");
+    public Msg goodbyid(int articleid, int userid) {
+        ArticleGood articleGood = articleGoodMapper.selectByUserAndArticle(userid, articleid);
+        if (articleGood == null) {
+            int ok1 = articleGoodMapper.insertSelective(new ArticleGood(null, articleid, userid));
+            int ok2 = articleMapper.updateGoodNumById(articleid, 1);
+            if (ok1 > 0 && ok2 > 0)
+                return Msg.createBySuccessMessage("点赞成功！");
             else
+                return Msg.createBySuccessMessage("点赞失败！");
+        } else {
+            int ok3 = articleGoodMapper.deleteByPrimaryKey(articleGood.getAgId());
+            int ok4 = articleMapper.updateGoodNumById(articleid, -1);
+            if (ok3 > 0 && ok4 > 0)
                 return Msg.createBySuccessMessage("取消点赞成功！");
+            else
+                return Msg.createBySuccessMessage("点赞失败！");
         }
-
-        return Msg.createBySuccessMessage("点赞失败！");
-
     }
 }

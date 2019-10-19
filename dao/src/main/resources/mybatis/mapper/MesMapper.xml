@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.formu.mapper.MesMapper">
+  <resultMap id="BaseResultMap" type="com.formu.bean.Mes">
+    <id column="mes_id" jdbcType="INTEGER" property="mesId" />
+    <result column="mes_toid" jdbcType="INTEGER" property="mesToid" />
+    <result column="mes_fromid" jdbcType="INTEGER" property="mesFromid" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.formu.bean.Mes">
+    <result column="mes_mesage" jdbcType="LONGVARCHAR" property="mesMesage" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    mes_id, mes_toid, mes_fromid
+  </sql>
+  <sql id="Blob_Column_List">
+    mes_mesage
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from formu_mes
+    where mes_id = #{mesId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from formu_mes
+    where mes_id = #{mesId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.formu.bean.Mes">
+    insert into formu_mes (mes_id, mes_toid, mes_fromid, 
+      mes_mesage)
+    values (#{mesId,jdbcType=INTEGER}, #{mesToid,jdbcType=INTEGER}, #{mesFromid,jdbcType=INTEGER}, 
+      #{mesMesage,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.formu.bean.Mes">
+    insert into formu_mes
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="mesId != null">
+        mes_id,
+      </if>
+      <if test="mesToid != null">
+        mes_toid,
+      </if>
+      <if test="mesFromid != null">
+        mes_fromid,
+      </if>
+      <if test="mesMesage != null">
+        mes_mesage,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="mesId != null">
+        #{mesId,jdbcType=INTEGER},
+      </if>
+      <if test="mesToid != null">
+        #{mesToid,jdbcType=INTEGER},
+      </if>
+      <if test="mesFromid != null">
+        #{mesFromid,jdbcType=INTEGER},
+      </if>
+      <if test="mesMesage != null">
+        #{mesMesage,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.formu.bean.Mes">
+    update formu_mes
+    <set>
+      <if test="mesToid != null">
+        mes_toid = #{mesToid,jdbcType=INTEGER},
+      </if>
+      <if test="mesFromid != null">
+        mes_fromid = #{mesFromid,jdbcType=INTEGER},
+      </if>
+      <if test="mesMesage != null">
+        mes_mesage = #{mesMesage,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where mes_id = #{mesId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.formu.bean.Mes">
+    update formu_mes
+    set mes_toid = #{mesToid,jdbcType=INTEGER},
+      mes_fromid = #{mesFromid,jdbcType=INTEGER},
+      mes_mesage = #{mesMesage,jdbcType=LONGVARCHAR}
+    where mes_id = #{mesId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.formu.bean.Mes">
+    update formu_mes
+    set mes_toid = #{mesToid,jdbcType=INTEGER},
+      mes_fromid = #{mesFromid,jdbcType=INTEGER}
+    where mes_id = #{mesId,jdbcType=INTEGER}
+  </update>
+</mapper>

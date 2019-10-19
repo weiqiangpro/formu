@@ -27,11 +27,11 @@ public class CategoryService implements ICategoryService {
         if (category != null) {
             int ok = categoryMapper.insertSelective(category);
             if (ok > 0) {
-                return Msg.createBySuccessMessage("添加文章成功!");
+                return Msg.createBySuccessMessage("添加分类成功!");
             }
-            return Msg.createByErrorMessage("添加文章失败!");
+            return Msg.createByErrorMessage("添加分类失败!");
         }
-        return Msg.createByErrorMessage("添加文章失败!");
+        return Msg.createByErrorMessage("添加分类失败!");
     }
 
     @Override
@@ -39,20 +39,20 @@ public class CategoryService implements ICategoryService {
         if (category != null) {
             int ok = categoryMapper.updateByPrimaryKeySelective(category);
             if (ok > 0) {
-                return Msg.createBySuccessMessage("添加文章成功!");
+                return Msg.createBySuccessMessage("修改分类成功!");
             }
-            return Msg.createByErrorMessage("添加文章失败!");
+            return Msg.createByErrorMessage("修改分类失败!");
         }
-        return Msg.createByErrorMessage("添加文章失败!");
+        return Msg.createByErrorMessage("修改分类失败!");
     }
 
     @Override
     public Msg delete(int id) {
         int ok = categoryMapper.deleteByPrimaryKey(id);
         if (ok > 0) {
-            return Msg.createBySuccessMessage("添加文章成功!");
+            return Msg.createBySuccessMessage("删除分类成功!");
         }
-        return Msg.createByErrorMessage("添加文章失败!");
+        return Msg.createByErrorMessage("删除分类失败!");
     }
 
 }

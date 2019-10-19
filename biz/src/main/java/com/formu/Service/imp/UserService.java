@@ -3,8 +3,13 @@ package com.formu.Service.imp;
 import com.formu.Service.IUserService;
 import com.formu.Utils.Msg;
 import com.formu.Utils.SetUtil;
+import com.formu.bean.ArticleGood;
+import com.formu.bean.CommentGood;
+import com.formu.bean.Follow;
 import com.formu.bean.User;
+import com.formu.bean.po.FollowInfo;
 import com.formu.bean.po.UserPo;
+import com.formu.mapper.FollowMapper;
 import com.formu.mapper.UserMapper;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +17,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -26,9 +32,12 @@ public class UserService implements IUserService {
     @Autowired
     private StringRedisTemplate redis;
 
+    @Autowired
+    private FollowMapper followMapper;
+
     @Override
     public Msg getOtherById(int id) {
-        User user = userMapper.selectOtherByPrimaryKey(id);
+        User user = userMapper.selectByPrimaryKey(id);
         if (user != null) {
             return Msg.createBySuccess(new UserPo(user,false));
         }
@@ -115,38 +124,38 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Msg addFollow(int otherid, int userid) {
-        if (userMapper.selectByPrimaryKey(otherid) == null)
+    public Msg addFollow(int otherId, int userId) {
+        if (userMapper.selectByPrimaryKey(otherId) == null)
             return Msg.createByErrorMessage("关注失败,没有该用户");
-        User user = userMapper.selectByPrimaryKey(userid);
-        String friend1 = user.getFriends();
-        String friend2 = SetUtil.upGood(user.getFriends(), otherid);
-        User newUser = new User();
-        newUser.setUserId(userid);
-        newUser.setFriends(friend2);
-        int n1 = friend1.length();
-        int n2 = friend2.length();
 
-        int ok = userMapper.updateByPrimaryKeySelective(newUser);
-        if (ok > 0 && n2 > n1)
-            return Msg.createBySuccessMessage("关注成功");
-        if (ok > 0 && n2 < n1)
-            return Msg.createBySuccessMessage("取消关注成功");
-        return Msg.createByErrorMessage("关注失败");
+        Follow follow = followMapper.selectByMeAndOther(userId, otherId);
+        if (follow == null) {
+            int ok1 = followMapper.insertSelective(new Follow(null, otherId, userId));
+            int ok2 = userMapper.updateFollowNumById(userId, 1);
+            if (ok1 > 0 && ok2 > 0)
+                return Msg.createBySuccessMessage("关注成功！");
+            else
+                return Msg.createBySuccessMessage("关注失败！");
+        } else {
+            int ok3 = followMapper.deleteByPrimaryKey(follow.getFollowId());
+            int ok4 = userMapper.updateFollowNumById(userId, -1);
+            if (ok3 > 0 && ok4 > 0)
+                return Msg.createBySuccessMessage("取消关注成功！");
+            else
+                return Msg.createBySuccessMessage("关注失败！");
+        }
+
     }
 
     @Override
     public Msg getFriends(int userid) {
-        User user = userMapper.selectByPrimaryKey(userid);
-        String[] friends = user.getFriends().split("-");
-        Set<UserPo> set = new HashSet<>();
-        User user1;
-        for (String friend : friends) {
-            user1 = userMapper.selectOtherByPrimaryKey(Integer.valueOf(friend));
-            if (user1 != null)
-                set.add(new UserPo(user1,false));
+
+        List<FollowInfo> frends = followMapper.getFrendsByUserId(userid);
+
+        if (frends.size() > 0){
+            return Msg.createBySuccess(frends);
         }
-        return Msg.createBySuccess(set);
+        return Msg.createByErrorMessage("未找到好友");
     }
 
 }
