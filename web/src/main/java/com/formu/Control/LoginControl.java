@@ -1,9 +1,9 @@
 package com.formu.Control;
 
 import com.formu.Utils.*;
-import com.formu.bean.Info;
-import com.formu.bean.Token;
-import com.formu.bean.TokenStatus;
+import com.formu.bean.common.Info;
+import com.formu.bean.common.Token;
+import com.formu.bean.common.TokenStatus;
 import com.formu.bean.User;
 import com.formu.mapper.UserMapper;
 import io.swagger.annotations.ApiImplicitParam;

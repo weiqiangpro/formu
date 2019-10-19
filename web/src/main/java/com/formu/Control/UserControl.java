@@ -49,7 +49,6 @@ public class UserControl {
     @ApiOperation(value = "注册", notes = "")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "account", value = "账号", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "name", value = "用户名", required = true, dataType = "String"),
             @ApiImplicitParam(name = "passwd1", value = "第一次输入密码", required = true, dataType = "String"),
             @ApiImplicitParam(name = "passwd2", value = "第二次输入密码", required = true, dataType = "String"),
             @ApiImplicitParam(name = "email", value = "邮箱", required = true, dataType = "String"),
@@ -58,19 +57,19 @@ public class UserControl {
     })
     @RequestMapping(value = "register", method = RequestMethod.POST)
     public Msg register(@RequestParam(value = "account", required = true) String accout,
-                        @RequestParam(value = "name", required = true) String name,
                         @RequestParam(value = "passwd1", required = true) String passwd1,
                         @RequestParam(value = "passwd2", required = true) String passwd2,
                         @RequestParam(value = "email", required = true) String email,
-                        @RequestParam(value = "pho", defaultValue = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1570366405712&di=3065c180a67931b0acf277316abfd4c4&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F015d9b56ac5a2d6ac7256cb0ece272.png") String pho,
                         @RequestParam(value = "code", required = true) String code, HttpServletRequest request) {
+
         if (passwd1.equals(passwd2)) {
             User user = new User();
             user.setAccount(accout);
-            user.setUserName(name);
+            user.setUserName(common.randomName());
             user.setPasswd(Md5Utils.md5(passwd1));
             user.setEmail(email);
-            user.setPho(pho);
+            user.setPho(common.getHead());
+            user.setFollowNum(0);
             return userService.register(user, code);
         }
         return Msg.createByErrorMessage("两次密码不一致");
@@ -153,7 +152,7 @@ public class UserControl {
     //关注
     @ApiOperation(value = "关注他人", notes = "")
     @ApiImplicitParam(name = "userid", value = "用户id", required = true, paramType = "path",dataType = "Intger")
-    @RequestMapping(value = "follow/{userid}", method = RequestMethod.POST)
+    @RequestMapping(value = "follow.do/{userid}", method = RequestMethod.POST)
     public Msg follow(@PathVariable("userid") int userid, HttpServletRequest request) {
         return userService.addFollow(userid, common.getid(request));
     }

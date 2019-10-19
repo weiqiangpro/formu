@@ -16,12 +16,12 @@
         follow_id, follow_toid, follow_fromid
     </sql>
     <sql id="Base_Column_List2">
-        follow_id user_id, b.user_name  user_name , b.pho pho,b.person person
+        follow_toid user_id, b.user_name  user_name , b.pho pho,b.person person
     </sql>
     <select id="getFrendsByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap2">
         select
-        <include refid="Base_Column_List"/>
-        from formu_follow
+        <include refid="Base_Column_List2"/>
+        from formu_follow a left join formu_user b on a.`follow_toid`=b.`user_id`
         where follow_fromid = #{userid,jdbcType=INTEGER}
     </select>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">

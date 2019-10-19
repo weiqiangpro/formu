@@ -71,20 +71,20 @@ public class ArticleControl {
                       @RequestParam("message") String message,
                       @RequestParam("title") String title,
                       @RequestParam(value = "categoryId", defaultValue = "1") int categoryid,
-                      @RequestParam("height") int height,
+                          @RequestParam("height") int height,
                       HttpServletRequest request) {
 
         if (file == null || file.isEmpty()) {
             return Msg.createByErrorMessage("未选择图片");
         }
         String name = String.valueOf(new Date().getTime()) + new Random(1000).nextInt() + ".png";
-        File fie = new File("/log", name);
+        File fie = new File("/home/wq/Desktop/YB/formu/web/src/main/resources/static", name);
         try {
             file.transferTo(fie);
         } catch (IOException e) {
             return Msg.createByError();
         }
-        name = name + "?" + height;
+        name = "http://192.168.43.23:8080/static/"+name + "?" + height;
         Article article = new Article();
         article.setTitle(title);
         article.setMessage(message);
@@ -92,6 +92,7 @@ public class ArticleControl {
         article.setUserId(common.getid(request));
         article.setGoodNum(0);
         article.setCategoryId(categoryid);
+        article.setCommentNum(0);
         return articleService.insertSelective(article);
     }
 

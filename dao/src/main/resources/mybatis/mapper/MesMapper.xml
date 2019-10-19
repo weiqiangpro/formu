@@ -3,24 +3,41 @@
 <mapper namespace="com.formu.mapper.MesMapper">
   <resultMap id="BaseResultMap" type="com.formu.bean.Mes">
     <id column="mes_id" jdbcType="INTEGER" property="mesId" />
+    <result column="mes_message" jdbcType="VARCHAR" property="mesMessage" />
     <result column="mes_toid" jdbcType="INTEGER" property="mesToid" />
     <result column="mes_fromid" jdbcType="INTEGER" property="mesFromid" />
+    <result column="mes_createtime" jdbcType="TIMESTAMP" property="mesCreatetime" />
+    <result column="mes_isread" jdbcType="INTEGER" property="mesIsread" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.formu.bean.Mes">
-    <result column="mes_mesage" jdbcType="LONGVARCHAR" property="mesMesage" />
+  <resultMap id="BaseResultMap2" type="com.formu.bean.po.MesInfo">
+    <id column="mes_id" jdbcType="INTEGER" property="mesId" />
+    <result column="message" jdbcType="INTEGER" property="message" />
+    <result column="user_id" jdbcType="INTEGER" property="userId"/>
+    <result column="user_name" jdbcType="INTEGER" property="name"/>
+    <result column="pho" jdbcType="INTEGER" property="pho"/>
+    <result column="isread" jdbcType="INTEGER" property="isread"/>
   </resultMap>
+  <sql id="Base_Column_List2">
+     a.mes_id  mes_id, a.mes_message message,a.mes_fromid user_id, b.user_name  user_name , b.pho pho,a.mes_isread isread
+    </sql>
   <sql id="Base_Column_List">
-    mes_id, mes_toid, mes_fromid
+    mes_id, mes_message, mes_toid, mes_fromid, mes_createtime, mes_isread
   </sql>
-  <sql id="Blob_Column_List">
-    mes_mesage
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="getMessages" parameterType="java.lang.Integer" resultMap="BaseResultMap2">
+    select
+    <include refid="Base_Column_List2" />
+    FROM formu_mes a LEFT JOIN formu_user b ON  a.mes_fromid = b.user_id WHERE mes_toid = #{userid,jdbcType=INTEGER} ORDER BY a.mes_isread, a.mes_createtime desc
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from formu_mes
+    where mes_id = #{mesId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPrimaryKey2" parameterType="java.lang.Integer" resultMap="BaseResultMap2">
+    select
+    <include refid="Base_Column_List2" />
+    from formu_mes a LEFT JOIN formu_user b ON  a.mes_fromid = b.user_id
     where mes_id = #{mesId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -28,10 +45,12 @@
     where mes_id = #{mesId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.formu.bean.Mes">
-    insert into formu_mes (mes_id, mes_toid, mes_fromid, 
-      mes_mesage)
-    values (#{mesId,jdbcType=INTEGER}, #{mesToid,jdbcType=INTEGER}, #{mesFromid,jdbcType=INTEGER}, 
-      #{mesMesage,jdbcType=LONGVARCHAR})
+    insert into formu_mes (mes_id, mes_message, mes_toid, 
+      mes_fromid, mes_createtime, mes_isread
+      )
+    values (#{mesId,jdbcType=INTEGER}, #{mesMessage,jdbcType=VARCHAR}, #{mesToid,jdbcType=INTEGER}, 
+      #{mesFromid,jdbcType=INTEGER}, #{mesCreatetime,jdbcType=TIMESTAMP}, #{mesIsread,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.formu.bean.Mes">
     insert into formu_mes
@@ -39,19 +58,26 @@
       <if test="mesId != null">
         mes_id,
       </if>
+      <if test="mesMessage != null">
+        mes_message,
+      </if>
       <if test="mesToid != null">
         mes_toid,
       </if>
       <if test="mesFromid != null">
         mes_fromid,
       </if>
-      <if test="mesMesage != null">
-        mes_mesage,
+      <if test="mesIsread != null">
+        mes_isread,
       </if>
+      mes_createtime,
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="mesId != null">
         #{mesId,jdbcType=INTEGER},
+      </if>
+      <if test="mesMessage != null">
+        #{mesMessage,jdbcType=VARCHAR},
       </if>
       <if test="mesToid != null">
         #{mesToid,jdbcType=INTEGER},
@@ -59,37 +85,37 @@
       <if test="mesFromid != null">
         #{mesFromid,jdbcType=INTEGER},
       </if>
-      <if test="mesMesage != null">
-        #{mesMesage,jdbcType=LONGVARCHAR},
+      <if test="mesIsread != null">
+        #{mesIsread,jdbcType=INTEGER},
       </if>
+      now(),
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.formu.bean.Mes">
     update formu_mes
     <set>
+      <if test="mesMessage != null">
+        mes_message = #{mesMessage,jdbcType=VARCHAR},
+      </if>
       <if test="mesToid != null">
         mes_toid = #{mesToid,jdbcType=INTEGER},
       </if>
       <if test="mesFromid != null">
         mes_fromid = #{mesFromid,jdbcType=INTEGER},
       </if>
-      <if test="mesMesage != null">
-        mes_mesage = #{mesMesage,jdbcType=LONGVARCHAR},
+      <if test="mesIsread != null">
+        mes_isread = #{mesIsread,jdbcType=INTEGER},
       </if>
     </set>
     where mes_id = #{mesId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.formu.bean.Mes">
-    update formu_mes
-    set mes_toid = #{mesToid,jdbcType=INTEGER},
-      mes_fromid = #{mesFromid,jdbcType=INTEGER},
-      mes_mesage = #{mesMesage,jdbcType=LONGVARCHAR}
-    where mes_id = #{mesId,jdbcType=INTEGER}
-  </update>
   <update id="updateByPrimaryKey" parameterType="com.formu.bean.Mes">
     update formu_mes
-    set mes_toid = #{mesToid,jdbcType=INTEGER},
-      mes_fromid = #{mesFromid,jdbcType=INTEGER}
+    set mes_message = #{mesMessage,jdbcType=VARCHAR},
+      mes_toid = #{mesToid,jdbcType=INTEGER},
+      mes_fromid = #{mesFromid,jdbcType=INTEGER},
+      mes_createtime = #{mesCreatetime,jdbcType=TIMESTAMP},
+      mes_isread = #{mesIsread,jdbcType=INTEGER}
     where mes_id = #{mesId,jdbcType=INTEGER}
   </update>
 </mapper>

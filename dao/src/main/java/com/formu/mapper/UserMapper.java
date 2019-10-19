@@ -18,7 +18,7 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
 
-    int updateFollowNumById(Integer articleId,Integer num);
+    int updateFollowNumById(Integer userId,Integer num);
 
     User selectByAccount(String account);
 

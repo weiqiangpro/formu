@@ -34,6 +34,7 @@ public class Common {
 
 
 
+
     public boolean registerEmail(String email,String account) {
         try {
             User user = userMapper.selectByAccount(account);
@@ -94,7 +95,19 @@ public class Common {
         return String.valueOf(ch);
     }
 
-
+    public String randomName(){
+        String string = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        char[] ch = new char[8];
+        Random random = new Random();
+        for (int i = 0; i < 8; i++) {
+            int index = random.nextInt(string.length());
+            ch[i] = string.charAt(index);//charAt() : 返回指定索引处的 char 值   ==》保存到字符数组对象ch里面
+        }
+        return "Y-Wall."+String.valueOf(ch);
+    }
+    public String getHead(){
+        return "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1570366405712&di=3065c180a67931b0acf277316abfd4c4&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F015d9b56ac5a2d6ac7256cb0ece272.png";
+    }
 
     public  int getid(HttpServletRequest request) {
         String header = request.getHeader("Token");

@@ -100,7 +100,7 @@
             <if test="goodNum != null">
                 good_num,
             </if>
-            <if test="comnnetNum != null">
+            <if test="commentNum != null">
                 commnet_num,
             </if>
 
@@ -128,8 +128,8 @@
             <if test="goodNum != null">
                 #{goodNum,jdbcType=INTEGER},
             </if>
-            <if test="comnnetNum != null">
-                #{comnnetNum,jdbcType=INTEGER},
+            <if test="commentNum != null">
+                #{commentNum,jdbcType=INTEGER},
             </if>
             now(),
         </trim>

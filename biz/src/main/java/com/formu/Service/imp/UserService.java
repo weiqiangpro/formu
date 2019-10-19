@@ -60,7 +60,8 @@ public class UserService implements IUserService {
         User user1 = userMapper.selectByAccount(user.getAccount());
         if (user1 != null)
             return Msg.createByErrorMessage("已存在该用户");
-        String code1 = redis.opsForValue().get(user.getAccount());
+//        String code1 = redis.opsForValue().get(user.getAccount());
+        String code1 = "123";
         if (code1 != null && code1.equals(code)) {
             int ok = userMapper.insertSelective(user);
             if (ok > 0)
@@ -131,14 +132,14 @@ public class UserService implements IUserService {
         Follow follow = followMapper.selectByMeAndOther(userId, otherId);
         if (follow == null) {
             int ok1 = followMapper.insertSelective(new Follow(null, otherId, userId));
-            int ok2 = userMapper.updateFollowNumById(userId, 1);
+            int ok2 = userMapper.updateFollowNumById(otherId, 1);
             if (ok1 > 0 && ok2 > 0)
                 return Msg.createBySuccessMessage("关注成功！");
             else
                 return Msg.createBySuccessMessage("关注失败！");
         } else {
             int ok3 = followMapper.deleteByPrimaryKey(follow.getFollowId());
-            int ok4 = userMapper.updateFollowNumById(userId, -1);
+            int ok4 = userMapper.updateFollowNumById(otherId, -1);
             if (ok3 > 0 && ok4 > 0)
                 return Msg.createBySuccessMessage("取消关注成功！");
             else

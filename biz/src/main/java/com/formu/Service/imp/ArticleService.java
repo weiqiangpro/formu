@@ -20,7 +20,6 @@ import java.util.*;
  * Created by weiqiang
  */
 @Service
-@Transactional(rollbackFor = Exception.class)
 public class ArticleService implements IArticleService {
 
     @Autowired

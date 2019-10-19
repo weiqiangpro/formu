@@ -152,8 +152,6 @@
     where account = #{account,jdbcType=INTEGER}
   </select>
 
-
-
   <update id="updateByAccount" parameterType="com.formu.bean.User">
         update formu_user
     set
@@ -162,6 +160,6 @@
     </update>
   <update id="updateFollowNumById">
         update formu_user set  follow_num = follow_num+#{num,jdbcType=INTEGER}
-        where user_id = #{user_id,jdbcType=INTEGER}
+        where user_id = #{userId,jdbcType=INTEGER}
   </update>
 </mapper>
