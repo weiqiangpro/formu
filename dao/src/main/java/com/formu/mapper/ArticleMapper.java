@@ -24,5 +24,5 @@ public interface ArticleMapper {
 
     List<Article> selectall();
 
-    List<Article> selectByCategory(Integer id);
+    List<Article> selectByUserId(Integer userId);
 }

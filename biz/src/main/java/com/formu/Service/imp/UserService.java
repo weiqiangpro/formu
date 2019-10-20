@@ -55,8 +55,6 @@ public class UserService implements IUserService {
 
     @Override
     public Msg register(User user, String code) {
-
-
         User user1 = userMapper.selectByAccount(user.getAccount());
         if (user1 != null)
             return Msg.createByErrorMessage("已存在该用户");
@@ -68,8 +66,6 @@ public class UserService implements IUserService {
                 redis.delete(user.getAccount());
             return Msg.createBySuccessMessage("注册成功");
         }
-
-
         return Msg.createByErrorMessage("验证码错误");
     }
 

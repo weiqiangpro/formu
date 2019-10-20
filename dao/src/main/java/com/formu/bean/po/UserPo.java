@@ -27,7 +27,7 @@ public class UserPo {
         this.userName = user.getUserName();
         this.pho = user.getPho();
         this.person = user.getPerson();
-        this.isYB = user.getYiban() != null;
+        this.isYB = StringUtils.isNotBlank(user.getYiban());
         if (isme)
             this.email = user.getEmail();
         else

@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
@@ -47,16 +48,23 @@ public class ArticleControl {
         return articleService.getArticleById(id, userid);
     }
 
-    @ApiOperation(value = "根据分类获取数据", notes = "")
+    @ApiOperation(value = "根据用户获取作品", notes = "")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "categoryid", value = "分类的id", required = true, paramType = "path", dataType = "Integer"),
+            @ApiImplicitParam(name = "userid", value = "用户的id", required = true, paramType = "path", dataType = "Integer"),
             @ApiImplicitParam(name = "page", value = "page页", required = true, paramType = "path", dataType = "Integer")
     })
-    @RequestMapping(value = "getbycategory/{categoryid}/{page}", method = RequestMethod.GET)
-    public Msg getByCategory(@PathVariable("categoryid") int categoryid, @PathVariable("page") int page) {
-        return articleService.getArticleByCategory(page, 10, categoryid);
+    @RequestMapping(value = "getbyuser/{userid}/{page}", method = RequestMethod.GET)
+    public Msg getByCategory(@PathVariable("userid") int userId, @PathVariable("page") int page) {
+        return articleService.getArticleByUserId(page, 10, userId);
     }
 
+
+    @ApiOperation(value = "获取自己的作品", notes = "")
+    @ApiImplicitParam(name = "page", value = "page页", required = true, paramType = "path", dataType = "Integer")
+    @RequestMapping(value = "myarticle.do/{page}", method = RequestMethod.GET)
+    public Msg myarticle(@PathVariable("page") int page, HttpServletRequest request) {
+        return articleService.getArticleByUserId(page, 10, common.getid(request));
+    }
 
     @ApiOperation(value = "插入数据,需要登录", notes = "")
     @ApiImplicitParams({
@@ -71,7 +79,7 @@ public class ArticleControl {
                       @RequestParam("message") String message,
                       @RequestParam("title") String title,
                       @RequestParam(value = "categoryId", defaultValue = "1") int categoryid,
-                          @RequestParam("height") int height,
+                      @RequestParam("height") int height,
                       HttpServletRequest request) {
 
         if (file == null || file.isEmpty()) {
@@ -84,7 +92,7 @@ public class ArticleControl {
         } catch (IOException e) {
             return Msg.createByError();
         }
-        name = "http://192.168.43.23:8080/static/"+name + "?" + height;
+        name = "http://192.168.43.23:8080/static/" + name + "?" + height;
         Article article = new Article();
         article.setTitle(title);
         article.setMessage(message);

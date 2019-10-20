@@ -14,7 +14,7 @@ public interface IArticleService {
 
     public Msg getArticleById(int id,int userid);
 
-    public Msg getArticleByCategory(int pageNum,int pageSize,int id);
+    public Msg getArticleByUserId(int pageNum,int pageSize,int userId);
 
     public Msg insertSelective(Article article);
 

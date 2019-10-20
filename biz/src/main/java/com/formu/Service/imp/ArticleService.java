@@ -58,9 +58,9 @@ public class ArticleService implements IArticleService {
     }
 
     @Override
-    public Msg getArticleByCategory(int pageNum, int pageSize, int id) {
+    public Msg getArticleByUserId(int pageNum, int pageSize, int userId) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Article> articleList = articleMapper.selectByCategory(id);
+        List<Article> articleList = articleMapper.selectByUserId(userId);
         PageInfo<Article> pageResult = new PageInfo<>(articleList);
         return Msg.createBySuccess(pageResult);
     }
