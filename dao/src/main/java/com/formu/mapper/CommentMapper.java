@@ -2,7 +2,6 @@ package com.formu.mapper;
 
 import com.formu.bean.Comment;
 import com.formu.bean.po.CommentPo;
-import io.swagger.models.auth.In;
 
 import java.util.List;
 

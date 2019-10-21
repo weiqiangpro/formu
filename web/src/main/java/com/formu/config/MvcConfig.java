@@ -26,7 +26,7 @@ public class MvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor).addPathPatterns("/**")
                 .excludePathPatterns("/login", "/article/get/*", "/article/getbyid/*","/auth","/YB/login","/ybsuccess.html","/yb","/text.html",
-                                     "/article/getbyuser/*/*","/category/get", "/pho/**",
+                                     "/article/getbyuser/*/*","/category/get", "/pho/**","/user/follows/*","/user/followeds/*",
                                      "/user/other/*","/user/send","/upfile","/comment/get/*/*","/user/register","/user/registeremail",
                                      "/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");
     }

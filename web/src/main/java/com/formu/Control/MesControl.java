@@ -10,7 +10,6 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -27,7 +26,7 @@ public class MesControl {
     private Common common;
 
 
-    @ApiOperation(value = "获取所有私信", notes = "")
+    @ApiOperation(value = "获取所有私信" )
     @RequestMapping(value = "getall.do",method = RequestMethod.GET)
     public Msg getall(HttpServletRequest request){
         return mesService.getMesUsers(common.getid(request));
@@ -35,24 +34,24 @@ public class MesControl {
 
 
 
-    @ApiOperation(value = "获取某个私信", notes = "")
-    @ApiImplicitParam(name = "mesId", value = "私信的id", paramType = "path", dataType = "Integer")
+    @ApiOperation(value = "获取某个私信" )
+    @ApiImplicitParam(name = "mesId", value = "私信的id", paramType = "path", dataType = "int")
     @RequestMapping(value = "getall.do/{mesId}",method = RequestMethod.GET)
     public Msg get(HttpServletRequest request,@PathVariable("mesId")int mesId){
         return mesService.getById(mesId);
     }
 
-    @ApiOperation(value = "删除私信", notes = "")
-    @ApiImplicitParam(name = "mesId", value = "私信的id", paramType = "path", dataType = "Integer")
+    @ApiOperation(value = "删除私信" )
+    @ApiImplicitParam(name = "mesId", value = "私信的id", paramType = "path", dataType = "int")
     @RequestMapping(value = "delete.do/{mesId}",method = RequestMethod.DELETE)
     public Msg delete(HttpServletRequest request, @PathVariable("mesId")int mesId){
         return mesService.deleteByid(mesId,common.getid(request));
     }
 
 
-    @ApiOperation(value = "发送私信", notes = "")
+    @ApiOperation(value = "发送私信" )
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "userid", value = "收私信人的id", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "userid", value = "收私信人的id", required = true, dataType = "int"),
             @ApiImplicitParam(name = "message", value = "私信内容", required = true, dataType = "String")
     })
     @RequestMapping(value = "send.do",method = RequestMethod.POST)

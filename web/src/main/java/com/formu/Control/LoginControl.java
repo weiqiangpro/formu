@@ -34,7 +34,7 @@ public class LoginControl {
     @Autowired
     private UserMapper userMapper;
 
-    @ApiOperation(value = "登录", notes = "")
+    @ApiOperation(value = "登录" )
     @ApiImplicitParams({
             @ApiImplicitParam(name = "user", value = "账号", required = true, dataType = "String"),
             @ApiImplicitParam(name = "passwd", value = "密码", required = true, dataType = "String")

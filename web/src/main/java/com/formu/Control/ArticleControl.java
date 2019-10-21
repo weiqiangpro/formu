@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
@@ -34,24 +33,24 @@ public class ArticleControl {
     private Common common;
 
     @ApiOperation(value = "获取首页数据", notes = "根据页数获取首页数据,每页10条")
-    @ApiImplicitParam(name = "page", value = "page页", required = true, paramType = "path", dataType = "Integer")
+    @ApiImplicitParam(name = "page", value = "page页", required = true, paramType = "path", dataType = "int")
     @RequestMapping(value = "get/{page}", method = RequestMethod.GET)
     public Msg getall(@PathVariable("page") int page) {
         return articleService.getArticleByPage(page, 10);
     }
 
     @ApiOperation(value = "通过article的id来获取数据", notes = "获取一条数据")
-    @ApiImplicitParam(name = "id", value = "page页", required = true, paramType = "path", dataType = "Integer")
+    @ApiImplicitParam(name = "id", value = "page页", required = true, paramType = "path", dataType = "int")
     @RequestMapping(value = "getbyid/{id}", method = RequestMethod.GET)
     public Msg getById(@PathVariable("id") int id, HttpServletRequest request) {
         int userid = common.getid(request);
         return articleService.getArticleById(id, userid);
     }
 
-    @ApiOperation(value = "根据用户获取作品", notes = "")
+    @ApiOperation(value = "根据用户获取作品" )
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "userid", value = "用户的id", required = true, paramType = "path", dataType = "Integer"),
-            @ApiImplicitParam(name = "page", value = "page页", required = true, paramType = "path", dataType = "Integer")
+            @ApiImplicitParam(name = "userid", value = "用户的id", required = true, paramType = "path", dataType = "int"),
+            @ApiImplicitParam(name = "page", value = "page页", required = true, paramType = "path", dataType = "int")
     })
     @RequestMapping(value = "getbyuser/{userid}/{page}", method = RequestMethod.GET)
     public Msg getByCategory(@PathVariable("userid") int userId, @PathVariable("page") int page) {
@@ -59,20 +58,20 @@ public class ArticleControl {
     }
 
 
-    @ApiOperation(value = "获取自己的作品", notes = "")
-    @ApiImplicitParam(name = "page", value = "page页", required = true, paramType = "path", dataType = "Integer")
+    @ApiOperation(value = "获取自己的作品" )
+    @ApiImplicitParam(name = "page", value = "page页", required = true, paramType = "path", dataType = "int")
     @RequestMapping(value = "myarticle.do/{page}", method = RequestMethod.GET)
     public Msg myarticle(@PathVariable("page") int page, HttpServletRequest request) {
         return articleService.getArticleByUserId(page, 10, common.getid(request));
     }
 
-    @ApiOperation(value = "插入数据,需要登录", notes = "")
+    @ApiOperation(value = "插入数据,需要登录" )
     @ApiImplicitParams({
             @ApiImplicitParam(name = "file", value = "图片文件", required = true, dataType = "file"),
             @ApiImplicitParam(name = "message", value = "文章内容", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "title", value = "标题", required = true, dataType = "Integer"),
-            @ApiImplicitParam(name = "categoryId", value = "分类的id，默认为1", dataType = "Integer"),
-            @ApiImplicitParam(name = "height", value = "图片高度", dataType = "Integer")
+            @ApiImplicitParam(name = "title", value = "标题", required = true, dataType = "int"),
+            @ApiImplicitParam(name = "categoryId", value = "分类的id，默认为1", dataType = "int"),
+            @ApiImplicitParam(name = "height", value = "图片高度", dataType = "int")
     })
     @RequestMapping(value = "insert.do", method = RequestMethod.POST)
     public Msg insert(@RequestParam(value = "file") MultipartFile file,
@@ -103,13 +102,13 @@ public class ArticleControl {
     }
 
 
-    @ApiOperation(value = "更新文章,需要登录", notes = "")
+    @ApiOperation(value = "更新文章,需要登录" )
     @ApiImplicitParams({
             @ApiImplicitParam(name = "file", value = "图片文件", required = false, dataType = "file"),
             @ApiImplicitParam(name = "articleId", value = "文章内容", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "message", value = "内容", required = true, dataType = "Integer"),
+            @ApiImplicitParam(name = "message", value = "内容", required = true, dataType = "int"),
             @ApiImplicitParam(name = "title", value = "标题", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "height", value = "图片高度", required = false, dataType = "Integer"),
+            @ApiImplicitParam(name = "height", value = "图片高度", required = false, dataType = "int"),
     })
     @RequestMapping(value = "update.do", method = RequestMethod.PUT)
     public Msg update(@RequestParam(value = "file", required = false) MultipartFile file,
@@ -140,15 +139,15 @@ public class ArticleControl {
         return articleService.updateSelective(article, common.getid(request));
     }
 
-    @ApiOperation(value = "删除文章,需要登录", notes = "")
-    @ApiImplicitParam(name = "id", value = "文章的id", paramType = "path", dataType = "Integer")
+    @ApiOperation(value = "删除文章,需要登录" )
+    @ApiImplicitParam(name = "id", value = "文章的id", paramType = "path", dataType = "int")
     @RequestMapping(value = "delete.do/{id}", method = RequestMethod.DELETE)
     public Msg delete(@PathVariable("id") int id, HttpServletRequest request) {
         return articleService.deleteById(id, common.getid(request));
     }
 
     @ApiOperation(value = "点赞文章,需要登录", notes = "第一次点赞,第二次取消点赞")
-    @ApiImplicitParam(name = "id", value = "文章的id", paramType = "path", dataType = "Integer")
+    @ApiImplicitParam(name = "id", value = "文章的id", paramType = "path", dataType = "int")
     @RequestMapping(value = "good.do/{id}", method = RequestMethod.PUT)
     public Msg update(@PathVariable("id") int id, HttpServletRequest request) {
         return articleService.goodbyid(id, common.getid(request));
