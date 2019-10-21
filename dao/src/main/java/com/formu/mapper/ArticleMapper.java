@@ -1,6 +1,7 @@
 package com.formu.mapper;
 
 import com.formu.bean.Article;
+import com.formu.bean.po.ArticlePo;
 
 import java.util.List;
 
@@ -22,7 +23,8 @@ public interface ArticleMapper {
 
     int updateCommnetNumById(Integer articleId,Integer num);
 
-    List<Article> selectall();
 
-    List<Article> selectByUserId(Integer userId);
+    List<ArticlePo> selectall();
+
+    List<ArticlePo> selectByUserId(Integer userId);
 }

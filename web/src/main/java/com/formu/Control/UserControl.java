@@ -36,8 +36,8 @@ public class UserControl {
     @ApiOperation(value = "获取别人的信息", notes = "")
     @ApiImplicitParam(name = "id", value = "用户的id", required = true, paramType = "path", dataType = "Integer")
     @RequestMapping(value = "other/{id}",method = RequestMethod.GET)
-    public Msg getother(@PathVariable("id") int userid) {
-        return userService.getOtherById(userid);
+    public Msg getother(@PathVariable("id") int otherId,HttpServletRequest request) {
+        return userService.getOtherById(otherId,common.getid(request));
     }
 
     //获取自己的信息
@@ -158,9 +158,31 @@ public class UserControl {
     }
 
     //获取关注的人
-    @ApiOperation(value = "获取关注的人的列表", notes = "")
-    @RequestMapping(value = "friends.do", method = RequestMethod.GET)
-    public Msg getfriends(HttpServletRequest request) {
-        return userService.getFriends(common.getid(request));
+    @ApiOperation(value = "获取我关注人的列表", notes = "")
+    @RequestMapping(value = "myfollows.do", method = RequestMethod.GET)
+    public Msg getFollows(HttpServletRequest request) {
+        return userService.getFollows(common.getid(request));
     }
+
+    @ApiOperation(value = "获取关注我的人的列表", notes = "")
+    @RequestMapping(value = "myfolloweds.do", method = RequestMethod.GET)
+    public Msg getFolloweds(HttpServletRequest request) {
+        return userService.getFolloweds(common.getid(request));
+    }
+
+
+    //获取关注的人
+    @ApiOperation(value = "获取其他用户关注人的列表", notes = "")
+    @ApiImplicitParam(name = "userid", value = "用户id", required = true, paramType = "path",dataType = "Intger")
+    @RequestMapping(value = "myfollows/{userid}", method = RequestMethod.GET)
+    public Msg getFollowsByUserid(@PathVariable("userid") int userid) {
+        return userService.getFollows(userid);
+    }
+
+    @ApiOperation(value = "获取关注其他用户的人的列表", notes = "")
+    @RequestMapping(value = "myfolloweds/{userid}", method = RequestMethod.GET)
+    public Msg getFollowedsByUserid(@PathVariable("userid") int userid) {
+        return userService.getFolloweds(userid);
+    }
+
 }

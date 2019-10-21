@@ -25,5 +25,4 @@ public class Comment {
     private Integer toUser;
 
     private Date createTime;
-
 }

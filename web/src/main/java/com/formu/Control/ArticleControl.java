@@ -98,9 +98,7 @@ public class ArticleControl {
         article.setMessage(message);
         article.setImages(name);
         article.setUserId(common.getid(request));
-        article.setGoodNum(0);
         article.setCategoryId(categoryid);
-        article.setCommentNum(0);
         return articleService.insertSelective(article);
     }
 

@@ -11,9 +11,10 @@
     <result column="account" jdbcType="VARCHAR" property="account" />
     <result column="person" jdbcType="VARCHAR" property="person" />
     <result column="follow_num" jdbcType="INTEGER" property="followNum" />
+    <result column="followed_num" jdbcType="INTEGER" property="followedNum" />
   </resultMap>
   <sql id="Base_Column_List">
-    user_id, user_name, passwd, pho, email, yiban, account, person, follow_num
+    user_id, user_name, passwd, pho, email, yiban, account, person, follow_num,followed_num
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -62,9 +63,9 @@
       <if test="person != null">
         person,
       </if>
-      <if test="followNum != null">
         follow_num,
-      </if>
+      followed_num,
+
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -91,9 +92,7 @@
       <if test="person != null">
         #{person,jdbcType=VARCHAR},
       </if>
-      <if test="followNum != null">
-        #{followNum,jdbcType=INTEGER},
-      </if>
+         0,0,
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.formu.bean.User">
@@ -120,9 +119,6 @@
       <if test="person != null">
         person = #{person,jdbcType=VARCHAR},
       </if>
-      <if test="followNum != null">
-        follow_num = #{followNum,jdbcType=INTEGER},
-      </if>
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
@@ -135,7 +131,6 @@
       yiban = #{yiban,jdbcType=VARCHAR},
       account = #{account,jdbcType=VARCHAR},
       person = #{person,jdbcType=VARCHAR},
-      follow_num = #{followNum,jdbcType=INTEGER}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
 
@@ -160,6 +155,10 @@
     </update>
   <update id="updateFollowNumById">
         update formu_user set  follow_num = follow_num+#{num,jdbcType=INTEGER}
+        where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateFollowedNumById">
+        update formu_user set  follow_num =   followed_num+#{num,jdbcType=INTEGER}
         where user_id = #{userId,jdbcType=INTEGER}
   </update>
 </mapper>

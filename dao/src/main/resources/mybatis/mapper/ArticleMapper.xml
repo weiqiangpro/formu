@@ -57,12 +57,12 @@
         from formu_article
         order by create_time desc
     </select>
-    <select id="selectByUserId" resultMap="BaseResultMap2">
+    <select id="selectByUserId" resultMap="BaseResultMap3">
         select
-        <include refid="Base_Column_List2"/>
-        from formu_article a left join formu_user b on a.`user_id`=b.`user_id` left join formu_category c on
-        a.`category_id`=c.`category_id`
+        <include refid="Base_Column_List3"/>
+        from formu_article
         where a.user_id = #{userId,jdbcType=INTEGER}
+        order by create_time desc
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from formu_article

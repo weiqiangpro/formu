@@ -18,7 +18,7 @@
     <sql id="Base_Column_List2">
         follow_toid user_id, b.user_name  user_name , b.pho pho,b.person person
     </sql>
-    <select id="getFrendsByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap2">
+    <select id="getFollowsByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap2">
         select
         <include refid="Base_Column_List2"/>
         from formu_follow a left join formu_user b on a.`follow_toid`=b.`user_id`
@@ -35,6 +35,12 @@
         <include refid="Base_Column_List"/>
         from formu_follow
         where follow_toid = #{otherId,jdbcType=INTEGER} and follow_fromid = #{userId,jdbcType=INTEGER}
+    </select>
+    <select id="getFollowedsByUserId"  parameterType="java.lang.Integer" resultMap="BaseResultMap2">
+        select
+        <include refid="Base_Column_List2"/>
+        from formu_follow a left join formu_user b on a.`follow_toid`=b.`user_id`
+        where follow_toid = #{userid,jdbcType=INTEGER}
     </select>
 
 

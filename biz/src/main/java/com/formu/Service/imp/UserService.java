@@ -8,6 +8,7 @@ import com.formu.bean.CommentGood;
 import com.formu.bean.Follow;
 import com.formu.bean.User;
 import com.formu.bean.po.FollowInfo;
+import com.formu.bean.po.OtherPo;
 import com.formu.bean.po.UserPo;
 import com.formu.mapper.FollowMapper;
 import com.formu.mapper.UserMapper;
@@ -36,10 +37,11 @@ public class UserService implements IUserService {
     private FollowMapper followMapper;
 
     @Override
-    public Msg getOtherById(int id) {
-        User user = userMapper.selectByPrimaryKey(id);
+    public Msg getOtherById(int otherId,int userId) {
+        User user = userMapper.selectByPrimaryKey(otherId);
+        Follow follow = followMapper.selectByMeAndOther(userId, otherId);
         if (user != null) {
-            return Msg.createBySuccess(new UserPo(user,false));
+            return Msg.createBySuccess(new OtherPo(user,follow != null));
         }
         return Msg.createByErrorMessage("没有此用户");
     }
@@ -47,8 +49,9 @@ public class UserService implements IUserService {
     @Override
     public Msg getMyByid(int id) {
         User user = userMapper.selectByPrimaryKey(id);
+
         if (user != null) {
-            return Msg.createBySuccess(new UserPo(user,true));
+            return Msg.createBySuccess(new UserPo(user));
         }
         return Msg.createByErrorMessage("没有此用户");
     }
@@ -129,14 +132,16 @@ public class UserService implements IUserService {
         if (follow == null) {
             int ok1 = followMapper.insertSelective(new Follow(null, otherId, userId));
             int ok2 = userMapper.updateFollowNumById(otherId, 1);
-            if (ok1 > 0 && ok2 > 0)
+            int ok3 = userMapper.updateFollowedNumById(otherId, 1);
+            if (ok1 > 0 && ok2 > 0 && ok3 >0)
                 return Msg.createBySuccessMessage("关注成功！");
             else
                 return Msg.createBySuccessMessage("关注失败！");
         } else {
-            int ok3 = followMapper.deleteByPrimaryKey(follow.getFollowId());
-            int ok4 = userMapper.updateFollowNumById(otherId, -1);
-            if (ok3 > 0 && ok4 > 0)
+            int ok1 = followMapper.deleteByPrimaryKey(follow.getFollowId());
+            int ok2 = userMapper.updateFollowNumById(otherId, -1);
+            int ok3 = userMapper.updateFollowedNumById(otherId, -1);
+            if (ok1 > 0 && ok2 > 0 && ok3 >0)
                 return Msg.createBySuccessMessage("取消关注成功！");
             else
                 return Msg.createBySuccessMessage("关注失败！");
@@ -145,12 +150,23 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Msg getFriends(int userid) {
+    public Msg getFollows(int userid) {
 
-        List<FollowInfo> frends = followMapper.getFrendsByUserId(userid);
+        List<FollowInfo> follows = followMapper.getFollowsByUserId(userid);
 
-        if (frends.size() > 0){
-            return Msg.createBySuccess(frends);
+        if (follows.size() > 0){
+            return Msg.createBySuccess(follows);
+        }
+        return Msg.createByErrorMessage("未找到好友");
+    }
+
+    @Override
+    public Msg getFolloweds(int userid) {
+
+        List<FollowInfo> followeds = followMapper.getFollowedsByUserId(userid);
+
+        if (followeds.size() > 0){
+            return Msg.createBySuccess(followeds);
         }
         return Msg.createByErrorMessage("未找到好友");
     }

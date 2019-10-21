@@ -5,6 +5,7 @@ import com.formu.Utils.Msg;
 import com.formu.bean.Article;
 import com.formu.bean.ArticleGood;
 import com.formu.bean.User;
+import com.formu.bean.po.ArticlePo;
 import com.formu.mapper.ArticleGoodMapper;
 import com.formu.mapper.ArticleMapper;
 import com.formu.mapper.UserMapper;
@@ -35,8 +36,8 @@ public class ArticleService implements IArticleService {
     public Msg getArticleByPage(int pageNum, int pageSize) {
 
         PageHelper.startPage(pageNum, pageSize);
-        List<Article> articleList = articleMapper.selectall();
-        PageInfo<Article> pageResult = new PageInfo<>(articleList);
+        List<ArticlePo> articleList = articleMapper.selectall();
+        PageInfo<ArticlePo> pageResult = new PageInfo<>(articleList);
         return Msg.createBySuccess(pageResult);
 
     }
@@ -60,8 +61,8 @@ public class ArticleService implements IArticleService {
     @Override
     public Msg getArticleByUserId(int pageNum, int pageSize, int userId) {
         PageHelper.startPage(pageNum, pageSize);
-        List<Article> articleList = articleMapper.selectByUserId(userId);
-        PageInfo<Article> pageResult = new PageInfo<>(articleList);
+        List<ArticlePo> articleList = articleMapper.selectByUserId(userId);
+        PageInfo<ArticlePo> pageResult = new PageInfo<>(articleList);
         return Msg.createBySuccess(pageResult);
     }
 

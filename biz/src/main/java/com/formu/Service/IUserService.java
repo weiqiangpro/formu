@@ -8,7 +8,7 @@ import com.formu.bean.User;
  */
 public interface IUserService {
 
-    public Msg getOtherById(int id);
+    public Msg getOtherById(int otherId,int userId);
 
     public Msg getMyByid(int id);
 
@@ -22,5 +22,7 @@ public interface IUserService {
 
      public  Msg addFollow(int otherid,int  userid);
 
-    public Msg getFriends(int userid);
+    public Msg getFollows(int userid);
+
+    public Msg getFolloweds(int userid);
 }

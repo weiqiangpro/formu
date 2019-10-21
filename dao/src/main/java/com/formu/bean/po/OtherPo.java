@@ -2,17 +2,13 @@ package com.formu.bean.po;
 
 import com.formu.bean.User;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.apache.commons.lang.StringUtils;
 
 /**
  * Created by weiqiang
  */
 @Getter
-@Setter
-@NoArgsConstructor
-public class UserPo {
+public class OtherPo {
     private Integer userId;
 
     private String userName;
@@ -23,20 +19,20 @@ public class UserPo {
 
     private String person;
 
-    private boolean isYB;
-
     private int follownums;
 
     private int followednums;
 
-    public UserPo(User user) {
+    private boolean isFollow;
+
+    public OtherPo(User user,boolean isFollow) {
         this.userId = user.getUserId();
         this.userName = user.getUserName();
         this.pho = user.getPho();
         this.person = user.getPerson();
-        this.isYB = StringUtils.isNotBlank(user.getYiban());
-        this.email = user.getEmail();
+        this.email = StringUtils.substring(user.getEmail(), 0, 5) + "*******@" + StringUtils.substringAfter(user.getEmail(), "@");
         this.follownums = user.getFollowNum();
         this.followednums = user.getFollowedNum();
+        this.isFollow = isFollow;
     }
 }

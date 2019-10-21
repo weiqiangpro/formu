@@ -20,6 +20,7 @@ public interface FollowMapper {
 
     Follow selectByMeAndOther(int userId, int otherId);
 
-    List<FollowInfo> getFrendsByUserId(Integer userId);
+    List<FollowInfo> getFollowsByUserId(Integer userId);
 
+    List<FollowInfo> getFollowedsByUserId(int userid);
 }
