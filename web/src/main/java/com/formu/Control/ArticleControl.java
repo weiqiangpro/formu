@@ -86,7 +86,7 @@ public class ArticleControl {
             return Msg.createByErrorMessage("未选择图片");
         }
         String name = String.valueOf(new Date().getTime()) + new Random(1000).nextInt() + ".png";
-        File fie = new File("/home/wq/Desktop/YB/formu/web/src/main/resources/static", name);
+        File fie = new File("/home/wq/Desktop/YB/formu/web/src/main/resources/pho", name);
         try {
             file.transferTo(fie);
         } catch (IOException e) {

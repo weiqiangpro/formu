@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Random;
 
 public class test {
-//    public static void main(String[] args) throws Exception {
+//    public pho void main(String[] args) throws Exception {
 //        List<String> warnings = new ArrayList<String>();
 //        boolean overwrite = true;
 //        File configFile = new File("mbg.xml");
