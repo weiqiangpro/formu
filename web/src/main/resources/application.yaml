@@ -8,10 +8,14 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
   thymeleaf:
     cache: false
+    mode: HTML # 用非严格的 HTML
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
   mvc:
-    view:
-      prefix: /
-      suffix: .html
+    static-path-pattern: /**
+  resources:
+    static-locations: classpath:/
   redis:
 #    host: 140.143.73.74
     host: localhost
