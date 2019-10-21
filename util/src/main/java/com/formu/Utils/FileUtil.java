@@ -14,7 +14,7 @@ public class FileUtil {
 
     public static String save(MultipartFile file){
         String name = String.valueOf(new Date().getTime()) + new Random(1000).nextInt() + ".png";
-        File fie = new File("/root/tomcat1/webapps/ROOT/WEB-INF/classes/pho", name);
+        File fie = new File("/formu-pho/pho", name);
         try {
             file.transferTo(fie);
         } catch (IOException e) {

@@ -15,7 +15,7 @@ spring:
   mvc:
     static-path-pattern: /**
   resources:
-    static-locations: classpath:/
+    static-locations: classpath:/,file:/formu-pho/
   redis:
 #    host: 140.143.73.74
     host: localhost
@@ -36,6 +36,7 @@ spring:
   servlet:
     multipart:
       max-file-size: 10MB
+      max-request-size: 10MB
 
 mybatis:
   config-location: classpath:mybatis/mybatis-config.xml
