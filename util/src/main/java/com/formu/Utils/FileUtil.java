@@ -20,7 +20,7 @@ public class FileUtil {
         } catch (IOException e) {
             return null;
         }
-        return   "http://lizhinong/pho/" + name;
+        return   "http://lizhinong.com/pho/" + name;
 
     }
 }
