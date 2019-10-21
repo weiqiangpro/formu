@@ -199,12 +199,12 @@ public class UserControl {
 
     @ApiOperation(value = "修改个人信息" )
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "昵称", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "person", value = "个人简介", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "home", value = "家乡简介", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "username", value = "昵称",  dataType = "String"),
+            @ApiImplicitParam(name = "person", value = "个人简介", dataType = "String"),
+            @ApiImplicitParam(name = "home", value = "家乡简介",  dataType = "String"),
     })
     @RequestMapping(value = "information.do",method = RequestMethod.POST)
-    public Msg modify(@ApiParam(value = "上传的文件", required = true) @RequestParam(value = "file",required = false) MultipartFile file,
+    public Msg modify(@ApiParam(value = "上传的文件", required = false) @RequestParam(value = "file",required = false) MultipartFile file,
                       @RequestParam(value = "username",required = false)String name,
                       @RequestParam(value = "person",required = false)String person,
                       @RequestParam(value = "home",required = false)String home, HttpServletRequest request){

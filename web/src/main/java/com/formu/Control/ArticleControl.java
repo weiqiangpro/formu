@@ -124,17 +124,17 @@ public class ArticleControl {
 
     @ApiOperation(value = "更新文章,需要登录" )
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "file", value = "图片文件", required = false, dataType = "file"),
+            @ApiImplicitParam(name = "file", value = "图片文件",  dataType = "file"),
             @ApiImplicitParam(name = "articleId", value = "文章内容", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "message", value = "内容", required = true, dataType = "int"),
-            @ApiImplicitParam(name = "title", value = "标题", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "height", value = "图片高度", required = false, dataType = "int"),
+            @ApiImplicitParam(name = "message", value = "内容",dataType = "int"),
+            @ApiImplicitParam(name = "title", value = "标题", dataType = "String"),
+            @ApiImplicitParam(name = "height", value = "图片高度",  dataType = "int"),
     })
     @RequestMapping(value = "update.do", method = RequestMethod.PUT)
     public Msg update(@RequestParam(value = "file", required = false) MultipartFile file,
-                      @RequestParam("articleId") int articleid,
-                      @RequestParam("message") String message,
-                      @RequestParam("title") String title,
+                      @RequestParam(value = "articleId",required = true) int articleid,
+                      @RequestParam(value = "message",required = false) String message,
+                      @RequestParam(value = "title",required = false) String title,
                       @RequestParam(value = "height", required = false) int height,
                       HttpServletRequest request) {
         String name = "";
