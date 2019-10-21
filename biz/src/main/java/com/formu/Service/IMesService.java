@@ -8,11 +8,11 @@ import com.formu.bean.Mes;
  */
 public interface IMesService {
 
-    public Msg getMesUsers(int userid);
+    Msg getMesUsers(int userid);
 
-    public Msg getById(int mesId);
+    Msg getById(int mesId);
 
-    public Msg deleteByid(int mesId,int userId);
+    Msg deleteByid(int mesId, int userId);
 
-    public Msg insert(Mes mes);
+    Msg insert(Mes mes);
 }

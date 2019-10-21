@@ -8,11 +8,11 @@ import com.formu.bean.Category;
  */
 public interface ICategoryService {
 
-    public Msg getall();
+    Msg getall();
 
-    public Msg insert(Category category);
+    Msg insert(Category category);
 
-    public Msg update(Category category);
+    Msg update(Category category);
 
-    public Msg delete(int id);
+    Msg delete(int id);
 }

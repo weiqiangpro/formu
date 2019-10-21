@@ -9,12 +9,7 @@
   <sql id="Base_Column_List">
     cg_id, cg_commentid, cg_userid
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from formu_commentgood
-    where cg_id = #{cgId,jdbcType=INTEGER}
-  </select>
+
     <select id="selectByUserAndComment" resultType="com.formu.bean.CommentGood">
       select
       <include refid="Base_Column_List" />
@@ -25,12 +20,6 @@
     delete from formu_commentgood
     where cg_id = #{cgId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.formu.bean.CommentGood">
-    insert into formu_commentgood (cg_id, cg_commentid, cg_userid
-      )
-    values (#{cgId,jdbcType=INTEGER}, #{cgCommentid,jdbcType=INTEGER}, #{cgUserid,jdbcType=INTEGER}
-      )
-  </insert>
   <insert id="insertSelective" parameterType="com.formu.bean.CommentGood">
     insert into formu_commentgood
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -56,22 +45,4 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.formu.bean.CommentGood">
-    update formu_commentgood
-    <set>
-      <if test="cgCommentid != null">
-        cg_commentid = #{cgCommentid,jdbcType=INTEGER},
-      </if>
-      <if test="cgUserid != null">
-        cg_userid = #{cgUserid,jdbcType=INTEGER},
-      </if>
-    </set>
-    where cg_id = #{cgId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.formu.bean.CommentGood">
-    update formu_commentgood
-    set cg_commentid = #{cgCommentid,jdbcType=INTEGER},
-      cg_userid = #{cgUserid,jdbcType=INTEGER}
-    where cg_id = #{cgId,jdbcType=INTEGER}
-  </update>
 </mapper>

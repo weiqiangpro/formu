@@ -64,18 +64,28 @@
         where a.user_id = #{userId,jdbcType=INTEGER}
         order by create_time desc
     </select>
+    <select id="selectByGoodAndComment"  resultMap="BaseResultMap3">
+        select
+        <include refid="Base_Column_List3"/>
+        from formu_article
+        order by good_num*0.7+commnet_num*0.3  desc
+    </select>
+    <select id="selectByComment"  resultMap="BaseResultMap3">
+        select
+        <include refid="Base_Column_List3"/>
+        from formu_article
+        order by commnet_num desc
+    </select>
+    <select id="selectByGood"  resultMap="BaseResultMap3">
+        select
+        <include refid="Base_Column_List3"/>
+        from formu_article
+        order by good_num desc
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from formu_article
     where article_id = #{articleId,jdbcType=INTEGER}
   </delete>
-    <insert id="insert" parameterType="com.formu.bean.Article">
-    insert into formu_article (article_id, category_id, user_id, 
-      title, message, good_num, 
-      create_time)
-    values (#{articleId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{title,jdbcType=VARCHAR}, #{message,jdbcType=VARCHAR}, #{goodNum,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP})
-  </insert>
     <insert id="insertSelective" parameterType="com.formu.bean.Article">
         insert into formu_article
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -158,16 +168,6 @@
         </set>
         where article_id = #{articleId,jdbcType=INTEGER}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.formu.bean.Article">
-    update formu_article
-    set category_id = #{categoryId,jdbcType=INTEGER},
-      user_id = #{userId,jdbcType=INTEGER},
-      title = #{title,jdbcType=VARCHAR},
-      message = #{message,jdbcType=VARCHAR},
-      good_num = #{goodNum,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
-    where article_id = #{articleId,jdbcType=INTEGER}
-  </update>
     <update id="updateGoodNumById" parameterType="java.lang.Integer">
        update formu_article set  good_num = good_num+#{num,jdbcType=INTEGER}
         where article_id = #{articleId,jdbcType=INTEGER}

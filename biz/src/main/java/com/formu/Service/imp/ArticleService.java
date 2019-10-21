@@ -34,12 +34,10 @@ public class ArticleService implements IArticleService {
 
     @Override
     public Msg getArticleByPage(int pageNum, int pageSize) {
-
         PageHelper.startPage(pageNum, pageSize);
         List<ArticlePo> articleList = articleMapper.selectall();
         PageInfo<ArticlePo> pageResult = new PageInfo<>(articleList);
         return Msg.createBySuccess(pageResult);
-
     }
 
     @Override
@@ -134,5 +132,29 @@ public class ArticleService implements IArticleService {
             else
                 return Msg.createBySuccessMessage("点赞失败！");
         }
+    }
+
+    @Override
+    public Msg topByGood(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<ArticlePo> articleList = articleMapper.selectByGood();
+        PageInfo<ArticlePo> pageResult = new PageInfo<>(articleList);
+        return Msg.createBySuccess(pageResult);
+    }
+
+    @Override
+    public Msg topByGoodAndComment(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<ArticlePo> articleList = articleMapper.selectByGoodAndComment();
+        PageInfo<ArticlePo> pageResult = new PageInfo<>(articleList);
+        return Msg.createBySuccess(pageResult);
+    }
+
+    @Override
+    public Msg topByComment(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<ArticlePo> articleList = articleMapper.selectByComment();
+        PageInfo<ArticlePo> pageResult = new PageInfo<>(articleList);
+        return Msg.createBySuccess(pageResult);
     }
 }

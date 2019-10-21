@@ -1,13 +1,16 @@
 package com.formu.Control;
 
 import com.formu.Service.IArticleService;
+import com.formu.Utils.FileUtil;
 import com.formu.Utils.Msg;
 import com.formu.bean.Article;
 import com.formu.common.Common;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,6 +50,28 @@ public class ArticleControl {
         return articleService.getArticleById(id, userid);
     }
 
+    @ApiOperation(value = "点赞Top", notes = "根据页数获取首页数据,每页10条")
+    @ApiImplicitParam(name = "page", value = "page页", required = true, paramType = "path", dataType = "int")
+    @RequestMapping(value = "topgood/{page}", method = RequestMethod.GET)
+    public Msg topgood(@PathVariable("page") int page) {
+        return articleService.topByGood(page, 10);
+    }
+
+    @ApiOperation(value = "点赞Top", notes = "根据页数获取首页数据,每页10条")
+    @ApiImplicitParam(name = "page", value = "page页", required = true, paramType = "path", dataType = "int")
+    @RequestMapping(value = "topcomment/{page}", method = RequestMethod.GET)
+    public Msg topcomment(@PathVariable("page") int page) {
+        return articleService.topByComment(page, 10);
+    }
+
+    @ApiOperation(value = "点赞Top", notes = "根据页数获取首页数据,每页10条")
+    @ApiImplicitParam(name = "page", value = "page页", required = true, paramType = "path", dataType = "int")
+    @RequestMapping(value = "topall/{page}", method = RequestMethod.GET)
+    public Msg topall(@PathVariable("page") int page) {
+        return articleService.topByGoodAndComment(page, 10);
+    }
+
+
     @ApiOperation(value = "根据用户获取作品" )
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userid", value = "用户的id", required = true, paramType = "path", dataType = "int"),
@@ -67,14 +92,13 @@ public class ArticleControl {
 
     @ApiOperation(value = "插入数据,需要登录" )
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "file", value = "图片文件", required = true, dataType = "file"),
             @ApiImplicitParam(name = "message", value = "文章内容", required = true, dataType = "String"),
-            @ApiImplicitParam(name = "title", value = "标题", required = true, dataType = "int"),
+            @ApiImplicitParam(name = "title", value = "标题", required = true, dataType = "String"),
             @ApiImplicitParam(name = "categoryId", value = "分类的id，默认为1", dataType = "int"),
             @ApiImplicitParam(name = "height", value = "图片高度", dataType = "int")
     })
     @RequestMapping(value = "insert.do", method = RequestMethod.POST)
-    public Msg insert(@RequestParam(value = "file") MultipartFile file,
+    public Msg insert(@ApiParam(value = "上传的文件", required = true) @RequestParam(value = "file") MultipartFile file,
                       @RequestParam("message") String message,
                       @RequestParam("title") String title,
                       @RequestParam(value = "categoryId", defaultValue = "1") int categoryid,
@@ -84,14 +108,10 @@ public class ArticleControl {
         if (file == null || file.isEmpty()) {
             return Msg.createByErrorMessage("未选择图片");
         }
-        String name = String.valueOf(new Date().getTime()) + new Random(1000).nextInt() + ".png";
-        File fie = new File("/home/wq/Desktop/YB/formu/web/src/main/resources/pho", name);
-        try {
-            file.transferTo(fie);
-        } catch (IOException e) {
-            return Msg.createByError();
-        }
-        name = "http://192.168.43.23:8080/static/" + name + "?" + height;
+       String name = FileUtil.save(file);
+        if (StringUtils.isBlank(name))
+            return Msg.createByErrorMessage("发布文章失败");
+         name =name+ "?" + height;
         Article article = new Article();
         article.setTitle(title);
         article.setMessage(message);

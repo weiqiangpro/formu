@@ -44,14 +44,6 @@
     delete from formu_mes
     where mes_id = #{mesId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.formu.bean.Mes">
-    insert into formu_mes (mes_id, mes_message, mes_toid, 
-      mes_fromid, mes_createtime, mes_isread
-      )
-    values (#{mesId,jdbcType=INTEGER}, #{mesMessage,jdbcType=VARCHAR}, #{mesToid,jdbcType=INTEGER}, 
-      #{mesFromid,jdbcType=INTEGER}, #{mesCreatetime,jdbcType=TIMESTAMP}, #{mesIsread,jdbcType=INTEGER}
-      )
-  </insert>
   <insert id="insertSelective" parameterType="com.formu.bean.Mes">
     insert into formu_mes
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -107,15 +99,6 @@
         mes_isread = #{mesIsread,jdbcType=INTEGER},
       </if>
     </set>
-    where mes_id = #{mesId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.formu.bean.Mes">
-    update formu_mes
-    set mes_message = #{mesMessage,jdbcType=VARCHAR},
-      mes_toid = #{mesToid,jdbcType=INTEGER},
-      mes_fromid = #{mesFromid,jdbcType=INTEGER},
-      mes_createtime = #{mesCreatetime,jdbcType=TIMESTAMP},
-      mes_isread = #{mesIsread,jdbcType=INTEGER}
     where mes_id = #{mesId,jdbcType=INTEGER}
   </update>
 </mapper>

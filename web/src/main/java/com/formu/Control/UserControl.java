@@ -1,6 +1,7 @@
 package com.formu.Control;
 
 import com.formu.Service.imp.UserService;
+import com.formu.Utils.FileUtil;
 import com.formu.Utils.Md5Utils;
 import com.formu.Utils.Msg;
 import com.formu.bean.User;
@@ -8,9 +9,12 @@ import com.formu.common.Common;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.concurrent.TimeUnit;
@@ -39,10 +43,18 @@ public class UserControl {
         return userService.getOtherById(otherId,common.getid(request));
     }
 
-    //获取自己的信息
+    @ApiOperation(value = "获取自己的信息" )
     @RequestMapping(value = "me.do", method = RequestMethod.GET)
     public Msg getme(HttpServletRequest request) {
         return userService.getMyByid(common.getid(request));
+    }
+
+
+    @ApiOperation(value = "检查该账号是否已存在" )
+    @ApiImplicitParam(name = "account", value = "账号", required = true, dataType = "String")
+    @RequestMapping(value = "isregister",method = RequestMethod.GET)
+    public Msg isregister(@RequestParam(value = "account",required = true)String accout){
+        return userService.isregister(accout);
     }
 
     @ApiOperation(value = "注册" )
@@ -183,6 +195,31 @@ public class UserControl {
     @RequestMapping(value = "followeds/{userid}", method = RequestMethod.GET)
     public Msg getFollowedsByUserid(@PathVariable("userid") int userid) {
         return userService.getFolloweds(userid);
+    }
+
+    @ApiOperation(value = "修改个人信息" )
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "username", value = "昵称", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "person", value = "个人简介", required = true, dataType = "String"),
+            @ApiImplicitParam(name = "home", value = "家乡简介", required = true, dataType = "String"),
+    })
+    @RequestMapping(value = "information.do",method = RequestMethod.POST)
+    public Msg modify(@ApiParam(value = "上传的文件", required = true) @RequestParam(value = "file",required = false) MultipartFile file,
+                      @RequestParam(value = "username",required = false)String name,
+                      @RequestParam(value = "person",required = false)String person,
+                      @RequestParam(value = "home",required = false)String home, HttpServletRequest request){
+        User user = new User();
+        user.setUserId(common.getid(request));
+        user.setUserName(name);
+        user.setPerson(person);
+        user.setHome(home);
+        if (file != null && !file.isEmpty()) {
+            String header = FileUtil.save(file);
+            if (StringUtils.isBlank(name))
+                return Msg.createByErrorMessage("发布文章失败");
+            user.setPho(header);
+        }
+        return userService.modifyInformation(user);
     }
 
 }

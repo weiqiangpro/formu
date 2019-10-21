@@ -24,12 +24,6 @@
         from formu_follow a left join formu_user b on a.`follow_toid`=b.`user_id`
         where follow_fromid = #{userid,jdbcType=INTEGER}
     </select>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from formu_follow
-        where follow_id = #{followId,jdbcType=INTEGER}
-    </select>
     <select id="selectByMeAndOther" resultType="com.formu.bean.Follow">
         select
         <include refid="Base_Column_List"/>
@@ -42,16 +36,10 @@
         from formu_follow a left join formu_user b on a.`follow_toid`=b.`user_id`
         where follow_toid = #{userid,jdbcType=INTEGER}
     </select>
-
-
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
       delete from formu_follow
         where follow_id = #{followId,jdbcType=INTEGER}
   </delete>
-    <insert id="insert" parameterType="com.formu.bean.Follow">
-    insert into formu_follow (follow_id, follow_toid, follow_fromid  )
-    values (#{followId,jdbcType=INTEGER}, #{followToid,jdbcType=INTEGER}, #{followFromid,jdbcType=INTEGER})
-  </insert>
     <insert id="insertSelective" parameterType="com.formu.bean.Follow">
         insert into formu_follow
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -77,22 +65,4 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.formu.bean.Follow">
-        update formu_follow
-        <set>
-            <if test="followToid != null">
-                follow_toid = #{followToid,jdbcType=INTEGER},
-            </if>
-            <if test="followFromid != null">
-                follow_fromid = #{followFromid,jdbcType=INTEGER},
-            </if>
-        </set>
-        where follow_id = #{followId,jdbcType=INTEGER}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="com.formu.bean.Follow">
-    update formu_follow
-    set follow_toid = #{followToid,jdbcType=INTEGER},
-      follow_fromid = #{followFromid,jdbcType=INTEGER}
-    where follow_id = #{followId,jdbcType=INTEGER}
-  </update>
 </mapper>

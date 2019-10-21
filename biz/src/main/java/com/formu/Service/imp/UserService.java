@@ -37,11 +37,11 @@ public class UserService implements IUserService {
     private FollowMapper followMapper;
 
     @Override
-    public Msg getOtherById(int otherId,int userId) {
+    public Msg getOtherById(int otherId, int userId) {
         User user = userMapper.selectByPrimaryKey(otherId);
         Follow follow = followMapper.selectByMeAndOther(userId, otherId);
         if (user != null) {
-            return Msg.createBySuccess(new OtherPo(user,follow != null));
+            return Msg.createBySuccess(new OtherPo(user, follow != null));
         }
         return Msg.createByErrorMessage("没有此用户");
     }
@@ -54,6 +54,24 @@ public class UserService implements IUserService {
             return Msg.createBySuccess(new UserPo(user));
         }
         return Msg.createByErrorMessage("没有此用户");
+    }
+
+    @Override
+    public Msg isregister(String accout) {
+        User user = userMapper.selectByAccount(accout);
+        if (user == null)
+            return Msg.createByErrorMessage("该账号已存在");
+        return Msg.createBySuccessMessage("该账号可以注册");
+    }
+
+    @Override
+    public Msg modifyInformation(User user) {
+        if (user == null)
+            return Msg.createBySuccess("修改失败");
+        int ok = userMapper.updateByPrimaryKeySelective(user);
+        if (ok > 0)
+            return Msg.createBySuccessMessage("信息修改成功");
+        return Msg.createBySuccess("修改失败");
     }
 
     @Override
@@ -101,7 +119,7 @@ public class UserService implements IUserService {
             return Msg.createByErrorMessage("输入密码不能为空");
         if (!passwd1.equals(passwd2))
             return Msg.createByErrorMessage("两次密码输入不一致");
-    if (StringUtils.isNotBlank(code) && code.equals(redis.opsForValue().get(account))) {
+        if (StringUtils.isNotBlank(code) && code.equals(redis.opsForValue().get(account))) {
             User user = new User();
             user.setAccount(account);
             user.setPasswd(passwd1);
@@ -133,7 +151,7 @@ public class UserService implements IUserService {
             int ok1 = followMapper.insertSelective(new Follow(null, otherId, userId));
             int ok2 = userMapper.updateFollowNumById(otherId, 1);
             int ok3 = userMapper.updateFollowedNumById(otherId, 1);
-            if (ok1 > 0 && ok2 > 0 && ok3 >0)
+            if (ok1 > 0 && ok2 > 0 && ok3 > 0)
                 return Msg.createBySuccessMessage("关注成功！");
             else
                 return Msg.createBySuccessMessage("关注失败！");
@@ -141,7 +159,7 @@ public class UserService implements IUserService {
             int ok1 = followMapper.deleteByPrimaryKey(follow.getFollowId());
             int ok2 = userMapper.updateFollowNumById(otherId, -1);
             int ok3 = userMapper.updateFollowedNumById(otherId, -1);
-            if (ok1 > 0 && ok2 > 0 && ok3 >0)
+            if (ok1 > 0 && ok2 > 0 && ok3 > 0)
                 return Msg.createBySuccessMessage("取消关注成功！");
             else
                 return Msg.createBySuccessMessage("关注失败！");
@@ -154,7 +172,7 @@ public class UserService implements IUserService {
 
         List<FollowInfo> follows = followMapper.getFollowsByUserId(userid);
 
-        if (follows.size() > 0){
+        if (follows.size() > 0) {
             return Msg.createBySuccess(follows);
         }
         return Msg.createByErrorMessage("未找到好友");
@@ -165,11 +183,12 @@ public class UserService implements IUserService {
 
         List<FollowInfo> followeds = followMapper.getFollowedsByUserId(userid);
 
-        if (followeds.size() > 0){
+        if (followeds.size() > 0) {
             return Msg.createBySuccess(followeds);
         }
         return Msg.createByErrorMessage("未找到好友");
     }
+
 
 }
 

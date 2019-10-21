@@ -10,18 +10,24 @@ import java.awt.*;
  */
 public interface IArticleService {
 
-    public Msg getArticleByPage(int pageNum,int pageSize);
+    Msg getArticleByPage(int pageNum, int pageSize);
 
-    public Msg getArticleById(int id,int userid);
+    Msg getArticleById(int id, int userid);
 
-    public Msg getArticleByUserId(int pageNum,int pageSize,int userId);
+    Msg getArticleByUserId(int pageNum, int pageSize, int userId);
 
-    public Msg insertSelective(Article article);
+    Msg insertSelective(Article article);
 
-    public Msg updateSelective(Article article,int userid);
+    Msg updateSelective(Article article, int userid);
 
-    public Msg deleteById(int id,int userid);
+    Msg deleteById(int id, int userid);
 
-    public Msg goodbyid(int id,int userid);
+    Msg goodbyid(int id, int userid);
+
+    Msg topByGood(int pageNum, int pageSize);
+
+    Msg topByGoodAndComment(int pageNum, int pageSize);
+
+    Msg topByComment(int pageNum, int pageSize);
 
 }

@@ -25,6 +25,8 @@ public class UserPo {
 
     private boolean isYB;
 
+    private String home;
+
     private int follownums;
 
     private int followednums;
@@ -38,5 +40,6 @@ public class UserPo {
         this.email = user.getEmail();
         this.follownums = user.getFollowNum();
         this.followednums = user.getFollowedNum();
+        this.home = user.getHome();
     }
 }

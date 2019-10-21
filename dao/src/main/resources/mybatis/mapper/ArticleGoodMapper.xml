@@ -9,12 +9,6 @@
   <sql id="Base_Column_List">
     ag_id, ag_articleid, ag_userid
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from formu_articlegood
-    where ag_id = #{agId,jdbcType=INTEGER}
-  </select>
     <select id="selectByUserAndArticle" resultType="com.formu.bean.ArticleGood">
       select
       <include refid="Base_Column_List" />
@@ -25,12 +19,6 @@
     delete from formu_articlegood
     where ag_id = #{agId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.formu.bean.ArticleGood">
-    insert into formu_articlegood (ag_id, ag_articleid, ag_userid
-      )
-    values (#{agId,jdbcType=INTEGER}, #{agArticleid,jdbcType=INTEGER}, #{agUserid,jdbcType=INTEGER}
-      )
-  </insert>
   <insert id="insertSelective" parameterType="com.formu.bean.ArticleGood">
     insert into formu_articlegood
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -56,22 +44,5 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.formu.bean.ArticleGood">
-    update formu_articlegood
-    <set>
-      <if test="agArticleid != null">
-        ag_articleid = #{agArticleid,jdbcType=INTEGER},
-      </if>
-      <if test="agUserid != null">
-        ag_userid = #{agUserid,jdbcType=INTEGER},
-      </if>
-    </set>
-    where ag_id = #{agId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.formu.bean.ArticleGood">
-    update formu_articlegood
-    set ag_articleid = #{agArticleid,jdbcType=INTEGER},
-      ag_userid = #{agUserid,jdbcType=INTEGER}
-    where ag_id = #{agId,jdbcType=INTEGER}
-  </update>
+
 </mapper>

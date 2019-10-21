@@ -9,15 +9,9 @@ public interface CommentMapper {
 
     int deleteByPrimaryKey(Integer commentId);
 
-    int insert(Comment record);
-
     int insertSelective(Comment record);
 
     CommentPo selectByPrimaryKey(Integer commentId);
-
-    int updateByPrimaryKeySelective(Comment record);
-
-    int updateByPrimaryKey(Comment record);
 
     int updateGoodNumById(Integer commentId, Integer num);
 

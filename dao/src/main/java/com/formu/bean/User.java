@@ -28,4 +28,6 @@ public class User {
     private Integer followNum;
 
     private Integer followedNum;
+
+    private String home;
 }

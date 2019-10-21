@@ -9,13 +9,13 @@ import com.formu.bean.Comment;
  */
 public interface ICommentService {
 
-    public Msg getCommentyArticleAndisParent(int pageNum, int pageSize, int id);
+    Msg getCommentyArticleAndisParent(int pageNum, int pageSize, int id);
 
-    public Msg insertNotParent(Comment comment);
+    Msg insertNotParent(Comment comment);
 
-    public Msg insertIsParent(Comment comment);
+    Msg insertIsParent(Comment comment);
 
-    public Msg deleteById(int id,int userid);
+    Msg deleteById(int id, int userid);
 
-    public Msg goodbyid(int id, int userid);
+    Msg goodbyid(int id, int userid);
 }

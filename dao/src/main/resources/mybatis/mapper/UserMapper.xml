@@ -10,11 +10,12 @@
     <result column="yiban" jdbcType="VARCHAR" property="yiban" />
     <result column="account" jdbcType="VARCHAR" property="account" />
     <result column="person" jdbcType="VARCHAR" property="person" />
+    <result column="home" jdbcType="VARCHAR" property="home" />
     <result column="follow_num" jdbcType="INTEGER" property="followNum" />
     <result column="followed_num" jdbcType="INTEGER" property="followedNum" />
   </resultMap>
   <sql id="Base_Column_List">
-    user_id, user_name, passwd, pho, email, yiban, account, person, follow_num,followed_num
+    user_id, user_name, passwd, pho, email, yiban, account, person, follow_num,followed_num,home
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -22,20 +23,6 @@
     from formu_user
     where user_id = #{userId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from formu_user
-    where user_id = #{userId,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.formu.bean.User">
-    insert into formu_user (user_id, user_name, passwd, 
-      pho, email, yiban, 
-      account, person, follow_num
-      )
-    values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{passwd,jdbcType=VARCHAR}, 
-      #{pho,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{yiban,jdbcType=VARCHAR}, 
-      #{account,jdbcType=VARCHAR}, #{person,jdbcType=VARCHAR}, #{followNum,jdbcType=INTEGER}
-      )
-  </insert>
   <insert id="insertSelective" parameterType="com.formu.bean.User">
     insert into formu_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -62,6 +49,9 @@
       </if>
       <if test="person != null">
         person,
+      </if>
+      <if test="home != null">
+        home,
       </if>
         follow_num,
       followed_num,
@@ -92,6 +82,9 @@
       <if test="person != null">
         #{person,jdbcType=VARCHAR},
       </if>
+      <if test="home != null">
+        #{home,jdbcType=VARCHAR},
+      </if>
          0,0,
     </trim>
   </insert>
@@ -119,21 +112,12 @@
       <if test="person != null">
         person = #{person,jdbcType=VARCHAR},
       </if>
+      <if test="home != null">
+        home = #{home,jdbcType=VARCHAR},
+      </if>
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.formu.bean.User">
-    update formu_user
-    set user_name = #{userName,jdbcType=VARCHAR},
-      passwd = #{passwd,jdbcType=VARCHAR},
-      pho = #{pho,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR},
-      yiban = #{yiban,jdbcType=VARCHAR},
-      account = #{account,jdbcType=VARCHAR},
-      person = #{person,jdbcType=VARCHAR},
-    where user_id = #{userId,jdbcType=INTEGER}
-  </update>
-
   <select id="selectByYB" resultType="com.formu.bean.User">
      select
       user_id, user_name, yiban

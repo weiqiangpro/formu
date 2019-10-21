@@ -61,14 +61,6 @@
     delete from formu_comment
     where comment_id = #{commentId,jdbcType=INTEGER}
   </delete>
-    <insert id="insert" parameterType="com.formu.bean.Comment">
-    insert into formu_comment (comment_id, article_id, message, 
-      parent_id, from_user, to_user,
-      sort, create_time)
-    values (#{commentId,jdbcType=INTEGER}, #{articleId,jdbcType=INTEGER}, #{message,jdbcType=VARCHAR}, 
-      #{parentId,jdbcType=INTEGER}, #{fromUSer,jdbcType=INTEGER}, #{toUser,jdbcType=INTEGER},
-  now())
-  </insert>
     <insert id="insertSelective" parameterType="com.formu.bean.Comment">
         insert into formu_comment
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -120,40 +112,6 @@
                now(),
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.formu.bean.Comment">
-        update formu_comment
-        <set>
-            <if test="articleId != null">
-                article_id = #{articleId,jdbcType=INTEGER},
-            </if>
-            <if test="message != null">
-                message = #{message,jdbcType=VARCHAR},
-            </if>
-            <if test="parentId != null">
-                parent_id = #{parentId,jdbcType=INTEGER},
-            </if>
-            <if test="fromUSer != null">
-                from_user = #{fromUSer,jdbcType=INTEGER},
-            </if>
-            <if test="toUser != null">
-                to_user = #{toUser,jdbcType=INTEGER},
-            </if>
-            <if test="commentGoodnum != null">
-                to_user = #{comment_goodnum,jdbcType=INTEGER},
-            </if>
-        </set>
-        where comment_id = #{commentId,jdbcType=INTEGER}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="com.formu.bean.Comment">
-    update formu_comment
-    set article_id = #{articleId,jdbcType=INTEGER},
-      message = #{message,jdbcType=VARCHAR},
-      parent_id = #{parentId,jdbcType=INTEGER},
-      from_user = #{fromUSer,jdbcType=INTEGER},
-      to_user = #{toUser,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
-    where comment_id = #{commentId,jdbcType=INTEGER}
-  </update>
     <update id="updateGoodNumById" parameterType="java.lang.Integer">
        update formu_comment set  comment_goodnum = comment_goodnum+#{num,jdbcType=INTEGER}
         where comment_id = #{commentId,jdbcType=INTEGER}
