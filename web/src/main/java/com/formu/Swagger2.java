@@ -48,5 +48,4 @@ public class Swagger2 {
                 .version("1.0")
                 .build();
     }
-
 }
