@@ -1,15 +1,9 @@
 
 
 
-import com.formu.common.ReturnImgWH;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
-import org.mybatis.generator.api.MyBatisGenerator;
-import org.mybatis.generator.config.Configuration;
-import org.mybatis.generator.config.xml.ConfigurationParser;
-import org.mybatis.generator.internal.DefaultShellCallback;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
