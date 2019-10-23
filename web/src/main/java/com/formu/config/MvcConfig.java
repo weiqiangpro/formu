@@ -13,6 +13,7 @@ import javax.sql.DataSource;
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
 
+
     @ConfigurationProperties(prefix = "spring.datasource")
     @Bean
     public DataSource dataSource() {
