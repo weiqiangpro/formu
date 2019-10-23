@@ -4,6 +4,8 @@ import com.formu.bean.User;
 import lombok.Getter;
 import org.apache.commons.lang.StringUtils;
 
+import java.util.Date;
+
 /**
  * Created by weiqiang
  */
@@ -25,6 +27,12 @@ public class OtherPo {
 
     private boolean isFollow;
 
+    private String home;
+
+    private int sex;
+
+    private Date birthday;
+
     public OtherPo(User user,boolean isFollow) {
         this.userId = user.getUserId();
         this.userName = user.getUserName();
@@ -34,5 +42,8 @@ public class OtherPo {
         this.follownums = user.getFollowNum();
         this.followednums = user.getFollowedNum();
         this.isFollow = isFollow;
+        this.home = user.getHome();
+        this.birthday = user.getBirthday();
+        this.sex = user.getSex();
     }
 }

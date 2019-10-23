@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -202,17 +205,29 @@ public class UserControl {
             @ApiImplicitParam(name = "username", value = "昵称",  dataType = "String"),
             @ApiImplicitParam(name = "person", value = "个人简介", dataType = "String"),
             @ApiImplicitParam(name = "home", value = "家乡简介",  dataType = "String"),
+            @ApiImplicitParam(name = "birthday", value = "出生日",  dataType = "String"),
+            @ApiImplicitParam(name = "sex", value = "性别,0为男,1为女",  dataType = "int"),
     })
     @RequestMapping(value = "information.do",method = RequestMethod.POST)
     public Msg modify(@ApiParam(value = "上传的文件", required = false) @RequestParam(value = "file",required = false) MultipartFile file,
                       @RequestParam(value = "username",required = false)String name,
                       @RequestParam(value = "person",required = false)String person,
-                      @RequestParam(value = "home",required = false)String home, HttpServletRequest request){
+                      @RequestParam(value = "home",required = false)String home,
+                      @RequestParam(value = "birthday",required = false) String birthday,
+                      @RequestParam(value = "sex",required = false)int sex, HttpServletRequest request){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        ;
         User user = new User();
         user.setUserId(common.getid(request));
         user.setUserName(name);
         user.setPerson(person);
         user.setHome(home);
+        try {
+            user.setBirthday(sdf.parse(birthday));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        user.setSex(sex);
         if (file != null && !file.isEmpty()) {
             String header = FileUtil.save(file);
             if (StringUtils.isBlank(name))

@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.lang.StringUtils;
 
+import java.util.Date;
+
 /**
  * Created by weiqiang
  */
@@ -31,6 +33,10 @@ public class UserPo {
 
     private int followednums;
 
+    private int sex;
+
+    private Date birthday;
+
     public UserPo(User user) {
         this.userId = user.getUserId();
         this.userName = user.getUserName();
@@ -41,5 +47,7 @@ public class UserPo {
         this.follownums = user.getFollowNum();
         this.followednums = user.getFollowedNum();
         this.home = user.getHome();
+        this.birthday = user.getBirthday();
+        this.sex = user.getSex();
     }
 }

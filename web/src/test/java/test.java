@@ -3,7 +3,12 @@
 
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
+import org.mybatis.generator.api.MyBatisGenerator;
+import org.mybatis.generator.config.Configuration;
+import org.mybatis.generator.config.xml.ConfigurationParser;
+import org.mybatis.generator.internal.DefaultShellCallback;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -13,16 +18,17 @@ import java.util.List;
 import java.util.Random;
 
 public class test {
-//    public pho void main(String[] args) throws Exception {
-//        List<String> warnings = new ArrayList<String>();
-//        boolean overwrite = true;
-//        File configFile = new File("mbg.xml");
-//        ConfigurationParser cp = new ConfigurationParser(warnings);
-//        Configuration config = cp.parseConfiguration(configFile);
-//        DefaultShellCallback callback = new DefaultShellCallback(overwrite);
-//        MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, callback, warnings);
-//        myBatisGenerator.generate(null);
-//    }
+
+    public static void main(String[] args) throws Exception {
+        List<String> warnings = new ArrayList<String>();
+        boolean overwrite = true;
+        File configFile = new File("mbg.xml");
+        ConfigurationParser cp = new ConfigurationParser(warnings);
+        Configuration config = cp.parseConfiguration(configFile);
+        DefaultShellCallback callback = new DefaultShellCallback(overwrite);
+        MyBatisGenerator myBatisGenerator = new MyBatisGenerator(config, callback, warnings);
+        myBatisGenerator.generate(null);
+    }
     @Test
     public void mysql() throws Exception {
         Class.forName("com.mysql.cj.jdbc.Driver");
@@ -85,7 +91,7 @@ public class test {
         statement.close();
         for (int i = 1; i < 32; i++) {
             statement = connection.createStatement();
-            url = StringUtils.substringBefore(list.get(i-1), "\n") + "?" + ReturnImgWH.returnImgWH(list.get(i-1));
+            url = StringUtils.substringBefore(list.get(i-1), "\n") + "?";
             sql = "UPDATE formu_article  SET images ='"+url+"' WHERE article_id = " + i;
             statement.executeUpdate(sql);
             System.out.println(i+"  "+url);

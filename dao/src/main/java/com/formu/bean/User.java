@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -30,4 +32,8 @@ public class User {
     private Integer followedNum;
 
     private String home;
+
+    private Date birthday;
+
+    private Integer sex;
 }

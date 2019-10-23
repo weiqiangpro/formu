@@ -13,9 +13,11 @@
     <result column="home" jdbcType="VARCHAR" property="home" />
     <result column="follow_num" jdbcType="INTEGER" property="followNum" />
     <result column="followed_num" jdbcType="INTEGER" property="followedNum" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
   </resultMap>
   <sql id="Base_Column_List">
-    user_id, user_name, passwd, pho, email, yiban, account, person, follow_num,followed_num,home
+    user_id, user_name, passwd, pho, email, yiban, account, person, follow_num,followed_num,home,birthday, sex
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -53,6 +55,8 @@
       <if test="home != null">
         home,
       </if>
+      sex,
+      birthday,
         follow_num,
       followed_num,
 
@@ -85,6 +89,7 @@
       <if test="home != null">
         #{home,jdbcType=VARCHAR},
       </if>
+            0,now(),
          0,0,
     </trim>
   </insert>
@@ -114,6 +119,12 @@
       </if>
       <if test="home != null">
         home = #{home,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
       </if>
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
