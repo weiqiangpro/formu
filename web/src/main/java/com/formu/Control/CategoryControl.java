@@ -21,9 +21,16 @@ public class CategoryControl {
     @Autowired
     private ICategoryService categoryService;
 
-    @ApiOperation(value = "获取分类,需要登录" )
-    @RequestMapping(value = "get",method = RequestMethod.GET)
-    public Msg getall(){
+    @ApiOperation(value = "获取分类,需要登录")
+    @RequestMapping(value = "get", method = RequestMethod.GET)
+    public Msg getall() {
         return categoryService.getall();
+
+
+    }
+
+    @RequestMapping("h")
+    public String a() {
+        return "hello";
     }
 }
