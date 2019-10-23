@@ -29,8 +29,8 @@ public class CategoryControl {
 
     }
 
-    @RequestMapping("h")
-    public String a() {
-        return "hello";
-    }
+//    @RequestMapping("h")
+//    public String a() {
+//        return "hello";
+//    }
 }
