@@ -4,6 +4,7 @@ import com.formu.bean.User;
 import lombok.Getter;
 import org.apache.commons.lang.StringUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -31,9 +32,9 @@ public class OtherPo {
 
     private int sex;
 
-    private Date birthday;
+    private String birthday;
 
-    public OtherPo(User user,boolean isFollow) {
+    public OtherPo(User user, boolean isFollow) {
         this.userId = user.getUserId();
         this.userName = user.getUserName();
         this.pho = user.getPho();
@@ -43,7 +44,10 @@ public class OtherPo {
         this.followednums = user.getFollowedNum();
         this.isFollow = isFollow;
         this.home = user.getHome();
-        this.birthday = user.getBirthday();
+        if (user.getBirthday() != null) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+            this.birthday = dateFormat.format(user.getBirthday());
+        }
         this.sex = user.getSex();
     }
 }

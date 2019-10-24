@@ -216,7 +216,6 @@ public class UserControl {
                       @RequestParam(value = "birthday",required = false) String birthday,
                       @RequestParam(value = "sex",required = false)int sex, HttpServletRequest request){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        ;
         User user = new User();
         user.setUserId(common.getid(request));
         user.setUserName(name);

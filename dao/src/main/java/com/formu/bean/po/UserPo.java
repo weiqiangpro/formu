@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.lang.StringUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -35,7 +36,7 @@ public class UserPo {
 
     private int sex;
 
-    private Date birthday;
+    private String birthday;
 
     public UserPo(User user) {
         this.userId = user.getUserId();
@@ -47,7 +48,9 @@ public class UserPo {
         this.follownums = user.getFollowNum();
         this.followednums = user.getFollowedNum();
         this.home = user.getHome();
-        this.birthday = user.getBirthday();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+        if (user.getBirthday()!=null)
+        this.birthday = dateFormat.format(user.getBirthday());
         this.sex = user.getSex();
     }
 }
