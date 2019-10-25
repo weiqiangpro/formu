@@ -39,28 +39,28 @@ public class UserControl {
     @Autowired
     private Common common;
 
-    @ApiOperation(value = "获取别人的信息" )
+    @ApiOperation(value = "获取别人的信息")
     @ApiImplicitParam(name = "id", value = "用户的id", required = true, paramType = "path", dataType = "int")
-    @RequestMapping(value = "other/{id}",method = RequestMethod.GET)
-    public Msg getother(@PathVariable("id") int otherId,HttpServletRequest request) {
-        return userService.getOtherById(otherId,common.getid(request));
+    @RequestMapping(value = "other/{id}", method = RequestMethod.GET)
+    public Msg getother(@PathVariable("id") int otherId, HttpServletRequest request) {
+        return userService.getOtherById(otherId, common.getid(request));
     }
 
-    @ApiOperation(value = "获取自己的信息" )
+    @ApiOperation(value = "获取自己的信息")
     @RequestMapping(value = "me.do", method = RequestMethod.GET)
     public Msg getme(HttpServletRequest request) {
         return userService.getMyByid(common.getid(request));
     }
 
 
-    @ApiOperation(value = "检查该账号是否已存在" )
+    @ApiOperation(value = "检查该账号是否已存在")
     @ApiImplicitParam(name = "account", value = "账号", required = true, dataType = "String")
-    @RequestMapping(value = "isregister",method = RequestMethod.GET)
-    public Msg isregister(@RequestParam(value = "account",required = true)String accout){
+    @RequestMapping(value = "isregister", method = RequestMethod.GET)
+    public Msg isregister(@RequestParam(value = "account", required = true) String accout) {
         return userService.isregister(accout);
     }
 
-    @ApiOperation(value = "注册" )
+    @ApiOperation(value = "注册")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "account", value = "账号", required = true, dataType = "String"),
             @ApiImplicitParam(name = "passwd1", value = "第一次输入密码", required = true, dataType = "String"),
@@ -76,6 +76,7 @@ public class UserControl {
                         @RequestParam(value = "email", required = true) String email,
                         @RequestParam(value = "code", required = true) String code, HttpServletRequest request) {
 
+
         if (passwd1.equals(passwd2)) {
             User user = new User();
             user.setAccount(accout);
@@ -89,7 +90,7 @@ public class UserControl {
         return Msg.createByErrorMessage("两次密码不一致");
     }
 
-    @ApiOperation(value = "注册时使用的发送邮箱验证码,根据账号判断,每间隔60秒才能发送" )
+    @ApiOperation(value = "注册时使用的发送邮箱验证码,根据账号判断,每间隔60秒才能发送")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "email", value = "邮箱", required = true, dataType = "String"),
             @ApiImplicitParam(name = "account", value = "账号", required = true, dataType = "String")
@@ -108,7 +109,7 @@ public class UserControl {
     }
 
 
-    @ApiOperation(value = "修改密码,需要登录" )
+    @ApiOperation(value = "修改密码,需要登录")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "oldPasswd", value = "老密码", required = true, dataType = "String"),
             @ApiImplicitParam(name = "newPasswd1", value = "新密码1", required = true, dataType = "String"),
@@ -125,7 +126,7 @@ public class UserControl {
     }
 
     //找回密码
-    @ApiOperation(value = "找回密码" )
+    @ApiOperation(value = "找回密码")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "account", value = "账号", required = true, dataType = "String"),
             @ApiImplicitParam(name = "passwd1", value = "新密码1", required = true, dataType = "String"),
@@ -141,7 +142,7 @@ public class UserControl {
         return userService.findpasswd(account, passwd1, passwd2, code);
     }
 
-    @ApiOperation(value = "找回密码时使用的发送邮箱验证码,根据账号判断,每间隔60秒才能发送" )
+    @ApiOperation(value = "找回密码时使用的发送邮箱验证码,根据账号判断,每间隔60秒才能发送")
     @ApiImplicitParam(name = "account", value = "账号", required = true, dataType = "String")
     @RequestMapping(value = "findemail", method = RequestMethod.POST)
     public Msg sendFind(@RequestParam("account") String account) {
@@ -156,7 +157,7 @@ public class UserControl {
     }
 
     //获取邮箱   带*******的邮箱
-    @ApiOperation(value = "获取邮箱,带*******的邮箱,再找回密码的时候使用" )
+    @ApiOperation(value = "获取邮箱,带*******的邮箱,再找回密码的时候使用")
     @ApiImplicitParam(name = "account", value = "账号", required = true, dataType = "String")
     @RequestMapping(value = "getemail", method = RequestMethod.GET)
     public Msg getbyaccout(@RequestParam("account") String accout) {
@@ -164,21 +165,21 @@ public class UserControl {
     }
 
     //关注
-    @ApiOperation(value = "关注他人" )
-    @ApiImplicitParam(name = "userid", value = "用户id", required = true, paramType = "path",dataType = "int")
+    @ApiOperation(value = "关注他人")
+    @ApiImplicitParam(name = "userid", value = "用户id", required = true, paramType = "path", dataType = "int")
     @RequestMapping(value = "follow.do/{userid}", method = RequestMethod.POST)
     public Msg follow(@PathVariable("userid") int userid, HttpServletRequest request) {
         return userService.addFollow(userid, common.getid(request));
     }
 
     //获取关注的人
-    @ApiOperation(value = "获取我关注人的列表" )
+    @ApiOperation(value = "获取我关注人的列表")
     @RequestMapping(value = "myfollows.do", method = RequestMethod.GET)
     public Msg getFollows(HttpServletRequest request) {
         return userService.getFollows(common.getid(request));
     }
 
-    @ApiOperation(value = "获取关注我的人的列表" )
+    @ApiOperation(value = "获取关注我的人的列表")
     @RequestMapping(value = "myfolloweds.do", method = RequestMethod.GET)
     public Msg getFolloweds(HttpServletRequest request) {
         return userService.getFolloweds(common.getid(request));
@@ -186,50 +187,53 @@ public class UserControl {
 
 
     //获取关注的人
-    @ApiOperation(value = "获取其他用户关注人的列表" )
-    @ApiImplicitParam(name = "userid", value = "用户id", required = true,dataType = "int",paramType = "path")
+    @ApiOperation(value = "获取其他用户关注人的列表")
+    @ApiImplicitParam(name = "userid", value = "用户id", required = true, dataType = "int", paramType = "path")
     @RequestMapping(value = "follows/{userid}", method = RequestMethod.GET)
     public Msg getFollowsByUserid(@PathVariable("userid") int userid) {
         return userService.getFollows(userid);
     }
 
-    @ApiOperation(value = "获取关注其他用户的人的列表" )
-    @ApiImplicitParam(name = "userid", value = "用户id", required = true,dataType = "int",paramType = "path")
+    @ApiOperation(value = "获取关注其他用户的人的列表")
+    @ApiImplicitParam(name = "userid", value = "用户id", required = true, dataType = "int", paramType = "path")
     @RequestMapping(value = "followeds/{userid}", method = RequestMethod.GET)
     public Msg getFollowedsByUserid(@PathVariable("userid") int userid) {
         return userService.getFolloweds(userid);
     }
 
-    @ApiOperation(value = "修改个人信息" )
+    @ApiOperation(value = "修改个人信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "昵称",  dataType = "String"),
+            @ApiImplicitParam(name = "username", value = "昵称", dataType = "String"),
             @ApiImplicitParam(name = "person", value = "个人简介", dataType = "String"),
-            @ApiImplicitParam(name = "home", value = "家乡简介",  dataType = "String"),
-            @ApiImplicitParam(name = "birthday", value = "出生日",  dataType = "String"),
-            @ApiImplicitParam(name = "sex", value = "性别,0为男,1为女",  dataType = "int"),
+            @ApiImplicitParam(name = "home", value = "家乡简介", dataType = "String"),
+            @ApiImplicitParam(name = "birthday", value = "出生日", dataType = "String"),
+            @ApiImplicitParam(name = "sex", value = "性别,0为男,1为女", dataType = "int"),
     })
-    @RequestMapping(value = "information.do",method = RequestMethod.POST)
-    public Msg modify(@ApiParam(value = "上传的文件", required = false) @RequestParam(value = "file",required = false) MultipartFile file,
-                      @RequestParam(value = "username",required = false)String name,
-                      @RequestParam(value = "person",required = false)String person,
-                      @RequestParam(value = "home",required = false)String home,
-                      @RequestParam(value = "birthday",required = false) String birthday,
-                      @RequestParam(value = "sex",required = false)int sex, HttpServletRequest request){
+    @RequestMapping(value = "information.do", method = RequestMethod.POST)
+    public Msg modify(@ApiParam(value = "上传的文件", required = false) @RequestParam(value = "file", required = false) MultipartFile file,
+                      @RequestParam(value = "username", required = false) String name,
+                      @RequestParam(value = "person", required = false) String person,
+                      @RequestParam(value = "home", required = false) String home,
+                      @RequestParam(value = "birthday", required = false) String birthday,
+                      @RequestParam(value = "sex", required = false, defaultValue = "3") int sex, HttpServletRequest request) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         User user = new User();
         user.setUserId(common.getid(request));
         user.setUserName(name);
         user.setPerson(person);
         user.setHome(home);
-        try {
-            user.setBirthday(sdf.parse(birthday));
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if (birthday != null) {
+            try {
+                user.setBirthday(sdf.parse(birthday));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
-        user.setSex(sex);
+        if (sex != 3)
+            user.setSex(sex);
         if (file != null && !file.isEmpty()) {
             String header = FileUtil.save(file);
-            if (StringUtils.isBlank(name))
+            if (StringUtils.isBlank(header))
                 return Msg.createByErrorMessage("发布文章失败");
             user.setPho(header);
         }

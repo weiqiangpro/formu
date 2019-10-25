@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * Created by weiqiang
@@ -76,15 +77,29 @@ public class UserService implements IUserService {
 
     @Override
     public Msg register(User user, String code) {
+        String pattern = "[a-zA-Z0-9]+";
+        String account = user.getAccount();
+        if (Pattern.compile(pattern).matcher(account).matches() || account.length() < 6 || account.length() > 20)
+            return Msg.createByErrorMessage("账号不符合规则,账号只能包含字母和数字,且位数不得小于6位或者大于20");
+
+        if (user.getPasswd().length() < 6 || user.getPasswd().length() > 30)
+            return Msg.createByErrorMessage("密码的位数不得小于6或者大于30");
+
         User user1 = userMapper.selectByAccount(user.getAccount());
         if (user1 != null)
             return Msg.createByErrorMessage("已存在该用户");
+
 //        String code1 = redis.opsForValue().get(user.getAccount());
         String code1 = "123";
-        if (code1 != null && code1.equals(code)) {
-            int ok = userMapper.insertSelective(user);
-            if (ok > 0)
-                redis.delete(user.getAccount());
+
+        if (code == null)
+            return Msg.createByErrorMessage("验证码不能为空");
+        if (code1 == null || !code1.equals(code))
+            return Msg.createByErrorMessage("验证码错误");
+
+        int ok = userMapper.insertSelective(user);
+        if (ok > 0) {
+            redis.delete(user.getAccount());
             return Msg.createBySuccessMessage("注册成功");
         }
         return Msg.createByErrorMessage("验证码错误");
@@ -98,6 +113,8 @@ public class UserService implements IUserService {
         if (StringUtils.isNotBlank(user1.getPasswd())) {
             if (user1.getPasswd().equals(oldpasswd)) {
                 if (newpasswd1.equals(newpasswd2)) {
+                    if (newpasswd1.length() < 6 || newpasswd1.length() > 30)
+                        return Msg.createByErrorMessage("密码的位数不得小于6或者大于30");
                     User user = new User();
                     user.setUserId(userid);
                     user.setPasswd(newpasswd1);
@@ -115,18 +132,21 @@ public class UserService implements IUserService {
     public Msg findpasswd(String account, String passwd1, String passwd2, String code) {
         if (userMapper.selectByAccount(account) == null)
             return Msg.createByErrorMessage("没有该用户");
-        if (StringUtils.isNotBlank(passwd1) || StringUtils.isNotBlank(passwd2))
+        if (StringUtils.isBlank(passwd1) || StringUtils.isBlank(passwd2))
             return Msg.createByErrorMessage("输入密码不能为空");
         if (!passwd1.equals(passwd2))
             return Msg.createByErrorMessage("两次密码输入不一致");
-        if (StringUtils.isNotBlank(code) && code.equals(redis.opsForValue().get(account))) {
+        String codeRedis =redis.opsForValue().get(account);
+        if (code==null || !code.equals(codeRedis))
+            return Msg.createByErrorMessage("验证码输入错误");
+        if (passwd1.length() < 6 || passwd1.length() > 30)
+            return Msg.createByErrorMessage("密码的位数不得小于6或者大于30");
             User user = new User();
             user.setAccount(account);
             user.setPasswd(passwd1);
             int ok = userMapper.updateByAccount(user);
             if (ok > 0)
                 return Msg.createBySuccessMessage("密码找回成功");
-        }
         return Msg.createByErrorMessage("密码找回失败");
 
     }
