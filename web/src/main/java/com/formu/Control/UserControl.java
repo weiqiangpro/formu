@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -224,7 +225,11 @@ public class UserControl {
         user.setHome(home);
         if (birthday != null) {
             try {
-                user.setBirthday(sdf.parse(birthday));
+                Date date =  sdf.parse(birthday);
+                Calendar cal1 = Calendar.getInstance();
+                cal1.setTime(date);
+                cal1.set(Calendar.DAY_OF_MONTH,cal1.get(Calendar.DAY_OF_MONTH)+1);
+                user.setBirthday(cal1.getTime());
             } catch (ParseException e) {
                 e.printStackTrace();
             }

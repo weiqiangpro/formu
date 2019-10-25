@@ -48,9 +48,11 @@ public class UserPo {
         this.follownums = user.getFollowNum();
         this.followednums = user.getFollowedNum();
         this.home = user.getHome();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
-        if (user.getBirthday()!=null)
-        this.birthday = dateFormat.format(user.getBirthday());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        if (user.getBirthday() != null) {
+            String format = dateFormat.format(user.getBirthday());
+            this.birthday = format;
+        }
         this.sex = user.getSex();
     }
 }
