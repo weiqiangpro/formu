@@ -172,17 +172,17 @@ public class UserService implements IUserService {
             int ok2 = userMapper.updateFollowNumById(otherId, 1);
             int ok3 = userMapper.updateFollowedNumById(otherId, 1);
             if (ok1 > 0 && ok2 > 0 && ok3 > 0)
-                return Msg.createBySuccessMessage("关注成功！");
+                return Msg.createBySuccessMessage("关注成功!");
             else
-                return Msg.createBySuccessMessage("关注失败！");
+                return Msg.createBySuccessMessage("关注失败!");
         } else {
             int ok1 = followMapper.deleteByPrimaryKey(follow.getFollowId());
             int ok2 = userMapper.updateFollowNumById(otherId, -1);
             int ok3 = userMapper.updateFollowedNumById(otherId, -1);
             if (ok1 > 0 && ok2 > 0 && ok3 > 0)
-                return Msg.createBySuccessMessage("取消关注成功！");
+                return Msg.createBySuccessMessage("取消关注成功!");
             else
-                return Msg.createBySuccessMessage("关注失败！");
+                return Msg.createBySuccessMessage("关注失败!");
         }
 
     }

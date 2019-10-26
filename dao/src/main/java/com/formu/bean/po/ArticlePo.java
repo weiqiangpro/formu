@@ -17,4 +17,6 @@ public class ArticlePo {
     private Integer hour;
 
     private Integer commentNum;
+
+    private boolean isgood;
 }

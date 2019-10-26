@@ -2,6 +2,7 @@ package com.formu.Service.imp;
 
 import com.formu.Service.ICommentService;
 import com.formu.Utils.Msg;
+import com.formu.bean.ArticleGood;
 import com.formu.bean.Comment;
 import com.formu.bean.CommentGood;
 import com.formu.bean.po.CommentPo;
@@ -34,12 +35,21 @@ public class CommentSetvice implements ICommentService {
     private CommentGoodMapper commentGoodMapper;
 
     @Override
-    public Msg getCommentyArticleAndisParent(int pageNum, int pageSize, int id) {
+    public Msg getCommentyArticleAndisParent(int pageNum, int pageSize, int id,int userId) {
         PageHelper.startPage(pageNum, pageSize);
 
         List<CommentPo> commentList = commentMapper.selectByArticleAndisParent(id);
         List<CommentPo> newlist = new ArrayList<>();
         getList(commentList,newlist);
+        if (userId != 0) {
+            int n = newlist.size();
+            n = n > (pageNum * pageSize) ? (pageNum * pageSize) : n;
+            for (int i = n>=10?n - 10:0; i < n; i++) {
+                int commentId = newlist.get(i).getCommentId();
+                CommentGood commentGood = commentGoodMapper.selectByUserAndComment(userId, commentId);
+                newlist.get(i).setIsgood(commentGood != null);
+            }
+        }
         PageInfo<CommentPo> pageResult = new PageInfo<>(newlist);
         return Msg.createBySuccess(pageResult);
     }
@@ -90,7 +100,7 @@ public class CommentSetvice implements ICommentService {
 
         CommentPo comment = commentMapper.selectByPrimaryKey(id);
         if (comment == null)
-            return Msg.createByErrorMessage("不存在该评论！");
+            return Msg.createByErrorMessage("不存在该评论!");
 
         if (userid != comment.getFromUSer())
             return Msg.createByErrorMessage("删除评论失败!您不是本评论的作者，无权删除该评论!");
@@ -106,23 +116,23 @@ public class CommentSetvice implements ICommentService {
     @Override
     public Msg goodbyid(int commentId, int userId) {
         if (commentMapper.selectByPrimaryKey(commentId)==null)
-            return Msg.createBySuccessMessage("该评论不存在！");
+            return Msg.createBySuccessMessage("该评论不存在!");
 
         CommentGood commentGood = commentGoodMapper.selectByUserAndComment(userId, commentId);
         if (commentGood == null) {
             int ok1 = commentGoodMapper.insertSelective(new CommentGood(null, commentId, userId));
             int ok2 = commentMapper.updateGoodNumById(commentId, 1);
             if (ok1 > 0 && ok2 > 0)
-                return Msg.createBySuccessMessage("点赞成功！");
+                return Msg.createBySuccessMessage("点赞成功!");
             else
-                return Msg.createBySuccessMessage("点赞失败！");
+                return Msg.createBySuccessMessage("点赞失败!");
         } else {
             int ok3 = commentGoodMapper.deleteByPrimaryKey(commentGood.getCgId());
             int ok4 = articleMapper.updateGoodNumById(commentId, -1);
             if (ok3 > 0 && ok4 > 0)
-                return Msg.createBySuccessMessage("取消点赞成功！");
+                return Msg.createBySuccessMessage("取消点赞成功!");
             else
-                return Msg.createBySuccessMessage("点赞失败！");
+                return Msg.createBySuccessMessage("点赞失败!");
         }
     }
 }

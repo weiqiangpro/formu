@@ -33,9 +33,18 @@ public class ArticleService implements IArticleService {
     private ArticleGoodMapper articleGoodMapper;
 
     @Override
-    public Msg getArticleByPage(int pageNum, int pageSize) {
+    public Msg getArticleByPage(int pageNum, int pageSize, int userid) {
         PageHelper.startPage(pageNum, pageSize);
         List<ArticlePo> articleList = articleMapper.selectall();
+        if (userid != 0) {
+            int n = articleList.size();
+            n = n > (pageNum * pageSize) ? (pageNum * pageSize) : n;
+            for (int i = n>=10?n - 10:0; i < n; i++) {
+                int articleid = articleList.get(i).getArticleId();
+                ArticleGood articleGood = articleGoodMapper.selectByUserAndArticle(userid, articleid);
+                articleList.get(i).setIsgood(articleGood != null);
+            }
+        }
         PageInfo<ArticlePo> pageResult = new PageInfo<>(articleList);
         return Msg.createBySuccess(pageResult);
     }
@@ -60,6 +69,16 @@ public class ArticleService implements IArticleService {
     public Msg getArticleByUserId(int pageNum, int pageSize, int userId) {
         PageHelper.startPage(pageNum, pageSize);
         List<ArticlePo> articleList = articleMapper.selectByUserId(userId);
+        if (userId != 0) {
+            int n = articleList.size();
+            n = n > (pageNum * pageSize) ? (pageNum * pageSize) : n;
+            for (int i = n - 10; i < n; i++) {
+                int articleid = articleList.get(i).getArticleId();
+                ArticleGood articleGood = articleGoodMapper.selectByUserAndArticle(userId, articleid);
+                articleList.get(i).setIsgood(articleGood != null);
+                articleList.get(i).setIsgood(true);
+            }
+        }
         PageInfo<ArticlePo> pageResult = new PageInfo<>(articleList);
         return Msg.createBySuccess(pageResult);
     }
@@ -87,7 +106,7 @@ public class ArticleService implements IArticleService {
 
 
         if (userid != article1.getUserId())
-            return Msg.createByErrorMessage("修改文章失败!您不是本文章的作者,无权修改！");
+            return Msg.createByErrorMessage("修改文章失败!您不是本文章的作者,无权修改!");
 
         int ok = articleMapper.updateByPrimaryKeySelective(article);
 
@@ -121,39 +140,47 @@ public class ArticleService implements IArticleService {
             int ok1 = articleGoodMapper.insertSelective(new ArticleGood(null, articleid, userid));
             int ok2 = articleMapper.updateGoodNumById(articleid, 1);
             if (ok1 > 0 && ok2 > 0)
-                return Msg.createBySuccessMessage("点赞成功！");
+                return Msg.createBySuccessMessage("点赞成功!");
             else
-                return Msg.createBySuccessMessage("点赞失败！");
+                return Msg.createBySuccessMessage("点赞失败!");
         } else {
             int ok3 = articleGoodMapper.deleteByPrimaryKey(articleGood.getAgId());
             int ok4 = articleMapper.updateGoodNumById(articleid, -1);
             if (ok3 > 0 && ok4 > 0)
-                return Msg.createBySuccessMessage("取消点赞成功！");
+                return Msg.createBySuccessMessage("取消点赞成功!");
             else
-                return Msg.createBySuccessMessage("点赞失败！");
+                return Msg.createBySuccessMessage("点赞失败!");
         }
     }
 
     @Override
-    public Msg topByGood(int pageNum, int pageSize) {
+    public Msg topByGoodOrCommentOrAll(int pageNum, int pageSize, int userId, int selectId) {
         PageHelper.startPage(pageNum, pageSize);
-        List<ArticlePo> articleList = articleMapper.selectByGood();
-        PageInfo<ArticlePo> pageResult = new PageInfo<>(articleList);
-        return Msg.createBySuccess(pageResult);
-    }
+        List<ArticlePo> articleList = null;
+        switch (selectId) {
+            case 1:
+                articleList = articleMapper.selectByGood();
+                break;
+            case 2:
+                articleList = articleMapper.selectByComment();
+                break;
+            case 3:
+                articleList = articleMapper.selectByGoodAndComment();
+                break;
+            default:
+                return Msg.createByError();
+        }
 
-    @Override
-    public Msg topByGoodAndComment(int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-        List<ArticlePo> articleList = articleMapper.selectByGoodAndComment();
-        PageInfo<ArticlePo> pageResult = new PageInfo<>(articleList);
-        return Msg.createBySuccess(pageResult);
-    }
-
-    @Override
-    public Msg topByComment(int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-        List<ArticlePo> articleList = articleMapper.selectByComment();
+        if (userId != 0) {
+            int n = articleList.size();
+            n = n > (pageNum * pageSize) ? (pageNum * pageSize) : n;
+            for (int i = n>=10?n - 10:0; i < n; i++) {
+                int articleid = articleList.get(i).getArticleId();
+                ArticleGood articleGood = articleGoodMapper.selectByUserAndArticle(userId, articleid);
+                articleList.get(i).setIsgood(articleGood != null);
+                articleList.get(i).setIsgood(true);
+            }
+        }
         PageInfo<ArticlePo> pageResult = new PageInfo<>(articleList);
         return Msg.createBySuccess(pageResult);
     }

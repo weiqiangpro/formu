@@ -31,4 +31,6 @@ public class CommentPo {
     private Integer hour;
 
     private String toName;
+
+    private boolean isgood;
 }

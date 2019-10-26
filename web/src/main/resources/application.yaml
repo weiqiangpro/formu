@@ -48,6 +48,8 @@ pagehelper:
   support-methods-arguments: true
   params: count=countSql
 
-
 server:
   port: 8080
+
+logging:
+  path: /log

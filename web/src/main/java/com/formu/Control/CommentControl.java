@@ -33,8 +33,8 @@ public class CommentControl {
             @ApiImplicitParam(name = "pagenum", value = "page页，每页10条", required = true, paramType = "path", dataType = "int")
     })
     @RequestMapping(value = "get/{id}/{pagenum}", method = RequestMethod.GET)
-    public Msg getall(@PathVariable("id") int id, @PathVariable("pagenum") int pagenum) {
-        return commentService.getCommentyArticleAndisParent(pagenum, 10, id);
+    public Msg getall(@PathVariable("id") int id, @PathVariable("pagenum") int pagenum,HttpServletRequest request) {
+        return commentService.getCommentyArticleAndisParent(pagenum, 10, id,common.getid(request));
     }
 
     @ApiOperation(value = "添加评论,需要登录" )

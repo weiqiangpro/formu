@@ -9,7 +9,7 @@ import com.formu.bean.Comment;
  */
 public interface ICommentService {
 
-    Msg getCommentyArticleAndisParent(int pageNum, int pageSize, int id);
+    Msg getCommentyArticleAndisParent(int pageNum, int pageSize, int id,int userId);
 
     Msg insertNotParent(Comment comment);
 

@@ -38,8 +38,8 @@ public class ArticleControl {
     @ApiOperation(value = "获取首页数据", notes = "根据页数获取首页数据,每页10条")
     @ApiImplicitParam(name = "page", value = "page页", required = true, paramType = "path", dataType = "int")
     @RequestMapping(value = "get/{page}", method = RequestMethod.GET)
-    public Msg getall(@PathVariable("page") int page) {
-        return articleService.getArticleByPage(page, 10);
+    public Msg getAllByPage(@PathVariable("page") int page,HttpServletRequest request) {
+        return articleService.getArticleByPage(page, 10,common.getid(request));
     }
 
     @ApiOperation(value = "通过article的id来获取数据", notes = "获取一条数据")
@@ -53,40 +53,29 @@ public class ArticleControl {
     @ApiOperation(value = "点赞Top", notes = "根据页数获取首页数据,每页10条")
     @ApiImplicitParam(name = "page", value = "page页", required = true, paramType = "path", dataType = "int")
     @RequestMapping(value = "topgood/{page}", method = RequestMethod.GET)
-    public Msg topgood(@PathVariable("page") int page) {
-        return articleService.topByGood(page, 10);
+    public Msg topGood(@PathVariable("page") int page,HttpServletRequest request) {
+        return articleService.topByGoodOrCommentOrAll(page, 10,common.getid(request),1);
     }
 
-    @ApiOperation(value = "点赞Top", notes = "根据页数获取首页数据,每页10条")
+    @ApiOperation(value = "评论Top", notes = "根据页数获取首页数据,每页10条")
     @ApiImplicitParam(name = "page", value = "page页", required = true, paramType = "path", dataType = "int")
     @RequestMapping(value = "topcomment/{page}", method = RequestMethod.GET)
-    public Msg topcomment(@PathVariable("page") int page) {
-        return articleService.topByComment(page, 10);
+    public Msg topGomment(@PathVariable("page") int page, HttpServletRequest request) {
+        return articleService.topByGoodOrCommentOrAll(page, 10,common.getid(request),2);
     }
 
-    @ApiOperation(value = "点赞Top", notes = "根据页数获取首页数据,每页10条")
+    @ApiOperation(value = "综合Top", notes = "根据页数获取首页数据,每页10条")
     @ApiImplicitParam(name = "page", value = "page页", required = true, paramType = "path", dataType = "int")
     @RequestMapping(value = "topall/{page}", method = RequestMethod.GET)
-    public Msg topall(@PathVariable("page") int page) {
-        return articleService.topByGoodAndComment(page, 10);
-    }
-
-
-    @ApiOperation(value = "根据用户获取作品" )
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "userid", value = "用户的id", required = true, paramType = "path", dataType = "int"),
-            @ApiImplicitParam(name = "page", value = "page页", required = true, paramType = "path", dataType = "int")
-    })
-    @RequestMapping(value = "getbyuser/{userid}/{page}", method = RequestMethod.GET)
-    public Msg getByCategory(@PathVariable("userid") int userId, @PathVariable("page") int page) {
-        return articleService.getArticleByUserId(page, 10, userId);
+    public Msg topAll(@PathVariable("page") int page, HttpServletRequest request) {
+        return articleService.topByGoodOrCommentOrAll(page, 10,common.getid(request),3);
     }
 
 
     @ApiOperation(value = "获取自己的作品" )
     @ApiImplicitParam(name = "page", value = "page页", required = true, paramType = "path", dataType = "int")
     @RequestMapping(value = "myarticle.do/{page}", method = RequestMethod.GET)
-    public Msg myarticle(@PathVariable("page") int page, HttpServletRequest request) {
+    public Msg myArticles(@PathVariable("page") int page, HttpServletRequest request) {
         return articleService.getArticleByUserId(page, 10, common.getid(request));
     }
 
@@ -169,7 +158,7 @@ public class ArticleControl {
     @ApiOperation(value = "点赞文章,需要登录", notes = "第一次点赞,第二次取消点赞")
     @ApiImplicitParam(name = "id", value = "文章的id", paramType = "path", dataType = "int")
     @RequestMapping(value = "good.do/{id}", method = RequestMethod.PUT)
-    public Msg update(@PathVariable("id") int id, HttpServletRequest request) {
+    public Msg good(@PathVariable("id") int id, HttpServletRequest request) {
         return articleService.goodbyid(id, common.getid(request));
     }
 

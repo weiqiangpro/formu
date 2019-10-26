@@ -10,7 +10,7 @@ import java.awt.*;
  */
 public interface IArticleService {
 
-    Msg getArticleByPage(int pageNum, int pageSize);
+    Msg getArticleByPage(int pageNum, int pageSize,int userid);
 
     Msg getArticleById(int id, int userid);
 
@@ -24,10 +24,5 @@ public interface IArticleService {
 
     Msg goodbyid(int id, int userid);
 
-    Msg topByGood(int pageNum, int pageSize);
-
-    Msg topByGoodAndComment(int pageNum, int pageSize);
-
-    Msg topByComment(int pageNum, int pageSize);
-
+    Msg topByGoodOrCommentOrAll(int pageNum, int pageSize,int userId,int selectId);
 }
