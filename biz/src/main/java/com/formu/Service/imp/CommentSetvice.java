@@ -128,7 +128,7 @@ public class CommentSetvice implements ICommentService {
                 return Msg.createBySuccessMessage("点赞失败!");
         } else {
             int ok3 = commentGoodMapper.deleteByPrimaryKey(commentGood.getCgId());
-            int ok4 = articleMapper.updateGoodNumById(commentId, -1);
+            int ok4 = commentMapper.updateGoodNumById(commentId, -1);
             if (ok3 > 0 && ok4 > 0)
                 return Msg.createBySuccessMessage("取消点赞成功!");
             else
