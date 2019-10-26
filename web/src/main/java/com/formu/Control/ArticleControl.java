@@ -3,7 +3,7 @@ package com.formu.Control;
 import com.formu.Service.IArticleService;
 import com.formu.Utils.FileUtil;
 import com.formu.Utils.Msg;
-import com.formu.bean.Article;
+import com.formu.bean.vo.Article;
 import com.formu.common.Common;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

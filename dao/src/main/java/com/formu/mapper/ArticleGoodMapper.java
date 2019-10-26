@@ -1,8 +1,6 @@
 package com.formu.mapper;
 
-import com.formu.bean.ArticleGood;
-import com.formu.bean.po.ArticlePo;
-import java.util.List;
+import com.formu.bean.vo.ArticleGood;
 
 public interface ArticleGoodMapper {
     int deleteByPrimaryKey(Integer agId);

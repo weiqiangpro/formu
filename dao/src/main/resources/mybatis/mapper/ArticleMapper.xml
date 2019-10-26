@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.formu.mapper.ArticleMapper">
-    <resultMap id="BaseResultMap" type="com.formu.bean.Article">
+    <resultMap id="BaseResultMap" type="com.formu.bean.vo.Article">
         <id column="article_id" jdbcType="INTEGER" property="articleId"/>
         <result column="category_id" jdbcType="INTEGER" property="categoryId"/>
         <result column="user_id" jdbcType="INTEGER" property="userId"/>
@@ -12,7 +12,7 @@
         <result column="commnet_num" jdbcType="INTEGER" property="commentNum"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
     </resultMap>
-    <resultMap id="BaseResultMap2" type="com.formu.bean.Article">
+    <resultMap id="BaseResultMap2" type="com.formu.bean.vo.Article">
         <id column="article_id" jdbcType="INTEGER" property="articleId"/>
         <result column="category_id" jdbcType="INTEGER" property="categoryId"/>
         <result column="user_id" jdbcType="INTEGER" property="userId"/>
@@ -86,7 +86,7 @@
     delete from formu_article
     where article_id = #{articleId,jdbcType=INTEGER}
   </delete>
-    <insert id="insertSelective" parameterType="com.formu.bean.Article">
+    <insert id="insertSelective" parameterType="com.formu.bean.vo.Article">
         insert into formu_article
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="articleId != null">
@@ -144,7 +144,7 @@
             now(),
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.formu.bean.Article">
+    <update id="updateByPrimaryKeySelective" parameterType="com.formu.bean.vo.Article">
         update formu_article
         <set>
             <if test="categoryId != null">

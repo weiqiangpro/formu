@@ -1,4 +1,4 @@
-package com.formu.bean;
+package com.formu.bean.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,10 +9,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentGood {
-    private Integer cgId;
+public class ArticleGood {
+    private Integer agId;
 
-    private Integer cgCommentid;
+    private Integer agArticleid;
 
-    private Integer cgUserid;
+    private Integer agUserid;
 }

@@ -1,4 +1,4 @@
-package com.formu.bean.common;
+package com.formu.bean.yb;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

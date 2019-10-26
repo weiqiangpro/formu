@@ -1,9 +1,7 @@
 package com.formu.Service;
 
 import com.formu.Utils.Msg;
-import com.formu.bean.Article;
-
-import java.awt.*;
+import com.formu.bean.vo.Article;
 
 /**
  * Created by weiqiang

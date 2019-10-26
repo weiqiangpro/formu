@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.formu.mapper.CommentGoodMapper">
-  <resultMap id="BaseResultMap" type="com.formu.bean.CommentGood">
+  <resultMap id="BaseResultMap" type="com.formu.bean.vo.CommentGood">
     <id column="cg_id" jdbcType="INTEGER" property="cgId" />
     <result column="cg_commentid" jdbcType="INTEGER" property="cgCommentid" />
     <result column="cg_userid" jdbcType="INTEGER" property="cgUserid" />
@@ -10,7 +10,7 @@
     cg_id, cg_commentid, cg_userid
   </sql>
 
-    <select id="selectByUserAndComment" resultType="com.formu.bean.CommentGood">
+    <select id="selectByUserAndComment" resultType="com.formu.bean.vo.CommentGood">
       select
       <include refid="Base_Column_List" />
       from formu_commentgood
@@ -20,7 +20,7 @@
     delete from formu_commentgood
     where cg_id = #{cgId,jdbcType=INTEGER}
   </delete>
-  <insert id="insertSelective" parameterType="com.formu.bean.CommentGood">
+  <insert id="insertSelective" parameterType="com.formu.bean.vo.CommentGood">
     insert into formu_commentgood
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="cgId != null">

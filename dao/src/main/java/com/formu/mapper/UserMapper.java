@@ -1,6 +1,6 @@
 package com.formu.mapper;
 
-import com.formu.bean.User;
+import com.formu.bean.vo.User;
 
 public interface UserMapper {
     int insertSelective(User record);

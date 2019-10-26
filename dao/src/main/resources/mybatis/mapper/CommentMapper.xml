@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.formu.mapper.CommentMapper">
-    <resultMap id="BaseResultMap" type="com.formu.bean.Comment">
+    <resultMap id="BaseResultMap" type="com.formu.bean.vo.Comment">
         <id column="comment_id" jdbcType="INTEGER" property="commentId"/>
         <result column="article_id" jdbcType="INTEGER" property="articleId"/>
         <result column="message" jdbcType="VARCHAR" property="message"/>
@@ -61,7 +61,7 @@
     delete from formu_comment
     where comment_id = #{commentId,jdbcType=INTEGER}
   </delete>
-    <insert id="insertSelective" parameterType="com.formu.bean.Comment">
+    <insert id="insertSelective" parameterType="com.formu.bean.vo.Comment">
         insert into formu_comment
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="commentId != null">

@@ -2,7 +2,7 @@ package com.formu.Service.imp;
 
 import com.formu.Service.ICategoryService;
 import com.formu.Utils.Msg;
-import com.formu.bean.Category;
+import com.formu.bean.vo.Category;
 import com.formu.mapper.CategoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

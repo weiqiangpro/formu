@@ -4,7 +4,7 @@ import com.formu.Service.imp.UserService;
 import com.formu.Utils.FileUtil;
 import com.formu.Utils.Md5Utils;
 import com.formu.Utils.Msg;
-import com.formu.bean.User;
+import com.formu.bean.vo.User;
 import com.formu.common.Common;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -43,13 +43,13 @@ public class UserControl {
     @ApiOperation(value = "获取别人的信息")
     @ApiImplicitParam(name = "id", value = "用户的id", required = true, paramType = "path", dataType = "int")
     @RequestMapping(value = "other/{id}", method = RequestMethod.GET)
-    public Msg getother(@PathVariable("id") int otherId, HttpServletRequest request) {
+    public Msg getOthersInformation(@PathVariable("id") int otherId, HttpServletRequest request) {
         return userService.getOtherById(otherId, common.getid(request));
     }
 
     @ApiOperation(value = "获取自己的信息")
     @RequestMapping(value = "me.do", method = RequestMethod.GET)
-    public Msg getme(HttpServletRequest request) {
+    public Msg getMyInformation(HttpServletRequest request) {
         return userService.getMyByid(common.getid(request));
     }
 
@@ -71,7 +71,7 @@ public class UserControl {
             @ApiImplicitParam(name = "code", value = "验证码", required = true, dataType = "String")
     })
     @RequestMapping(value = "register", method = RequestMethod.POST)
-    public Msg register(@RequestParam(value = "account", required = true) String accout,
+        public Msg register(@RequestParam(value = "account", required = true) String accout,
                         @RequestParam(value = "passwd1", required = true) String passwd1,
                         @RequestParam(value = "passwd2", required = true) String passwd2,
                         @RequestParam(value = "email", required = true) String email,
@@ -97,7 +97,7 @@ public class UserControl {
             @ApiImplicitParam(name = "account", value = "账号", required = true, dataType = "String")
     })
     @RequestMapping(value = "registeremail", method = RequestMethod.POST)
-    public Msg sendRegister(@RequestParam("email") String email,
+    public Msg sendRegisterEmail(@RequestParam("email") String email,
                             @RequestParam("account") String account) {
         Long expire = redis.getExpire(account, TimeUnit.SECONDS);
         if (expire > 120) {
@@ -146,7 +146,7 @@ public class UserControl {
     @ApiOperation(value = "找回密码时使用的发送邮箱验证码,根据账号判断,每间隔60秒才能发送")
     @ApiImplicitParam(name = "account", value = "账号", required = true, dataType = "String")
     @RequestMapping(value = "findemail", method = RequestMethod.POST)
-    public Msg sendFind(@RequestParam("account") String account) {
+    public Msg sendFindPasswdEmail(@RequestParam("account") String account) {
         Long expire = redis.getExpire(account, TimeUnit.SECONDS);
         if (expire > 120) {
             return Msg.createByErrorMessage("请60s后再发送邮件");
@@ -161,7 +161,7 @@ public class UserControl {
     @ApiOperation(value = "获取邮箱,带*******的邮箱,再找回密码的时候使用")
     @ApiImplicitParam(name = "account", value = "账号", required = true, dataType = "String")
     @RequestMapping(value = "getemail", method = RequestMethod.GET)
-    public Msg getbyaccout(@RequestParam("account") String accout) {
+    public Msg getEmailByAccout(@RequestParam("account") String accout) {
         return userService.getbyaccout(accout);
     }
 
@@ -211,7 +211,7 @@ public class UserControl {
             @ApiImplicitParam(name = "sex", value = "性别,0为男,1为女", dataType = "int"),
     })
     @RequestMapping(value = "information.do", method = RequestMethod.POST)
-    public Msg modify(@ApiParam(value = "上传的文件", required = false) @RequestParam(value = "file", required = false) MultipartFile file,
+    public Msg modifyInformation(@ApiParam(value = "上传的文件", required = false) @RequestParam(value = "file", required = false) MultipartFile file,
                       @RequestParam(value = "username", required = false) String name,
                       @RequestParam(value = "person", required = false) String person,
                       @RequestParam(value = "home", required = false) String home,

@@ -1,6 +1,6 @@
 package com.formu.mapper;
 
-import com.formu.bean.CommentGood;
+import com.formu.bean.vo.CommentGood;
 
 public interface CommentGoodMapper {
     int deleteByPrimaryKey(Integer cgId);

@@ -1,6 +1,5 @@
-package com.formu.bean.common;
+package com.formu.bean.yb;
 
-import com.formu.bean.common.Info;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

@@ -2,8 +2,7 @@ package com.formu.Control;
 
 import com.formu.Service.IMesService;
 import com.formu.Utils.Msg;
-import com.formu.bean.Comment;
-import com.formu.bean.Mes;
+import com.formu.bean.vo.Mes;
 import com.formu.common.Common;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -26,9 +25,9 @@ public class MesControl {
     private Common common;
 
 
-    @ApiOperation(value = "获取所有私信" )
+    @ApiOperation(value = "获取私信列表" )
     @RequestMapping(value = "getall.do",method = RequestMethod.GET)
-    public Msg getall(HttpServletRequest request){
+    public Msg getMessages(HttpServletRequest request){
         return mesService.getMesUsers(common.getid(request));
     }
 
@@ -37,7 +36,7 @@ public class MesControl {
     @ApiOperation(value = "获取某个私信" )
     @ApiImplicitParam(name = "mesId", value = "私信的id", paramType = "path", dataType = "int")
     @RequestMapping(value = "getall.do/{mesId}",method = RequestMethod.GET)
-    public Msg get(HttpServletRequest request,@PathVariable("mesId")int mesId){
+    public Msg getByMessageId(HttpServletRequest request,@PathVariable("mesId")int mesId){
         return mesService.getById(mesId);
     }
 

@@ -2,11 +2,8 @@ package com.formu.Service.imp;
 
 import com.formu.Service.IUserService;
 import com.formu.Utils.Msg;
-import com.formu.Utils.SetUtil;
-import com.formu.bean.ArticleGood;
-import com.formu.bean.CommentGood;
-import com.formu.bean.Follow;
-import com.formu.bean.User;
+import com.formu.bean.vo.Follow;
+import com.formu.bean.vo.User;
 import com.formu.bean.po.FollowInfo;
 import com.formu.bean.po.OtherPo;
 import com.formu.bean.po.UserPo;
@@ -17,9 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Pattern;
 
 /**

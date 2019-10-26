@@ -1,8 +1,7 @@
 package com.formu.Service;
 
 import com.formu.Utils.Msg;
-import com.formu.bean.Article;
-import com.formu.bean.Comment;
+import com.formu.bean.vo.Comment;
 
 /**
  * Created by weiqiang

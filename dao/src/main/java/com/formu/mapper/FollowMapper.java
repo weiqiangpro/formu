@@ -1,6 +1,6 @@
 package com.formu.mapper;
 
-import com.formu.bean.Follow;
+import com.formu.bean.vo.Follow;
 import com.formu.bean.po.FollowInfo;
 
 import java.util.List;

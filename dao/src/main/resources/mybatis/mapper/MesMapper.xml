@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.formu.mapper.MesMapper">
-  <resultMap id="BaseResultMap" type="com.formu.bean.Mes">
+  <resultMap id="BaseResultMap" type="com.formu.bean.vo.Mes">
     <id column="mes_id" jdbcType="INTEGER" property="mesId" />
     <result column="mes_message" jdbcType="VARCHAR" property="mesMessage" />
     <result column="mes_toid" jdbcType="INTEGER" property="mesToid" />
@@ -44,7 +44,7 @@
     delete from formu_mes
     where mes_id = #{mesId,jdbcType=INTEGER}
   </delete>
-  <insert id="insertSelective" parameterType="com.formu.bean.Mes">
+  <insert id="insertSelective" parameterType="com.formu.bean.vo.Mes">
     insert into formu_mes
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="mesId != null">
@@ -83,7 +83,7 @@
       now(),
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.formu.bean.Mes">
+  <update id="updateByPrimaryKeySelective" parameterType="com.formu.bean.vo.Mes">
     update formu_mes
     <set>
       <if test="mesMessage != null">

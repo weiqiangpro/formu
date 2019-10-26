@@ -1,4 +1,4 @@
-package com.formu.bean.common;
+package com.formu.bean.yb;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,8 +10,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Token {
-    private String access_token;
-    private  String userid;
-    private  String expires;
+public class Info {
+    private String yb_userid;
+    private String yb_username;
+    private String yb_userhead;
 }

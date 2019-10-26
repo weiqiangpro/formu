@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.formu.mapper.UserMapper">
-  <resultMap id="BaseResultMap" type="com.formu.bean.User">
+  <resultMap id="BaseResultMap" type="com.formu.bean.vo.User">
     <id column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="passwd" jdbcType="VARCHAR" property="passwd" />
@@ -25,7 +25,7 @@
     from formu_user
     where user_id = #{userId,jdbcType=INTEGER}
   </select>
-  <insert id="insertSelective" parameterType="com.formu.bean.User">
+  <insert id="insertSelective" parameterType="com.formu.bean.vo.User">
     insert into formu_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -93,7 +93,7 @@
          0,0,
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.formu.bean.User">
+  <update id="updateByPrimaryKeySelective" parameterType="com.formu.bean.vo.User">
     update formu_user
     <set>
       <if test="userName != null">
@@ -129,20 +129,20 @@
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
-  <select id="selectByYB" resultType="com.formu.bean.User">
+  <select id="selectByYB" resultType="com.formu.bean.vo.User">
      select
       user_id, user_name, yiban
       from formu_user
       where yiban = #{yiban,jdbcType=VARCHAR}
   </select>
-  <select id="selectByAccount" resultType="com.formu.bean.User">
+  <select id="selectByAccount" resultType="com.formu.bean.vo.User">
     select
     <include refid="Base_Column_List" />
     from formu_user
     where account = #{account,jdbcType=INTEGER}
   </select>
 
-  <update id="updateByAccount" parameterType="com.formu.bean.User">
+  <update id="updateByAccount" parameterType="com.formu.bean.vo.User">
         update formu_user
     set
       passwd = #{passwd,jdbcType=VARCHAR}

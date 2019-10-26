@@ -2,9 +2,8 @@ package com.formu.Service.imp;
 
 import com.formu.Service.IArticleService;
 import com.formu.Utils.Msg;
-import com.formu.bean.Article;
-import com.formu.bean.ArticleGood;
-import com.formu.bean.User;
+import com.formu.bean.vo.Article;
+import com.formu.bean.vo.ArticleGood;
 import com.formu.bean.po.ArticlePo;
 import com.formu.mapper.ArticleGoodMapper;
 import com.formu.mapper.ArticleMapper;
@@ -13,7 +12,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 

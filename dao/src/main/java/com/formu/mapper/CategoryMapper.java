@@ -1,6 +1,6 @@
 package com.formu.mapper;
 
-import com.formu.bean.Category;
+import com.formu.bean.vo.Category;
 import java.util.List;
 
 public interface CategoryMapper {

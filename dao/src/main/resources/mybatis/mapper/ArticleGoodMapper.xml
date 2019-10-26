@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.formu.mapper.ArticleGoodMapper">
-  <resultMap id="BaseResultMap" type="com.formu.bean.ArticleGood">
+  <resultMap id="BaseResultMap" type="com.formu.bean.vo.ArticleGood">
     <id column="ag_id" jdbcType="INTEGER" property="agId" />
     <result column="ag_articleid" jdbcType="INTEGER" property="agArticleid" />
     <result column="ag_userid" jdbcType="INTEGER" property="agUserid" />
@@ -9,7 +9,7 @@
   <sql id="Base_Column_List">
     ag_id, ag_articleid, ag_userid
   </sql>
-    <select id="selectByUserAndArticle" resultType="com.formu.bean.ArticleGood">
+    <select id="selectByUserAndArticle" resultType="com.formu.bean.vo.ArticleGood">
       select
       <include refid="Base_Column_List" />
       from formu_articlegood
@@ -19,7 +19,7 @@
     delete from formu_articlegood
     where ag_id = #{agId,jdbcType=INTEGER}
   </delete>
-  <insert id="insertSelective" parameterType="com.formu.bean.ArticleGood">
+  <insert id="insertSelective" parameterType="com.formu.bean.vo.ArticleGood">
     insert into formu_articlegood
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="agId != null">

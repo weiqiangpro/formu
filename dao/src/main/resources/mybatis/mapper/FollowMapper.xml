@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.formu.mapper.FollowMapper">
-    <resultMap id="BaseResultMap" type="com.formu.bean.Follow">
+    <resultMap id="BaseResultMap" type="com.formu.bean.vo.Follow">
         <id column="follow_id" jdbcType="INTEGER" property="followId"/>
         <result column="follow_toid" jdbcType="INTEGER" property="followToid"/>
         <result column="follow_fromid" jdbcType="INTEGER" property="followFromid"/>
@@ -24,7 +24,7 @@
         from formu_follow a left join formu_user b on a.`follow_toid`=b.`user_id`
         where follow_fromid = #{userid,jdbcType=INTEGER}
     </select>
-    <select id="selectByMeAndOther" resultType="com.formu.bean.Follow">
+    <select id="selectByMeAndOther" resultType="com.formu.bean.vo.Follow">
         select
         <include refid="Base_Column_List"/>
         from formu_follow
@@ -40,7 +40,7 @@
       delete from formu_follow
         where follow_id = #{followId,jdbcType=INTEGER}
   </delete>
-    <insert id="insertSelective" parameterType="com.formu.bean.Follow">
+    <insert id="insertSelective" parameterType="com.formu.bean.vo.Follow">
         insert into formu_follow
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="followId != null">

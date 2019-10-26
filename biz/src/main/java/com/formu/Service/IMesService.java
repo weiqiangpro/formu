@@ -1,7 +1,7 @@
 package com.formu.Service;
 
 import com.formu.Utils.Msg;
-import com.formu.bean.Mes;
+import com.formu.bean.vo.Mes;
 
 /**
  * Created by weiqiang

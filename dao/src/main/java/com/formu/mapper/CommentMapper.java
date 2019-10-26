@@ -1,6 +1,6 @@
 package com.formu.mapper;
 
-import com.formu.bean.Comment;
+import com.formu.bean.vo.Comment;
 import com.formu.bean.po.CommentPo;
 
 import java.util.List;

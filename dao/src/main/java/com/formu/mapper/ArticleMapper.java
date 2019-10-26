@@ -1,6 +1,6 @@
 package com.formu.mapper;
 
-import com.formu.bean.Article;
+import com.formu.bean.vo.Article;
 import com.formu.bean.po.ArticlePo;
 
 import java.util.List;

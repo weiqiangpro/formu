@@ -1,7 +1,7 @@
 package com.formu.Service;
 
 import com.formu.Utils.Msg;
-import com.formu.bean.Category;
+import com.formu.bean.vo.Category;
 
 /**
  * Created by weiqiang

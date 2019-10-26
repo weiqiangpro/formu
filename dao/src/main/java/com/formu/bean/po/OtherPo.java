@@ -1,11 +1,10 @@
 package com.formu.bean.po;
 
-import com.formu.bean.User;
+import com.formu.bean.vo.User;
 import lombok.Getter;
 import org.apache.commons.lang.StringUtils;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by weiqiang

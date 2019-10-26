@@ -2,9 +2,8 @@ package com.formu.Service.imp;
 
 import com.formu.Service.ICommentService;
 import com.formu.Utils.Msg;
-import com.formu.bean.ArticleGood;
-import com.formu.bean.Comment;
-import com.formu.bean.CommentGood;
+import com.formu.bean.vo.Comment;
+import com.formu.bean.vo.CommentGood;
 import com.formu.bean.po.CommentPo;
 import com.formu.mapper.ArticleMapper;
 import com.formu.mapper.CommentGoodMapper;

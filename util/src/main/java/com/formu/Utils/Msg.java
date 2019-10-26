@@ -41,7 +41,7 @@ public class Msg<T> implements Serializable {
     @JsonIgnore
     //使之不在json序列化结果当中
     public boolean isSuccess() {
-        return this.status == ResponseCode.SUCCESS.getCode();
+        return this.status == 0;
     }
 
     public int getStatus() {

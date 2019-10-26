@@ -1,7 +1,7 @@
 package com.formu.Service;
 
 import com.formu.Utils.Msg;
-import com.formu.bean.User;
+import com.formu.bean.vo.User;
 
 /**
  * Created by weiqiang

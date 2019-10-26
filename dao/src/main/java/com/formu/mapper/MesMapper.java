@@ -1,6 +1,6 @@
 package com.formu.mapper;
 
-import com.formu.bean.Mes;
+import com.formu.bean.vo.Mes;
 import com.formu.bean.po.FollowInfo;
 import com.formu.bean.po.MesInfo;
 

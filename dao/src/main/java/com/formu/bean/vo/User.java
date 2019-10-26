@@ -1,4 +1,4 @@
-package com.formu.bean;
+package com.formu.bean.vo;
 
 
 import lombok.Getter;

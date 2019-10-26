@@ -1,10 +1,10 @@
 package com.formu.Control;
 
 import com.formu.Utils.*;
-import com.formu.bean.common.Info;
-import com.formu.bean.common.Token;
-import com.formu.bean.common.TokenStatus;
-import com.formu.bean.User;
+import com.formu.bean.yb.Info;
+import com.formu.bean.yb.Token;
+import com.formu.bean.yb.TokenStatus;
+import com.formu.bean.vo.User;
 import com.formu.mapper.UserMapper;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -76,7 +76,7 @@ public class LoginControl {
 
     @RequestMapping("auth")
 //    @ResponseBody
-    public String a(HttpServletRequest request, Model model) {
+    public String auth(HttpServletRequest request, Model model) {
 
         Map<String, String[]> params = request.getParameterMap();
         String code = params.get("code")[0];

@@ -1,8 +1,7 @@
 package com.formu.common;
 
 import com.formu.Utils.JsonUtil;
-import com.formu.Utils.Msg;
-import com.formu.bean.User;
+import com.formu.bean.vo.User;
 import com.formu.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;

@@ -2,7 +2,7 @@ package com.formu.Control;
 
 import com.formu.Service.ICommentService;
 import com.formu.Utils.Msg;
-import com.formu.bean.Comment;
+import com.formu.bean.vo.Comment;
 import com.formu.common.Common;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -33,7 +33,7 @@ public class CommentControl {
             @ApiImplicitParam(name = "pagenum", value = "page页，每页10条", required = true, paramType = "path", dataType = "int")
     })
     @RequestMapping(value = "get/{id}/{pagenum}", method = RequestMethod.GET)
-    public Msg getall(@PathVariable("id") int id, @PathVariable("pagenum") int pagenum,HttpServletRequest request) {
+    public Msg getByArticleId(@PathVariable("id") int id, @PathVariable("pagenum") int pagenum,HttpServletRequest request) {
         return commentService.getCommentyArticleAndisParent(pagenum, 10, id,common.getid(request));
     }
 
@@ -74,7 +74,7 @@ public class CommentControl {
     @ApiOperation(value = "点赞评论,需要登录", notes = "第一次点赞,第二次取消点赞")
     @ApiImplicitParam(name = "id", value = "评论的id", required = true)
     @RequestMapping(value = "good.do/{id}", method = RequestMethod.PUT)
-    public Msg update(@PathVariable("id") int id, HttpServletRequest request) {
+    public Msg good(@PathVariable("id") int id, HttpServletRequest request) {
         return commentService.goodbyid(id, common.getid(request));
     }
 

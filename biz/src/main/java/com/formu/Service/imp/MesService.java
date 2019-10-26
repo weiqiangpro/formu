@@ -2,7 +2,7 @@ package com.formu.Service.imp;
 
 import com.formu.Service.IMesService;
 import com.formu.Utils.Msg;
-import com.formu.bean.Mes;
+import com.formu.bean.vo.Mes;
 import com.formu.bean.po.FollowInfo;
 import com.formu.bean.po.MesInfo;
 import com.formu.mapper.MesMapper;
