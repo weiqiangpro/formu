@@ -42,6 +42,14 @@ public class ArticleControl {
         return articleService.getArticleByPage(page, 10,common.getid(request));
     }
 
+    @ApiOperation(value = "模糊搜索", notes = "根据页数获取数据,每页10条")
+    @ApiImplicitParam(name = "page", value = "page页", required = true, paramType = "path", dataType = "int")
+    @RequestMapping(value = "select/{page}", method = RequestMethod.GET)
+    public Msg getAllByPage(@PathVariable("page") int page,
+                            @RequestParam("mes")String mes, HttpServletRequest request) {
+        return articleService.getArticleByPage(page, 10,common.getid(request));
+    }
+
     @ApiOperation(value = "通过article的id来获取数据", notes = "获取一条数据")
     @ApiImplicitParam(name = "id", value = "page页", required = true, paramType = "path", dataType = "int")
     @RequestMapping(value = "getbyid/{id}", method = RequestMethod.GET)

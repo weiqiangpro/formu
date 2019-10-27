@@ -10,7 +10,9 @@ public interface IMesService {
 
     Msg getMesUsers(int userid);
 
-    Msg getById(int mesId);
+    Msg getSendMesUsers(int userid);
+
+    Msg getById(int mesId,int userId);
 
     Msg deleteByid(int mesId, int userId);
 

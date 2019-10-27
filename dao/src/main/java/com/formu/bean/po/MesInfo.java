@@ -13,7 +13,8 @@ import lombok.Setter;
 public class MesInfo {
     private int mesId;
     private String message;
-    private int userId;
+    private int fromUserId;
+    private int toUserId;
     private String name;
     private String pho;
     private int isread;

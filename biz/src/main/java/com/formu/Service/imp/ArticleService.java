@@ -47,6 +47,22 @@ public class ArticleService implements IArticleService {
         return Msg.createBySuccess(pageResult);
     }
 
+   public Msg select(int pageNum, int pageSize,int userid,String mes){
+       PageHelper.startPage(pageNum, pageSize);
+       mes = "%"+mes+"%";
+       List<ArticlePo> articleList = articleMapper.select(mes);
+       if (userid != 0) {
+           int n = articleList.size();
+           n = n > (pageNum * pageSize) ? (pageNum * pageSize) : n;
+           for (int i = n>=10?n - 10:0; i < n; i++) {
+               int articleid = articleList.get(i).getArticleId();
+               ArticleGood articleGood = articleGoodMapper.selectByUserAndArticle(userid, articleid);
+               articleList.get(i).setIsgood(articleGood != null);
+           }
+       }
+       PageInfo<ArticlePo> pageResult = new PageInfo<>(articleList);
+       return Msg.createBySuccess(pageResult);
+    }
     @Override
     public Msg getArticleById(int articleid, int userid) {
         Article article = articleMapper.selectByPrimaryKey(articleid);

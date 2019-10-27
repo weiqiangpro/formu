@@ -25,19 +25,23 @@ public class MesControl {
     private Common common;
 
 
-    @ApiOperation(value = "获取私信列表" )
-    @RequestMapping(value = "getall.do",method = RequestMethod.GET)
+    @ApiOperation(value = "获取接受到私信列表" )
+    @RequestMapping(value = "getreceive.do",method = RequestMethod.GET)
     public Msg getMessages(HttpServletRequest request){
         return mesService.getMesUsers(common.getid(request));
     }
 
-
+    @ApiOperation(value = "获取已发送的到私信列表" )
+    @RequestMapping(value = "getsend.do",method = RequestMethod.GET)
+    public Msg getSendMessages(HttpServletRequest request){
+        return mesService.getSendMesUsers(common.getid(request));
+    }
 
     @ApiOperation(value = "获取某个私信" )
     @ApiImplicitParam(name = "mesId", value = "私信的id", paramType = "path", dataType = "int")
     @RequestMapping(value = "getall.do/{mesId}",method = RequestMethod.GET)
     public Msg getByMessageId(HttpServletRequest request,@PathVariable("mesId")int mesId){
-        return mesService.getById(mesId);
+        return mesService.getById(mesId,common.getid(request));
     }
 
     @ApiOperation(value = "删除私信" )

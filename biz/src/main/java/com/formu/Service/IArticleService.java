@@ -10,6 +10,8 @@ public interface IArticleService {
 
     Msg getArticleByPage(int pageNum, int pageSize,int userid);
 
+    Msg select(int pageNum, int pageSize,int userid,String mes);
+
     Msg getArticleById(int id, int userid);
 
     Msg getArticleByUserId(int pageNum, int pageSize, int userId);

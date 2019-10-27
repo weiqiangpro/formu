@@ -18,4 +18,6 @@ public interface MesMapper {
     int updateByPrimaryKeySelective(Mes record);
 
     List<FollowInfo> getMessages(int userid);
+
+    List<FollowInfo> getSendMessages(int userid);
 }

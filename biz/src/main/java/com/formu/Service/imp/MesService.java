@@ -33,14 +33,26 @@ public class MesService implements IMesService {
         return Msg.createByError();
     }
 
+    @Override
+    public Msg getSendMesUsers(int userid) {
+        if (userid != 0) {
+            List<FollowInfo> users = mesMapper.getSendMessages(userid);
+            if (users != null)
+                return Msg.createBySuccess(users);
+            else
+                return Msg.createByError();
+        }
+        return Msg.createByError();
+    }
+
 
     @Override
-    public Msg getById(int mesId){
+    public Msg getById(int mesId,int userId){
         if (mesId != 0) {
             MesInfo mesInfo = mesMapper.selectByPrimaryKey2(mesId);
             if (mesInfo == null)
                 return Msg.createByErrorMessage("获取私信失败");
-            if (mesInfo.getIsread()==0){
+            if (mesInfo.getIsread()==0 && mesInfo.getToUserId()==userId){
                 mesInfo.setIsread(1);
                 Mes mes = new Mes();
                 mes.setMesIsread(1);

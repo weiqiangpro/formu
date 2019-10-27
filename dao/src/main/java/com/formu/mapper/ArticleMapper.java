@@ -21,6 +21,8 @@ public interface ArticleMapper {
 
     List<ArticlePo> selectall();
 
+    List<ArticlePo> select(String mes);
+
     List<ArticlePo> selectByUserId(Integer userId);
 
     List<ArticlePo>  selectByGoodAndComment();
