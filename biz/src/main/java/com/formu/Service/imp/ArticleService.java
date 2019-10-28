@@ -86,7 +86,7 @@ public class ArticleService implements IArticleService {
         if (userId != 0) {
             int n = articleList.size();
             n = n > (pageNum * pageSize) ? (pageNum * pageSize) : n;
-            for (int i = n - 10; i < n; i++) {
+            for (int i = n>=10?n - 10:0; i < n; i++) {
                 int articleid = articleList.get(i).getArticleId();
                 ArticleGood articleGood = articleGoodMapper.selectByUserAndArticle(userId, articleid);
                 articleList.get(i).setIsgood(articleGood != null);
