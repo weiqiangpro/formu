@@ -1,5 +1,6 @@
 package com.formu.mapper;
 
+import com.formu.bean.po.ArticleTop;
 import com.formu.bean.vo.Article;
 import com.formu.bean.po.ArticlePo;
 
@@ -25,9 +26,9 @@ public interface ArticleMapper {
 
     List<ArticlePo> selectByUserId(Integer userId);
 
-    List<ArticlePo>  selectByGoodAndComment();
+    List<ArticleTop>  selectByGoodAndComment();
 
-    List<ArticlePo>  selectByGood();
+    List<ArticleTop>  selectByGood();
 
-    List<ArticlePo>  selectByComment();
+    List<ArticleTop>  selectByComment();
 }

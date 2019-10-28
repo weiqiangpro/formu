@@ -34,6 +34,16 @@
         <result column="hour" jdbcType="INTEGER" property="hour"/>
         <result column="commnet_num" jdbcType="INTEGER" property="commentNum"/>
     </resultMap>
+    <resultMap id="BaseResultMap4" type="com.formu.bean.po.ArticleTop">
+        <id column="article_id" jdbcType="INTEGER" property="articleId"/>
+        <result column="images" jdbcType="VARCHAR" property="articleImages"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="pho" jdbcType="VARCHAR" property="pho"/>
+        <result column="good_num" jdbcType="INTEGER" property="goodNum"/>
+        <result column="userid" jdbcType="INTEGER" property="userid"/>
+        <result column="hour" jdbcType="INTEGER" property="hour"/>
+        <result column="commnet_num" jdbcType="INTEGER" property="commentNum"/>
+    </resultMap>
     <sql id="Base_Column_List">
     article_id, category_id, user_id, title, message, images, good_num, create_time,commnet_num
   </sql>
@@ -42,6 +52,9 @@
   </sql>
     <sql id="Base_Column_List3">
     article_id,(UNIX_TIMESTAMP(now()) - UNIX_TIMESTAMP(create_time)) hour,images,good_num,commnet_num
+  </sql>
+    <sql id="Base_Column_List4">
+    a.article_id,(UNIX_TIMESTAMP(now()) - UNIX_TIMESTAMP(a.create_time)) hour,a.images,a.good_num,a.commnet_num,a.user_id userid,b.user_name name ,b.pho pho
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap2">
         select
@@ -71,22 +84,22 @@
         where user_id = #{userId,jdbcType=INTEGER}
         order by create_time desc
     </select>
-    <select id="selectByGoodAndComment"  resultMap="BaseResultMap3">
+    <select id="selectByGoodAndComment"  resultMap="BaseResultMap4">
         select
-        <include refid="Base_Column_List3"/>
-        from formu_article
+        <include refid="Base_Column_List4"/>
+        from formu_article a left join formu_user b on a.`user_id`=b.`user_id`
         order by good_num*0.7+commnet_num*0.3  desc
     </select>
-    <select id="selectByComment"  resultMap="BaseResultMap3">
+    <select id="selectByComment"  resultMap="BaseResultMap4">
         select
-        <include refid="Base_Column_List3"/>
-        from formu_article
+        <include refid="Base_Column_List4"/>
+        from formu_article a left join formu_user b on a.`user_id`=b.`user_id`
         order by commnet_num desc
     </select>
-    <select id="selectByGood"  resultMap="BaseResultMap3">
+    <select id="selectByGood"  resultMap="BaseResultMap4">
         select
-        <include refid="Base_Column_List3"/>
-        from formu_article
+        <include refid="Base_Column_List4"/>
+        from formu_article a left join formu_user b on a.`user_id`=b.`user_id`
         order by good_num desc
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">

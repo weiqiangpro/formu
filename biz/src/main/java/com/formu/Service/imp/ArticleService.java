@@ -2,6 +2,7 @@ package com.formu.Service.imp;
 
 import com.formu.Service.IArticleService;
 import com.formu.Utils.Msg;
+import com.formu.bean.po.ArticleTop;
 import com.formu.bean.vo.Article;
 import com.formu.bean.vo.ArticleGood;
 import com.formu.bean.po.ArticlePo;
@@ -170,7 +171,7 @@ public class ArticleService implements IArticleService {
     @Override
     public Msg topByGoodOrCommentOrAll(int pageNum, int pageSize, int userId, int selectId) {
         PageHelper.startPage(pageNum, pageSize);
-        List<ArticlePo> articleList = null;
+        List<ArticleTop> articleList = null;
         switch (selectId) {
             case 1:
                 articleList = articleMapper.selectByGood();
@@ -195,7 +196,7 @@ public class ArticleService implements IArticleService {
                 articleList.get(i).setIsgood(true);
             }
         }
-        PageInfo<ArticlePo> pageResult = new PageInfo<>(articleList);
+        PageInfo<ArticleTop> pageResult = new PageInfo<>(articleList);
         return Msg.createBySuccess(pageResult);
     }
 }
