@@ -193,7 +193,6 @@ public class ArticleService implements IArticleService {
                 int articleid = articleList.get(i).getArticleId();
                 ArticleGood articleGood = articleGoodMapper.selectByUserAndArticle(userId, articleid);
                 articleList.get(i).setIsgood(articleGood != null);
-                articleList.get(i).setIsgood(true);
             }
         }
         PageInfo<ArticleTop> pageResult = new PageInfo<>(articleList);
