@@ -24,6 +24,13 @@
         from formu_follow a left join formu_user b on a.`follow_toid`=b.`user_id`
         where follow_fromid = #{userid,jdbcType=INTEGER}
     </select>
+    <select id="getFollows" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select
+        follow_toid
+        from formu_follow
+        where follow_fromid = #{userid,jdbcType=INTEGER}
+    </select>
+
     <select id="selectByMeAndOther" resultType="com.formu.bean.vo.Follow">
         select
         <include refid="Base_Column_List"/>

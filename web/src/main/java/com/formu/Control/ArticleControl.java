@@ -182,5 +182,12 @@ public class ArticleControl {
         return articleService.goodbyid(id, common.getid(request));
     }
 
+    @ApiOperation(value = "获取关注人的所有文章")
+    @ApiImplicitParam(name = "page", value = "page页", required = true, paramType = "path", dataType = "int")
+    @RequestMapping(value = "follow.do/{page}", method = RequestMethod.GET)
+    public Msg followArticle(@PathVariable("page")int page, HttpServletRequest request) {
+        return articleService.followArticle(page,10,common.getid(request));
+    }
+
 
 }

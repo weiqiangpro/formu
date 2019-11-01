@@ -84,6 +84,18 @@
         where user_id = #{userId,jdbcType=INTEGER}
         order by create_time desc
     </select>
+    <select id="selectByUserIds" resultMap="BaseResultMap2">
+        select
+        <include refid="Base_Column_List2"/>
+        from formu_article a left join formu_user b on a.`user_id`=b.`user_id` left join formu_category c on
+        a.`category_id`=c.`category_id`
+        where  a.user_id
+        in
+        <foreach item="item" index="index" open="(" separator="," close=")" collection="userIdList">
+            #{item}
+        </foreach>
+        order by create_time desc
+    </select>
     <select id="selectByGoodAndComment"  resultMap="BaseResultMap4">
         select
         <include refid="Base_Column_List4"/>

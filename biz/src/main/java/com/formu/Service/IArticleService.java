@@ -25,4 +25,6 @@ public interface IArticleService {
     Msg goodbyid(int id, int userid);
 
     Msg topByGoodOrCommentOrAll(int pageNum, int pageSize,int userId,int selectId);
+
+    Msg followArticle(int pageNum, int pageSize,int userId);
 }

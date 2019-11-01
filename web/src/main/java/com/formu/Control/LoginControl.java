@@ -157,6 +157,12 @@ public class LoginControl {
         return Msg.createBySuccess();
     }
 
+    @RequestMapping("/a")
+    @ResponseBody
+    public Msg aaa(){
+        int a = 3/0;
+        return Msg.createBySuccess();
+    }
 
     @RequestMapping("yb")
     public String a(){

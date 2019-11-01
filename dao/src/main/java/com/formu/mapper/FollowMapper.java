@@ -16,5 +16,7 @@ public interface FollowMapper {
 
     List<FollowInfo> getFollowsByUserId(Integer userId);
 
+    List<Integer> getFollows(Integer userid);
+
     List<FollowInfo> getFollowedsByUserId(int userid);
 }

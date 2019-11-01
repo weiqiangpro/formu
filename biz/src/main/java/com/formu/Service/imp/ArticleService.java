@@ -3,11 +3,13 @@ package com.formu.Service.imp;
 import com.formu.Service.IArticleService;
 import com.formu.Utils.Msg;
 import com.formu.bean.po.ArticleTop;
+import com.formu.bean.po.FollowInfo;
 import com.formu.bean.vo.Article;
 import com.formu.bean.vo.ArticleGood;
 import com.formu.bean.po.ArticlePo;
 import com.formu.mapper.ArticleGoodMapper;
 import com.formu.mapper.ArticleMapper;
+import com.formu.mapper.FollowMapper;
 import com.formu.mapper.UserMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -27,6 +29,9 @@ public class ArticleService implements IArticleService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private FollowMapper followMapper;
 
     @Autowired
     private ArticleGoodMapper articleGoodMapper;
@@ -196,6 +201,24 @@ public class ArticleService implements IArticleService {
             }
         }
         PageInfo<ArticleTop> pageResult = new PageInfo<>(articleList);
+        return Msg.createBySuccess(pageResult);
+    }
+
+    @Override
+    public Msg followArticle(int pageNum, int pageSize,int userId) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Integer> follows = followMapper.getFollows(userId);
+        List<Article> articleList = articleMapper.selectByUserIds(follows);
+        if (userId != 0) {
+            int n = articleList.size();
+            n = n > (pageNum * pageSize) ? (pageNum * pageSize) : n;
+            for (int i = n>=10?n - 10:0; i < n; i++) {
+                int articleid = articleList.get(i).getArticleId();
+                ArticleGood articleGood = articleGoodMapper.selectByUserAndArticle(userId, articleid);
+                articleList.get(i).setIsgood(articleGood != null);
+            }
+        }
+        PageInfo<Article> pageResult = new PageInfo<>(articleList);
         return Msg.createBySuccess(pageResult);
     }
 }
