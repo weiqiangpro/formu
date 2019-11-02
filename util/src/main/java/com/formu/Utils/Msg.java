@@ -3,8 +3,6 @@ package com.formu.Utils;
 /**
  * Created by weiqiang
  */
-
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
