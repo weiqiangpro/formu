@@ -74,7 +74,6 @@ public class LoginControl {
 
 
     @RequestMapping("auth")
-//    @ResponseBody
     public String auth(HttpServletRequest request, Model model) {
 
         Map<String, String[]> params = request.getParameterMap();
