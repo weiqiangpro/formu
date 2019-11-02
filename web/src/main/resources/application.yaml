@@ -15,9 +15,9 @@ spring:
   mvc:
     static-path-pattern: /**
   resources:
-    static-locations: classpath:/,file:/formu-pho/
+    static-locations: classpath:/,classpath:/templates/,file:/formu-pho/
   redis:
-#    host: 140.143.73.74
+#    host: 120.79.87.220
     host: localhost
     port: 6379
     timeout: 1000

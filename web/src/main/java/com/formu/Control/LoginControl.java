@@ -16,7 +16,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -74,7 +77,7 @@ public class LoginControl {
 
 
     @RequestMapping("auth")
-    public String auth(HttpServletRequest request, Model model) {
+    public String  auth(HttpServletRequest request, Model model, HttpServletResponse response) throws IOException, ServletException {
 
         Map<String, String[]> params = request.getParameterMap();
         String code = params.get("code")[0];
@@ -86,7 +89,7 @@ public class LoginControl {
         access_tokenMap.put("client_id", "9d8b2a825cf5677a");
         access_tokenMap.put("client_secret", "68668685130aa1a94d0b3a3de3f1b1f8");
         access_tokenMap.put("code", code);
-        access_tokenMap.put("redirect_uri", "http://localhost/api/auth");
+        access_tokenMap.put("redirect_uri", "http://aoteam.top/api/auth");
         String access_tokenJson = HttpClientUtil.doPost("https://openapi.yiban.cn/oauth/access_token", access_tokenMap);
         Token access_token = JsonUtil.string2Obj(access_tokenJson, Token.class);
 
@@ -115,10 +118,10 @@ public class LoginControl {
         Info info = me.getInfo();
         String yiban = info.getYb_userid();
         User YBUser = userMapper.selectByYB(yiban);
-
+        System.out.println(YBUser);
         if (YBUser != null) {
             if (StringUtils.isBlank(YBUser.getYiban()))
-                return "YBerror";
+                response.getWriter().write("cuowu");
             User newYB = new User();
             newYB.setUserId(YBUser.getUserId());
             newYB.setYiban(YBUser.getYiban());
@@ -142,7 +145,7 @@ public class LoginControl {
     @RequestMapping(value = "/YB/login",method = RequestMethod.GET)
     public String YBlogin() {
         String client_id = "9d8b2a825cf5677a";
-        String redirect_url = "http://localhost/api/auth";
+        String redirect_url = "http://aoteam.top/api/auth";
         String url = "https://openapi.yiban.cn/oauth/authorize?client_id=" + client_id + "&redirect_uri=" + redirect_url + "&state=STATE";
         return "redirect:" + url;
     }
@@ -155,16 +158,5 @@ public class LoginControl {
         return Msg.createBySuccess();
     }
 
-    @RequestMapping("/a")
-    @ResponseBody
-    public Msg aaa(){
-        int a = 3/0;
-        return Msg.createBySuccess();
-    }
-
-    @RequestMapping("yb")
-    public String a(){
-        return "text";
-    }
 
 }

@@ -131,9 +131,9 @@
   </update>
   <select id="selectByYB" resultType="com.formu.bean.vo.User">
      select
-      user_id, user_name, yiban
+    <include refid="Base_Column_List" />
       from formu_user
-      where yiban = #{yiban,jdbcType=VARCHAR}
+      where yiban = #{yb,jdbcType=VARCHAR}
   </select>
   <select id="selectByAccount" resultType="com.formu.bean.vo.User">
     select

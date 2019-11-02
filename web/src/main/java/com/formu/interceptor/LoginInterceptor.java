@@ -2,6 +2,7 @@ package com.formu.interceptor;
 
 
 import com.formu.Utils.JsonUtil;
+import com.formu.Utils.JwtToken;
 import com.formu.Utils.Msg;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class LoginInterceptor implements HandlerInterceptor {
@@ -22,10 +24,10 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = request.getHeader("Token");
-        if (StringUtils.isNotBlank(token)) {
+        if (StringUtils.isNotBlank(token)&& JwtToken.verifyToken(token)!=null) {
             String json = redis.opsForValue().get(token);
             if (json != null) {
-//                redis.expire(token, 30, TimeUnit.MINUTES);
+                redis.expire(token, 30, TimeUnit.MINUTES);
                 return true;
             } else {
                 response.setContentType("application/json;charset=utf-8");

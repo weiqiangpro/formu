@@ -23,15 +23,16 @@ public class MvcConfig implements WebMvcConfigurer {
     @Autowired
     private LoginInterceptor loginInterceptor;
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(loginInterceptor).addPathPatterns("/**")
-                .excludePathPatterns("/login", "/article/get/*", "/article/getbyid/*","/article/topgood/*","/article/topcomment/*","/article/topall/*", "/article/getbyuser/*/*",
-                                    "/auth","/YB/login","/ybsuccess.html","/yb","/error","/text.html","/pho/**","/a",
-                                    "/category/h", "/user/follows/*","/user/followeds/*","/article/select/*","/user/findemail","/user/findpd",
-                                     "/user/other/*","/user/send","/comment/get/*/*","/user/register","/user/registeremail","/user/isregister","/user/getemail",
-                                     "/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");
-    }
+        @Override
+        public void addInterceptors(InterceptorRegistry registry) {
+            registry.addInterceptor(loginInterceptor).addPathPatterns("/**")
+                    .excludePathPatterns("/login", "/article/get/*", "/article/getbyid/*","/article/topgood/*","/article/topcomment/*",
+                                        "/article/topall/*", "/article/getbyuser/*/*", "/auth","/YB/login","/ybsuccess.html","/yb","/error",
+                                        "/text.html","/pho/**", "/category/h", "/user/follows/*","/user/followeds/*","/article/select/*",
+                                        "/user/findemail","/user/findpd", "/user/other/*","/user/send","/comment/get/*/*","/user/register",
+                                        "/user/registeremail","/user/isregister","/user/getemail",
+                                        "/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");
+        }
 
 
 

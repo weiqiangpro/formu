@@ -6,11 +6,14 @@
 </head>
 <body>
 Title
+<p th:text="${Token}">Text ...</p>
 <script th:inline="javascript">
     var message = [[${Token}]];
-    document.cookie =message;
-    window.opener.location.href = window.opener.location.href;
-    // window.close();
+    if ( message !== "" )
+    window.opener.yblogin(message,0);
+    else
+        window.opener.yblogin(message,1);
+    window.close();
 </script>
 </body>
 </html>
