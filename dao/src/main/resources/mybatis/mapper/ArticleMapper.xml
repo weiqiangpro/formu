@@ -12,7 +12,7 @@
         <result column="commnet_num" jdbcType="INTEGER" property="commentNum"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
     </resultMap>
-    <resultMap id="BaseResultMap2" type="com.formu.bean.vo.Article">
+    <resultMap id="BaseResultMap2" type="com.formu.bean.po.ArticleFollow">
         <id column="article_id" jdbcType="INTEGER" property="articleId"/>
         <result column="category_id" jdbcType="INTEGER" property="categoryId"/>
         <result column="user_id" jdbcType="INTEGER" property="userId"/>
@@ -20,7 +20,7 @@
         <result column="message" jdbcType="VARCHAR" property="message"/>
         <result column="images" jdbcType="VARCHAR" property="images"/>
         <result column="good_num" jdbcType="INTEGER" property="goodNum"/>
-        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="hour" jdbcType="TIMESTAMP" property="hour"/>
         <result column="user_name" jdbcType="VARCHAR" property="userName"/>
         <result column="person" jdbcType="VARCHAR" property="person"/>
         <result column="commnet_num" jdbcType="INTEGER" property="commentNum"/>
@@ -48,7 +48,7 @@
     article_id, category_id, user_id, title, message, images, good_num, create_time,commnet_num
   </sql>
     <sql id="Base_Column_List2">
-    a.article_id, a.category_id,c.category_name,a.user_id,b.user_name,b.person,b.pho , a.title, a.message,a.images ,a.good_num, a.create_time,a.commnet_num
+    a.article_id, a.category_id,c.category_name,a.user_id,b.user_name,b.person,b.pho , a.title, a.message,a.images ,a.good_num, (UNIX_TIMESTAMP(now()) - UNIX_TIMESTAMP(a.create_time)) hour,a.commnet_num
   </sql>
     <sql id="Base_Column_List3">
     article_id,(UNIX_TIMESTAMP(now()) - UNIX_TIMESTAMP(create_time)) hour,images,good_num,commnet_num

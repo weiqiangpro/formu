@@ -3,6 +3,8 @@ package com.formu.Service;
 import com.formu.Utils.Msg;
 import com.formu.bean.vo.User;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * Created by weiqiang
  */
@@ -29,4 +31,6 @@ public interface IUserService {
     Msg isregister(String accout);
 
     Msg modifyInformation(User user);
+
+    Msg logout(HttpServletRequest request);
 }

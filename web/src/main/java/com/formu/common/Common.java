@@ -1,5 +1,6 @@
 package com.formu.common;
 
+import com.formu.Utils.EmailMes;
 import com.formu.Utils.JsonUtil;
 import com.formu.bean.vo.User;
 import com.formu.mapper.UserMapper;
@@ -39,15 +40,14 @@ public class Common {
             User user = userMapper.selectByAccount(account);
             if (user != null)
                 return false;
-//            MimeMessage mimeMessage = mailSender.createMimeMessage();
-//            MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
-//            message.setFrom("weinichix@qq.com");
-//            message.setTo(email);
-//            String str = "您的验证码为"+getCode(4);
-//            message.setSubject("图片论坛验证码!");
-//            message.setText(str);
-//            mailSender.send(mimeMessage);
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+            message.setFrom("491354341@qq.com");
+            message.setTo(email);
             String code = getCode();
+            message.setSubject("Y-Wall验证码!");
+            message.setText(EmailMes.emailMes(code,true),true);
+            mailSender.send(mimeMessage);
             redis.opsForValue().set(account,code,3, TimeUnit.MINUTES);
             log.info(account);
             log.info("注册，验证码为______ {} _______",code);
@@ -68,11 +68,10 @@ public class Common {
             MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
             message.setFrom("weinichix@qq.com");
             message.setTo(user.getEmail());
-            String str = "您的验证码为"+getCode();
-            message.setSubject("图片论坛验证码!");
-            message.setText(str);
-            mailSender.send(mimeMessage);
             String code = getCode();
+            message.setSubject("Y-Wall验证码!");
+            message.setText(EmailMes.emailMes(code,false),true);
+            mailSender.send(mimeMessage);
             redis.opsForValue().set(account,code,3, TimeUnit.MINUTES);
             log.info(account);
             log.info("找回密码，验证码为______ {} _______",code);

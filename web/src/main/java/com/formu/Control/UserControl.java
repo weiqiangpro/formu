@@ -53,6 +53,11 @@ public class UserControl {
         return userService.getMyByid(common.getid(request));
     }
 
+    @ApiOperation(value = "退出登录")
+    @RequestMapping(value = "logout.do", method = RequestMethod.GET)
+    public Msg logout(HttpServletRequest request) {
+        return userService.logout(request);
+    }
 
     @ApiOperation(value = "检查该账号是否已存在")
     @ApiImplicitParam(name = "account", value = "账号", required = true, dataType = "String")
@@ -99,6 +104,11 @@ public class UserControl {
     @RequestMapping(value = "registeremail", method = RequestMethod.POST)
     public Msg sendRegisterEmail(@RequestParam("email") String email,
                             @RequestParam("account") String account) {
+
+        boolean matches = email.matches("[A-Za-z\\d]+([-_.][A-Za-z\\d]+)*@([A-Za-z\\d]+[-.])+[A-Za-z\\d]{2,4}");
+        if (!matches) {
+            return Msg.createByErrorMessage("邮箱格式错误");
+        }
         Long expire = redis.getExpire(account, TimeUnit.SECONDS);
         if (expire > 120) {
             return Msg.createByErrorMessage("请60s后再发送邮件");

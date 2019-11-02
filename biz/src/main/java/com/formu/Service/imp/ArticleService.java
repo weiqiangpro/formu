@@ -2,6 +2,7 @@ package com.formu.Service.imp;
 
 import com.formu.Service.IArticleService;
 import com.formu.Utils.Msg;
+import com.formu.bean.po.ArticleFollow;
 import com.formu.bean.po.ArticleTop;
 import com.formu.bean.po.FollowInfo;
 import com.formu.bean.vo.Article;
@@ -71,7 +72,7 @@ public class ArticleService implements IArticleService {
     }
     @Override
     public Msg getArticleById(int articleid, int userid) {
-        Article article = articleMapper.selectByPrimaryKey(articleid);
+        ArticleFollow article = articleMapper.selectByPrimaryKey(articleid);
 
         if (article == null) {
             return Msg.createByErrorMessage("没有该文章");
@@ -120,7 +121,7 @@ public class ArticleService implements IArticleService {
         if (article == null)
             return Msg.createByErrorMessage("修改文章失败!");
 
-        Article article1 = articleMapper.selectByPrimaryKey(article.getArticleId());
+        ArticleFollow article1 = articleMapper.selectByPrimaryKey(article.getArticleId());
         if (article1 == null)
             return Msg.createByErrorMessage("修改文章失败!不存在该文章");
 
@@ -139,7 +140,7 @@ public class ArticleService implements IArticleService {
     @Override
     public Msg deleteById(int id, int userid) {
 
-        Article article = articleMapper.selectByPrimaryKey(id);
+        ArticleFollow article = articleMapper.selectByPrimaryKey(id);
         if (article == null)
             return Msg.createByErrorMessage("不存在该文章");
 
@@ -208,7 +209,7 @@ public class ArticleService implements IArticleService {
     public Msg followArticle(int pageNum, int pageSize,int userId) {
         PageHelper.startPage(pageNum, pageSize);
         List<Integer> follows = followMapper.getFollows(userId);
-        List<Article> articleList = articleMapper.selectByUserIds(follows);
+        List<ArticleFollow> articleList = articleMapper.selectByUserIds(follows);
         if (userId != 0) {
             int n = articleList.size();
             n = n > (pageNum * pageSize) ? (pageNum * pageSize) : n;
@@ -218,7 +219,7 @@ public class ArticleService implements IArticleService {
                 articleList.get(i).setIsgood(articleGood != null);
             }
         }
-        PageInfo<Article> pageResult = new PageInfo<>(articleList);
+        PageInfo<ArticleFollow> pageResult = new PageInfo<>(articleList);
         return Msg.createBySuccess(pageResult);
     }
 }

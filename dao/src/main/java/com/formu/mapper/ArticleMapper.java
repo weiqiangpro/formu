@@ -1,5 +1,6 @@
 package com.formu.mapper;
 
+import com.formu.bean.po.ArticleFollow;
 import com.formu.bean.po.ArticleTop;
 import com.formu.bean.vo.Article;
 import com.formu.bean.po.ArticlePo;
@@ -13,7 +14,7 @@ public interface ArticleMapper {
 
     int insertSelective(Article record);
 
-    Article selectByPrimaryKey(Integer articleId);
+    ArticleFollow selectByPrimaryKey(Integer articleId);
 
     int updateByPrimaryKeySelective(Article record);
 
@@ -27,7 +28,7 @@ public interface ArticleMapper {
 
     List<ArticlePo> selectByUserId(Integer userId);
 
-    List<Article> selectByUserIds(@Param("userIdList")List<Integer> userIdList);
+    List<ArticleFollow> selectByUserIds(@Param("userIdList")List<Integer> userIdList);
 
     List<ArticleTop>  selectByGoodAndComment();
 

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -54,8 +55,13 @@ public class UserService implements IUserService {
 
     @Override
     public Msg isregister(String accout) {
+        String pattern = "[a-zA-Z0-9]+";
+        if (!Pattern.compile(pattern).matcher(accout).matches() || accout.length() < 6 || accout.length() > 20)
+            return Msg.createByErrorMessage("账号不符合规则");
+
         User user = userMapper.selectByAccount(accout);
-        if (user == null)
+
+        if (user != null)
             return Msg.createByErrorMessage("该账号已存在");
         return Msg.createBySuccessMessage("该账号可以注册");
     }
@@ -74,8 +80,8 @@ public class UserService implements IUserService {
     public Msg register(User user, String code) {
         String pattern = "[a-zA-Z0-9]+";
         String account = user.getAccount();
-        if (Pattern.compile(pattern).matcher(account).matches() || account.length() < 6 || account.length() > 20)
-            return Msg.createByErrorMessage("账号不符合规则,账号只能包含字母和数字,且位数不得小于6位或者大于20");
+        if (!Pattern.compile(pattern).matcher(account).matches() || account.length() < 6 || account.length() > 20)
+            return Msg.createByErrorMessage("账号不符合规则");
 
         if (user.getPasswd().length() < 6 || user.getPasswd().length() > 30)
             return Msg.createByErrorMessage("密码的位数不得小于6或者大于30");
@@ -84,8 +90,8 @@ public class UserService implements IUserService {
         if (user1 != null)
             return Msg.createByErrorMessage("已存在该用户");
 
-//        String code1 = redis.opsForValue().get(user.getAccount());
-        String code1 = "123";
+        String code1 = redis.opsForValue().get(user.getAccount());
+//        String code1 = "123";
 
         if (code == null)
             return Msg.createByErrorMessage("验证码不能为空");
@@ -131,17 +137,17 @@ public class UserService implements IUserService {
             return Msg.createByErrorMessage("输入密码不能为空");
         if (!passwd1.equals(passwd2))
             return Msg.createByErrorMessage("两次密码输入不一致");
-        String codeRedis =redis.opsForValue().get(account);
-        if (code==null || !code.equals(codeRedis))
+        String codeRedis = redis.opsForValue().get(account);
+        if (code == null || !code.equals(codeRedis))
             return Msg.createByErrorMessage("验证码输入错误");
         if (passwd1.length() < 6 || passwd1.length() > 30)
             return Msg.createByErrorMessage("密码的位数不得小于6或者大于30");
-            User user = new User();
-            user.setAccount(account);
-            user.setPasswd(passwd1);
-            int ok = userMapper.updateByAccount(user);
-            if (ok > 0)
-                return Msg.createBySuccessMessage("密码找回成功");
+        User user = new User();
+        user.setAccount(account);
+        user.setPasswd(passwd1);
+        int ok = userMapper.updateByAccount(user);
+        if (ok > 0)
+            return Msg.createBySuccessMessage("密码找回成功");
         return Msg.createByErrorMessage("密码找回失败");
 
     }
@@ -205,6 +211,13 @@ public class UserService implements IUserService {
     }
 
 
+    public Msg logout(HttpServletRequest request) {
+        String token = request.getHeader("Token");
+        Boolean delete = redis.delete(token);
+        if (delete)
+            return Msg.createBySuccessMessage("退出登录成功");
+        return Msg.createByErrorMessage("退出登录成功");
+    }
 }
 
 
