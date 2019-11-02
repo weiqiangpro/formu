@@ -1,6 +1,7 @@
 package com.formu.Service.imp;
 
 import com.formu.Service.IUserService;
+import com.formu.Utils.Md5Utils;
 import com.formu.Utils.Msg;
 import com.formu.bean.vo.Follow;
 import com.formu.bean.vo.User;
@@ -86,13 +87,13 @@ public class UserService implements IUserService {
         if (user.getPasswd().length() < 6 || user.getPasswd().length() > 30)
             return Msg.createByErrorMessage("密码的位数不得小于6或者大于30");
 
+        user.setPasswd(Md5Utils.md5(user.getPasswd()));
         User user1 = userMapper.selectByAccount(user.getAccount());
         if (user1 != null)
             return Msg.createByErrorMessage("已存在该用户");
 
         String code1 = redis.opsForValue().get(user.getAccount());
 //        String code1 = "123";
-
         if (code == null)
             return Msg.createByErrorMessage("验证码不能为空");
         if (code1 == null || !code1.equals(code))
@@ -112,14 +113,18 @@ public class UserService implements IUserService {
         if (StringUtils.isNotBlank(user1.getYiban()))
             return Msg.createByErrorMessage("该用户为易班登录,无法修改密码");
         if (StringUtils.isNotBlank(user1.getPasswd())) {
-            if (user1.getPasswd().equals(oldpasswd)) {
+            if (user1.getPasswd().equals(Md5Utils.md5(oldpasswd))) {
                 if (newpasswd1.equals(newpasswd2)) {
                     if (newpasswd1.length() < 6 || newpasswd1.length() > 30)
                         return Msg.createByErrorMessage("密码的位数不得小于6或者大于30");
                     User user = new User();
                     user.setUserId(userid);
-                    user.setPasswd(newpasswd1);
-                    userMapper.updateByPrimaryKeySelective(user);
+                    user.setPasswd(Md5Utils.md5(newpasswd1));
+                    int ok = userMapper.updateByPrimaryKeySelective(user);
+                    if (ok > 0) {
+                        return Msg.createBySuccessMessage("密码修改成功!");
+                    }
+                    return Msg.createByError();
                 } else
                     return Msg.createByErrorMessage("两次密码输入不一致");
             } else
@@ -144,7 +149,7 @@ public class UserService implements IUserService {
             return Msg.createByErrorMessage("密码的位数不得小于6或者大于30");
         User user = new User();
         user.setAccount(account);
-        user.setPasswd(passwd1);
+        user.setPasswd(Md5Utils.md5(passwd1));
         int ok = userMapper.updateByAccount(user);
         if (ok > 0)
             return Msg.createBySuccessMessage("密码找回成功");
@@ -159,7 +164,7 @@ public class UserService implements IUserService {
             return Msg.createByErrorMessage("不存在该用户");
         String oldEmail = user.getEmail();
         String email = StringUtils.substring(oldEmail, 0, 3) + "*******" + StringUtils.substringAfter(oldEmail, "@");
-        return Msg.createByErrorMessage(email);
+        return Msg.createBySuccessMessage(email);
     }
 
     @Override
@@ -209,7 +214,6 @@ public class UserService implements IUserService {
         }
         return Msg.createByErrorMessage("未找到好友");
     }
-
 
     public Msg logout(HttpServletRequest request) {
         String token = request.getHeader("Token");

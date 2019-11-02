@@ -66,7 +66,7 @@ public class Common {
                 return false;
             MimeMessage mimeMessage = mailSender.createMimeMessage();
             MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
-            message.setFrom("weinichix@qq.com");
+            message.setFrom("491354341@qq.com");
             message.setTo(user.getEmail());
             String code = getCode();
             message.setSubject("Y-Wall验证码!");

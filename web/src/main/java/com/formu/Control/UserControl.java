@@ -87,7 +87,7 @@ public class UserControl {
             User user = new User();
             user.setAccount(accout);
             user.setUserName(common.randomName());
-            user.setPasswd(Md5Utils.md5(passwd1));
+            user.setPasswd(passwd1);
             user.setEmail(email);
             user.setPho(common.getHead());
             user.setFollowNum(0);
@@ -104,6 +104,7 @@ public class UserControl {
     @RequestMapping(value = "registeremail", method = RequestMethod.POST)
     public Msg sendRegisterEmail(@RequestParam("email") String email,
                             @RequestParam("account") String account) {
+
 
         boolean matches = email.matches("[A-Za-z\\d]+([-_.][A-Za-z\\d]+)*@([A-Za-z\\d]+[-.])+[A-Za-z\\d]{2,4}");
         if (!matches) {

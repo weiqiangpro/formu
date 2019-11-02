@@ -3,6 +3,7 @@ package com.formu.interceptor;
 
 import com.formu.Utils.JsonUtil;
 import com.formu.Utils.Msg;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
@@ -21,7 +22,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = request.getHeader("Token");
-        if (token != null) {
+        if (StringUtils.isNotBlank(token)) {
             String json = redis.opsForValue().get(token);
             if (json != null) {
 //                redis.expire(token, 30, TimeUnit.MINUTES);

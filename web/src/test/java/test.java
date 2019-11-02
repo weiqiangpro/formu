@@ -1,12 +1,14 @@
 
 
 
+import com.formu.Utils.Md5Utils;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.mybatis.generator.api.MyBatisGenerator;
 import org.mybatis.generator.config.Configuration;
 import org.mybatis.generator.config.xml.ConfigurationParser;
 import org.mybatis.generator.internal.DefaultShellCallback;
+import sun.security.provider.MD5;
 
 import java.io.File;
 import java.sql.Connection;
@@ -33,11 +35,8 @@ public class test {
 //        myBatisGenerator.generate(null);
 //    }
 public static void main(String[] args) throws ParseException {
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-    Date parse = sdf.parse("1999-01-01");
-    System.out.println(parse);
-    System.out.println(sdf.format(parse));
-
+    System.out.println(Md5Utils.md5("123"));
+    System.out.println(Md5Utils.md5("123"));
 }
     @Test
     public void mysql() throws Exception {
