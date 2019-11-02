@@ -59,9 +59,7 @@ public class LoginControl {
                         user.setUserId(user1.getUserId());
                         user.setUserName(user1.getUserName());
                         String json = JsonUtil.obj2String(user);
-
                         redis.opsForValue().set(token, json, 30, TimeUnit.MINUTES);
-
                         return Msg.createBySuccess(map);
                     } catch (Exception e) {
                         return Msg.createByError();
