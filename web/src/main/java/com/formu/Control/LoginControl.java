@@ -45,7 +45,8 @@ public class LoginControl {
         if (StringUtils.isNotBlank(username) && StringUtils.isNotBlank(passwd)) {
             User user1 = userMapper.selectByAccount(username);
             if (user1 != null && StringUtils.isBlank(user1.getYiban()) && StringUtils.isNotBlank(user1.getPasswd())) {
-                if (user1.getPasswd().equals(Md5Utils.md5(passwd))) {
+                passwd = Md5Utils.md5(passwd);
+                if (user1.getPasswd().equals(passwd)) {
                     try {
 
                         String token = JwtToken.createToken();
