@@ -86,8 +86,8 @@ public class LoginControl {
             return "yberror";
 
         Map<String, String> access_tokenMap = new HashMap<>();
-        access_tokenMap.put("client_id", "9d8b2a825cf5677a");
-        access_tokenMap.put("client_secret", "68668685130aa1a94d0b3a3de3f1b1f8");
+        access_tokenMap.put("client_id", "e0a9836f8550a256");
+        access_tokenMap.put("client_secret", "8a71e64358ac5cb03e6aeefee02bbf5e");
         access_tokenMap.put("code", code);
         access_tokenMap.put("redirect_uri", "https://www.aoteam.top/api/auth");
         String access_tokenJson = HttpClientUtil.doPost("https://openapi.yiban.cn/oauth/access_token", access_tokenMap);
@@ -144,7 +144,7 @@ public class LoginControl {
 
     @RequestMapping(value = "/YB/login",method = RequestMethod.GET)
     public String YBlogin() {
-        String client_id = "9d8b2a825cf5677a";
+        String client_id = "e0a9836f8550a256";
         String redirect_url = "https://www.aoteam.top/api/auth";
         String url = "https://openapi.yiban.cn/oauth/authorize?client_id=" + client_id + "&redirect_uri=" + redirect_url + "&state=STATE";
         return "redirect:" + url;
