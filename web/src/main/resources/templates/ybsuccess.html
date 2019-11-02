@@ -9,10 +9,10 @@ Title
 <p th:text="${Token}">Text ...</p>
 <script th:inline="javascript">
     var message = [[${Token}]];
-    if ( message !== "" )
-    window.opener.yblogin(message,0);
+    if (message !== "")
+        window.opener.yblogin(message, 0);
     else
-        window.opener.yblogin(message,1);
+        window.opener.yblogin(message, 1);
     window.close();
 </script>
 </body>
