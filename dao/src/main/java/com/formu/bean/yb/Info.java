@@ -14,4 +14,5 @@ public class Info {
     private String yb_userid;
     private String yb_username;
     private String yb_userhead;
+    private String yb_sex;
 }

@@ -58,10 +58,8 @@ public class LoginControl {
                         map.put("mes", "登陆成功");
                         map.put("Token", token);
 
-                        User user = new User();
-                        user.setUserId(user1.getUserId());
-                        user.setUserName(user1.getUserName());
-                        String json = JsonUtil.obj2String(user);
+                       user1.setPasswd(null);
+                        String json = JsonUtil.obj2String(user1);
                         redis.opsForValue().set(token, json, 30, TimeUnit.MINUTES);
                         return Msg.createBySuccess(map);
                     } catch (Exception e) {
@@ -122,11 +120,7 @@ public class LoginControl {
         if (YBUser != null) {
             if (StringUtils.isBlank(YBUser.getYiban()))
                 response.getWriter().write("cuowu");
-            User newYB = new User();
-            newYB.setUserId(YBUser.getUserId());
-            newYB.setYiban(YBUser.getYiban());
-            newYB.setUserName(YBUser.getUserName());
-            String json = JsonUtil.obj2String(newYB);
+            String json = JsonUtil.obj2String(YBUser);
             redis.opsForValue().set(token, json, 30, TimeUnit.MINUTES);
             return "ybsuccess";
         }
@@ -135,6 +129,10 @@ public class LoginControl {
         User newYbuser = new User();
         newYbuser.setUserName(info.getYb_username());
         newYbuser.setYiban(info.getYb_userid());
+        newYbuser.setPho(info.getYb_userhead());
+        newYbuser.setSex(info.getYb_sex().equals("M")?0:1);
+        newYbuser.setFollowedNum(0);
+        newYbuser.setFollowNum(0);
         userMapper.insertSelective(newYbuser);
         User user = userMapper.selectByYB(info.getYb_userid());
         String json = JsonUtil.obj2String(user);
