@@ -44,13 +44,13 @@ public class ArticleControl {
 
     @ApiOperation(value = "模糊搜索", notes = "根据页数获取数据,每页10条")
     @ApiImplicitParam(name = "page", value = "page页", required = true, paramType = "path", dataType = "int")
-    @RequestMapping(value = "select/{page}", method = RequestMethod.GET)
+    @RequestMapping(value = "select/{page}", method = RequestMethod.POST)
     public Msg getAllByPage(@PathVariable("page") int page,
                             @RequestParam("mes")String mes, HttpServletRequest request) {
         return articleService.select(page, 10,common.getid(request),mes);
     }
 
-    @ApiOperation(value = "模糊搜索", notes = "根据页数获取数据,每页10条")
+    @ApiOperation(value = "根据用户id搜索", notes = "根据页数获取数据,每页10条")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "page页", required = true, paramType = "path", dataType = "int"),
             @ApiImplicitParam(name = "id", value = "用户id", required = true, paramType = "path", dataType = "int")
