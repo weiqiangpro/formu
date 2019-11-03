@@ -64,6 +64,7 @@ public class MesControl {
         Mes mes = new Mes();
         mes.setMesIsread(0);
         mes.setMesFromid(common.getid(request));
+        mes.setMesToid(userid);
         mes.setMesMessage(message);
         return mesService.insert(mes);
     }
