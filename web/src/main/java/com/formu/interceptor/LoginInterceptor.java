@@ -24,6 +24,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = request.getHeader("Token");
+        System.out.println(token);
         if (StringUtils.isNotBlank(token)&& JwtToken.verifyToken(token)!=null) {
             String json = redis.opsForValue().get(token);
             if (json != null) {

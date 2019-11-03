@@ -20,7 +20,7 @@ public class FileUtil {
         } catch (IOException e) {
             return null;
         }
-        return   "https://wwww.aoteam.top/api/pho/" + name;
+        return   "https://www.aoteam.top/api/pho/" + name;
 
     }
 }
