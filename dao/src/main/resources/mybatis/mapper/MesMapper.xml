@@ -32,7 +32,7 @@
   <select id="getSendMessages" parameterType="java.lang.Integer" resultMap="BaseResultMap2">
     select
     <include refid="Base_Column_List2" />
-    FROM formu_mes a LEFT JOIN formu_user b ON  a.mes_fromid = b.user_id WHERE mes_fromid = #{userid,jdbcType=INTEGER} ORDER BY a.mes_isread, a.mes_createtime desc
+    FROM formu_mes a LEFT JOIN formu_user b ON  a.mes_toid = b.user_id WHERE mes_fromid = #{userid,jdbcType=INTEGER} ORDER BY a.mes_isread, a.mes_createtime desc
   </select>
 
 
