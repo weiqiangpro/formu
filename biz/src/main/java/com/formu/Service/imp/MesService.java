@@ -47,12 +47,12 @@ public class MesService implements IMesService {
 
 
     @Override
-    public Msg getById(int mesId,int userId){
+    public Msg getById(int mesId, int userId) {
         if (mesId != 0) {
             MesInfo mesInfo = mesMapper.selectByPrimaryKey2(mesId);
             if (mesInfo == null)
                 return Msg.createByErrorMessage("获取私信失败");
-            if (mesInfo.getIsread()==0 && mesInfo.getToUserId()==userId){
+            if (mesInfo.getIsread() == 0 && mesInfo.getToUserId() == userId) {
                 mesInfo.setIsread(1);
                 Mes mes = new Mes();
                 mes.setMesIsread(1);
@@ -67,14 +67,36 @@ public class MesService implements IMesService {
     @Override
     public Msg deleteByid(int mesId, int userId) {
         if (mesId != 0 && userId != 0) {
+
             Mes mes = mesMapper.selectByPrimaryKey(mesId);
-            if (mes.getMesFromid() != userId)
-                return Msg.createByErrorMessage("无权删除该私信");
-            int ok = mesMapper.deleteByPrimaryKey(mesId);
-            if (ok > 0)
-                return Msg.createBySuccessMessage("私信删除成功");
+            if (mes.getMesToid() == userId) {
+
+                if (mes.getMesFromid() == 0)
+                    if (mesMapper.deleteByPrimaryKey(mesId) > 0)
+                        return Msg.createBySuccessMessage("私信删除成功");
+                    else
+                        return Msg.createByErrorMessage("删除私信失败");
+
+                mes.setMesToid(0);
+                if (mesMapper.updateByPrimaryKeySelective(mes) > 0)
+                    return Msg.createBySuccessMessage("私信删除成功");
+                else
+                    return Msg.createByErrorMessage("删除私信失败");
+            } else if (mes.getMesFromid() == userId) {
+                if (mes.getMesToid() == 0)
+                    if (mesMapper.deleteByPrimaryKey(mesId) > 0)
+                        return Msg.createBySuccessMessage("私信删除成功");
+                    else
+                        return Msg.createByErrorMessage("删除私信失败");
+
+                mes.setMesFromid(0);
+                if (mesMapper.updateByPrimaryKeySelective(mes) > 0)
+                    return Msg.createBySuccessMessage("私信删除成功");
+                else
+                    return Msg.createByErrorMessage("删除私信失败");
+            }
             else
-                return Msg.createByError();
+                return Msg.createByErrorMessage("删除私信失败");
         }
         return Msg.createByErrorMessage("删除私信失败");
     }
