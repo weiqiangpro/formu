@@ -83,7 +83,7 @@ public class LoginControl {
         String code = params.get("code")[0];
 
         if (StringUtils.isBlank(code))
-            return "yberror";
+            return "ybsuccess";
 
         Map<String, String> access_tokenMap = new HashMap<>();
         access_tokenMap.put("client_id", "e0a9836f8550a256");
@@ -94,7 +94,7 @@ public class LoginControl {
         Token access_token = JsonUtil.string2Obj(access_tokenJson, Token.class);
 
         if (access_token == null || StringUtils.isBlank(access_token.getAccess_token()))
-            return "yberror";
+            return "ybsuccess";
 
 
         Map<String, String> meMap = new HashMap<>();
@@ -104,7 +104,7 @@ public class LoginControl {
 
 
         if (me == null || !"success".equals(me.getStatus()))
-            return "yberror";
+            return "ybsuccess";
 
         String token = null;
         try {
