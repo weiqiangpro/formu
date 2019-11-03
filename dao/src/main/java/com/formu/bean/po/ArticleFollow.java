@@ -53,4 +53,6 @@ public class ArticleFollow {
     private String categoryName;
 
     private boolean isgood = false;
+
+    private boolean isfollow = false;
 }

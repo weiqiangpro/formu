@@ -8,6 +8,7 @@ import com.formu.bean.po.FollowInfo;
 import com.formu.bean.vo.Article;
 import com.formu.bean.vo.ArticleGood;
 import com.formu.bean.po.ArticlePo;
+import com.formu.bean.vo.Follow;
 import com.formu.mapper.ArticleGoodMapper;
 import com.formu.mapper.ArticleMapper;
 import com.formu.mapper.FollowMapper;
@@ -82,6 +83,11 @@ public class ArticleService implements IArticleService {
             if (articleGood != null) {
                 article.setIsgood(true);
             }
+            Follow follow = followMapper.selectByMeAndOther(userid, article.getUserId());
+            if (follow != null){
+                article.setIsfollow(true);
+            }
+
         }
         return Msg.createBySuccess(article);
     }
