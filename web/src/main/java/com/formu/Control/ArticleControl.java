@@ -58,7 +58,7 @@ public class ArticleControl {
     })
     @RequestMapping(value = "getbyuser/{id}/{page}", method = RequestMethod.GET)
     public Msg getAllByPage(@PathVariable("page") int page,
-                            @PathVariable("page") int id, HttpServletRequest request) {
+                            @PathVariable("id") int id, HttpServletRequest request) {
         return articleService.getArticleByUserId(page, 10,id);
     }
 

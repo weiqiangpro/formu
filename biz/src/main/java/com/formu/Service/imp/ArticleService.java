@@ -73,7 +73,7 @@ public class ArticleService implements IArticleService {
     }
     @Override
     public Msg getArticleById(int articleid, int userid) {
-        ArticleFollow article = articleMapper.selectByPrimaryKey(articleid);
+            ArticleFollow article = articleMapper.selectByPrimaryKey(articleid);
 
         if (article == null) {
             return Msg.createByErrorMessage("没有该文章");
