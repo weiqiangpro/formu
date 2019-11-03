@@ -127,6 +127,8 @@ public class ArticleControl {
         article.setImages(name);
         article.setUserId(common.getid(request));
         article.setCategoryId(categoryid);
+        article.setCommentNum(0);
+        article.setGoodNum(0);
         return articleService.insertSelective(article);
     }
 
