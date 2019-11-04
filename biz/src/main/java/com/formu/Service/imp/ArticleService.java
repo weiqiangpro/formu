@@ -215,7 +215,11 @@ public class ArticleService implements IArticleService {
     public Msg followArticle(int pageNum, int pageSize,int userId) {
         PageHelper.startPage(pageNum, pageSize);
         List<Integer> follows = followMapper.getFollows(userId);
+        if (follows.size()<1){
+            return Msg.createBySuccess(new PageInfo<ArticleFollow>());
+        }
         List<ArticleFollow> articleList = articleMapper.selectByUserIds(follows);
+
         if (userId != 0) {
             int n = articleList.size();
             n = n > (pageNum * pageSize) ? (pageNum * pageSize) : n;
