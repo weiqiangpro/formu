@@ -92,6 +92,8 @@ public class UserControl {
             user.setPho(common.getHead());
             user.setFollowNum(0);
             user.setFollowedNum(0);
+            user.setPerson(".");
+            user.setHome(".");
             return userService.register(user, code);
         }
         return Msg.createByErrorMessage("两次密码不一致");

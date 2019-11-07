@@ -131,6 +131,8 @@ public class LoginControl {
         newYbuser.setYiban(info.getYb_userid());
         newYbuser.setPho(info.getYb_userhead());
         newYbuser.setSex(info.getYb_sex().equals("M")?0:1);
+        newYbuser.setHome(".");
+        newYbuser.setPerson(".");
         newYbuser.setFollowedNum(0);
         newYbuser.setFollowNum(0);
         userMapper.insertSelective(newYbuser);

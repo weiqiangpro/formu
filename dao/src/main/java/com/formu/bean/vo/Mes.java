@@ -16,7 +16,11 @@ public class Mes {
 
     private Integer mesToid;
 
+    private Integer mesTo;
+
     private Integer mesFromid;
+
+    private Integer mesFrom;
 
     private Date mesCreatetime;
 

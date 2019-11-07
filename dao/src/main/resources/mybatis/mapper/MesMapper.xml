@@ -5,7 +5,9 @@
     <id column="mes_id" jdbcType="INTEGER" property="mesId" />
     <result column="mes_message" jdbcType="VARCHAR" property="mesMessage" />
     <result column="mes_toid" jdbcType="INTEGER" property="mesToid" />
+    <result column="mes_to" jdbcType="INTEGER" property="mesTo" />
     <result column="mes_fromid" jdbcType="INTEGER" property="mesFromid" />
+    <result column="mes_from" jdbcType="INTEGER" property="mesFrom" />
     <result column="mes_createtime" jdbcType="TIMESTAMP" property="mesCreatetime" />
     <result column="mes_isread" jdbcType="INTEGER" property="mesIsread" />
   </resultMap>
@@ -19,20 +21,20 @@
     <result column="isread" jdbcType="INTEGER" property="isread"/>
   </resultMap>
   <sql id="Base_Column_List2">
-     a.mes_id  mes_id, a.mes_message message,a.mes_fromid fromuser_id,a.mes_toid touser_id, b.user_name  user_name , b.pho pho,a.mes_isread isread
+     a.mes_id  mes_id,a.mes_message message,a.mes_fromid fromuser_id,a.mes_toid touser_id, b.user_name  user_name , b.pho pho,a.mes_isread isread
     </sql>
   <sql id="Base_Column_List">
-    mes_id, mes_message, mes_toid, mes_fromid, mes_createtime, mes_isread
+    mes_id, mes_message, mes_toid, mes_fromid, mes_createtime, mes_isread,mes_to,mes_from
   </sql>
   <select id="getMessages" parameterType="java.lang.Integer" resultMap="BaseResultMap2">
     select
     <include refid="Base_Column_List2" />
-    FROM formu_mes a LEFT JOIN formu_user b ON  a.mes_fromid = b.user_id WHERE mes_toid = #{userid,jdbcType=INTEGER} ORDER BY a.mes_isread, a.mes_createtime desc
+    FROM formu_mes a LEFT JOIN formu_user b ON  a.mes_fromid = b.user_id WHERE mes_toid = #{userid,jdbcType=INTEGER} and mes_to = 1 ORDER BY a.mes_isread, a.mes_createtime desc
   </select>
   <select id="getSendMessages" parameterType="java.lang.Integer" resultMap="BaseResultMap2">
     select
     <include refid="Base_Column_List2" />
-    FROM formu_mes a LEFT JOIN formu_user b ON  a.mes_toid = b.user_id WHERE mes_fromid = #{userid,jdbcType=INTEGER} ORDER BY a.mes_isread, a.mes_createtime desc
+    FROM formu_mes a LEFT JOIN formu_user b ON  a.mes_toid = b.user_id WHERE mes_fromid = #{userid,jdbcType=INTEGER} and mes_from = 1 ORDER BY a.mes_isread, a.mes_createtime desc
   </select>
 
 
@@ -64,9 +66,11 @@
       <if test="mesToid != null">
         mes_toid,
       </if>
+        mes_to,
       <if test="mesFromid != null">
         mes_fromid,
       </if>
+        mes_from,
       <if test="mesIsread != null">
         mes_isread,
       </if>
@@ -82,9 +86,11 @@
       <if test="mesToid != null">
         #{mesToid,jdbcType=INTEGER},
       </if>
+        1,
       <if test="mesFromid != null">
         #{mesFromid,jdbcType=INTEGER},
       </if>
+       1,
       <if test="mesIsread != null">
         #{mesIsread,jdbcType=INTEGER},
       </if>
@@ -100,8 +106,14 @@
       <if test="mesToid != null">
         mes_toid = #{mesToid,jdbcType=INTEGER},
       </if>
+      <if test="mesTo != null">
+        mes_to = #{mesTo,jdbcType=INTEGER},
+      </if>
       <if test="mesFromid != null">
         mes_fromid = #{mesFromid,jdbcType=INTEGER},
+      </if>
+      <if test="mesFrom != null">
+        mes_from = #{mesFrom,jdbcType=INTEGER},
       </if>
       <if test="mesIsread != null">
         mes_isread = #{mesIsread,jdbcType=INTEGER},

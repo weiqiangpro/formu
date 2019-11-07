@@ -71,25 +71,25 @@ public class MesService implements IMesService {
             Mes mes = mesMapper.selectByPrimaryKey(mesId);
             if (mes.getMesToid() == userId) {
 
-                if (mes.getMesFromid() == 0)
+                if (mes.getMesFrom() == 0)
                     if (mesMapper.deleteByPrimaryKey(mesId) > 0)
                         return Msg.createBySuccessMessage("私信删除成功");
                     else
                         return Msg.createByErrorMessage("删除私信失败");
 
-                mes.setMesToid(0);
+                mes.setMesTo(0);
                 if (mesMapper.updateByPrimaryKeySelective(mes) > 0)
                     return Msg.createBySuccessMessage("私信删除成功");
                 else
                     return Msg.createByErrorMessage("删除私信失败");
             } else if (mes.getMesFromid() == userId) {
-                if (mes.getMesToid() == 0)
+                if (mes.getMesTo() == 0)
                     if (mesMapper.deleteByPrimaryKey(mesId) > 0)
                         return Msg.createBySuccessMessage("私信删除成功");
                     else
                         return Msg.createByErrorMessage("删除私信失败");
 
-                mes.setMesFromid(0);
+                mes.setMesFrom(0);
                 if (mesMapper.updateByPrimaryKeySelective(mes) > 0)
                     return Msg.createBySuccessMessage("私信删除成功");
                 else
