@@ -129,7 +129,7 @@ public class Common {
         if (user == null) {
             return false;
         }
-        return user.getYiban() != null;
+        return StringUtils.isNotBlank(user.getYiban());
     }
     public  User getUser(HttpServletRequest request) {
         String header = request.getHeader("Token");

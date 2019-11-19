@@ -153,7 +153,7 @@
         where user_id = #{userId,jdbcType=INTEGER}
   </update>
   <update id="updateFollowedNumById">
-        update formu_user set  follow_num =   followed_num+#{num,jdbcType=INTEGER}
+        update formu_user set  followed_num =   followed_num+#{num,jdbcType=INTEGER}
         where user_id = #{userId,jdbcType=INTEGER}
   </update>
 </mapper>
