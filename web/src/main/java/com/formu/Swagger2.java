@@ -43,8 +43,8 @@ public class Swagger2 {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Spring Boot中使用Swagger2构建RESTful")
-                .version("1.0")
+                .title("Y-Wall前后端交互api")
+                .version("2.0")
                 .build();
     }
 }
